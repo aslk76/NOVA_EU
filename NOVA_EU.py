@@ -606,7 +606,7 @@ async def on_raw_reaction_add(payload):
         and payload.user_id != 163324686086832129):
         await message.remove_reaction(reactionPL, user)
 
-    elif len(hundred_emoji) == 0 and reactionPL.name == u"\u2705" and (message.author == user or payload.user_id == 163324686086832129 or not user.bot):
+    elif len(hundred_emoji) == 0 and reactionPL.name == u"\u2705" and (message.author == user or payload.user_id == 163324686086832129) and not user.bot:
         y = message.content.split("\n")
         async with bot.mplus_pool.acquire() as conn:
             # region Alliance build groups
