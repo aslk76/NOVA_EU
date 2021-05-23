@@ -466,7 +466,6 @@ async def on_raw_reaction_add(payload):
     hundred_emoji = [reaction for reaction in message.reactions if reaction.emoji == u"\U0001F4AF"]
     moneybag_emoji = [reaction for reaction in message.reactions if reaction.emoji == u"\U0001F4B0"]
     now = datetime.now(timezone.utc).replace(tzinfo=None)
-    d1 = now.strftime("%d/%m/%Y %H:%M:%S")
     Staff_role = get(guild.roles, name="Staff")
     Management_role = get(guild.roles, name="Management")
     Nova_role = get(guild.roles, name="NOVA")
@@ -570,7 +569,7 @@ async def on_raw_reaction_add(payload):
                                 (collection_id, collector, trialadv, realm, amount, date_collected) 
                                 VALUES (%s, %s, %s, %s, %s, %s)
                         """
-                        val = (payload.message_id, collector, adv_final.nick, realm, amount, d1)
+                        val = (payload.message_id, collector, adv_final.nick, realm, amount, now)
                         await cursor.execute(query, val)
                         await message.add_reaction(u"\U0001F5C4")
         else:
@@ -618,7 +617,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -633,7 +632,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -642,7 +641,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -653,7 +652,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -741,7 +740,7 @@ async def on_raw_reaction_add(payload):
                                     dps2_name, dps2_realm, dps2_cut) 
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut, healer_name, healer_realm, booster_cut, dps1_name,
                                 dps1_realm, booster_cut, dps2_name, dps2_realm, booster_cut)
                             await cursor.execute(query, val)
@@ -766,7 +765,7 @@ async def on_raw_reaction_add(payload):
                                             f"<:dps_nova:817571146907385876> {dps1_name} "
                                             f"<:dps_nova:817571146907385876> {dps2_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -780,7 +779,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -795,7 +794,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -804,7 +803,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -815,7 +814,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -856,7 +855,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -876,7 +875,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -890,7 +889,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -905,7 +904,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -914,7 +913,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -925,7 +924,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -966,7 +965,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -986,7 +985,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1000,7 +999,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -1016,7 +1015,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -1025,7 +1024,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -1036,7 +1035,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -1078,7 +1077,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1098,7 +1097,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1113,7 +1112,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -1128,7 +1127,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -1137,7 +1136,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -1148,7 +1147,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -1236,7 +1235,7 @@ async def on_raw_reaction_add(payload):
                                     dps2_name, dps2_realm, dps2_cut) 
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut, healer_name, healer_realm, booster_cut, dps1_name,
                                 dps1_realm, booster_cut, dps2_name, dps2_realm, booster_cut)
                             await cursor.execute(query, val)
@@ -1261,7 +1260,7 @@ async def on_raw_reaction_add(payload):
                                             f"<:dps_nova:817571146907385876> {dps1_name} "
                                             f"<:dps_nova:817571146907385876> {dps2_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1275,7 +1274,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -1290,7 +1289,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -1299,7 +1298,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -1310,7 +1309,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -1351,7 +1350,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1371,7 +1370,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1385,7 +1384,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -1400,7 +1399,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -1409,7 +1408,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -1419,7 +1418,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -1460,7 +1459,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1480,7 +1479,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1494,7 +1493,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either "
                         "incomplete or you might have some error in it, please double check "
@@ -1510,7 +1509,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", 
                             embed=embed_dm)
@@ -1519,7 +1518,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
                             "please double check. If you are sure you didn't do anything wrong, please contact "
@@ -1530,7 +1529,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
                             "some error in it, please double check. If you are sure it's not wrong, please contact "
@@ -1571,7 +1570,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1591,7 +1590,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                                 value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{d1} Run id: {payload.message_id}",
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1608,7 +1607,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -1622,7 +1621,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -1631,7 +1630,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -1641,7 +1640,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -1732,7 +1731,7 @@ async def on_raw_reaction_add(payload):
                                     dps2_name, dps2_realm, dps2_cut) VALUES (%s, %s, %s, %s, %s, %s,
                                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut, healer_name, healer_realm, booster_cut, dps1_name,
                                 dps1_realm, booster_cut, dps2_name, dps2_realm, booster_cut)
                             await cursor.execute(query, val)
@@ -1750,7 +1749,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name + " <:healer_nova:817571133066838016>" + healer_name + " <:dps_nova:817571146907385876>" + dps1_name + " <:dps_nova:817571146907385876>" + dps2_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1764,7 +1763,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -1778,7 +1777,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -1787,7 +1786,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -1797,7 +1796,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -1839,7 +1838,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1856,7 +1855,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1870,7 +1869,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -1884,7 +1883,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -1893,7 +1892,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -1903,7 +1902,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -1945,7 +1944,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut) 
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1962,7 +1961,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -1976,7 +1975,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -1991,7 +1990,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -2000,7 +1999,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -2010,7 +2009,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -2053,7 +2052,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2070,7 +2069,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -2086,7 +2085,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -2100,7 +2099,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -2109,7 +2108,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -2119,7 +2118,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -2206,7 +2205,7 @@ async def on_raw_reaction_add(payload):
                                     dps2_name, dps2_realm, dps2_cut) VALUES (%s, %s, %s, %s, %s, %s, 
                                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut, healer_name, healer_realm, booster_cut, dps1_name,
                                 dps1_realm, booster_cut, dps2_name, dps2_realm, booster_cut)
                             await cursor.execute(query, val)
@@ -2224,7 +2223,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name + " <:healer_nova:817571133066838016>" + healer_name + " <:dps_nova:817571146907385876>" + dps1_name + " <:dps_nova:817571146907385876>" + dps2_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -2238,7 +2237,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -2252,7 +2251,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -2261,7 +2260,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -2271,7 +2270,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -2314,7 +2313,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2331,7 +2330,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -2345,7 +2344,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -2359,7 +2358,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -2368,7 +2367,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -2378,7 +2377,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -2419,7 +2418,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2436,7 +2435,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -2450,7 +2449,7 @@ async def on_raw_reaction_add(payload):
                     embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                             color=0x5d4991)
                     embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                    embed_dm.set_footer(text=f"Timestamp: {d1}")
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
                     
                     await user.send(
                         f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
@@ -2465,7 +2464,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
@@ -2474,7 +2473,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
@@ -2484,7 +2483,7 @@ async def on_raw_reaction_add(payload):
                         embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
                                                 color=0x5d4991)
                         embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
-                        embed_dm.set_footer(text=f"Timestamp: {d1}")
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
                         
                         await user.send(
                             f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
@@ -2527,7 +2526,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, d1, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2544,7 +2543,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=d1 + " Run id: " + str(payload.message_id),
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
@@ -3017,9 +3016,8 @@ async def CheckLog(ctx, tgt_user):
         # if tgt_user == entry.target:
         #    await ctx.send('{0.user} did {0.action} to {0.target}'.format(entry))
         if tgt_user == str(entry.target):
-            d11 = entry.created_at.strftime("%d/%m/%Y %H:%M")
             await ctx.send(
-                f"Date: {d11} : {entry.user.display_name} did "
+                f"Date: {entry.created_at} : {entry.user.display_name} did "
                 f"{entry.action} to {entry.target}, the following changed: {entry.changes}")
 
 
@@ -3160,87 +3158,79 @@ async def setTroll3(ctx, target: int):
 async def CheckPvp(ctx, user: discord.Member, name, realm):
     await ctx.message.delete()
     pvps_channel = get(ctx.guild.text_channels, name='pvps-channel')
-    try:
-        response = requests.get(
-            "https://raider.io/api/v1/characters/profile?region=eu&realm=" + realm + "&name=" + name + "&fields=mythic_plus_scores_by_season%3Acurrent%3Aseason-bfa-3")
-        if response.status_code == 200:
-            json_str = json.dumps(response.json())
-            resp = json.loads(json_str)
-            char_class = resp['class']
-            char_faction = resp['faction']
-            realm_pre = realm.capitalize().replace(' ', '')
-            if realm_pre.startswith("Pozzo"):
-                realm_final = "Pozzo"
-            elif realm_pre == "Dunmodr":
-                realm_final = "DunModr"
-            elif realm_pre == "Twistingnether":
-                realm_final = "TwistingNether"
-            elif realm_pre == "Tarrenmill":
-                realm_final = "TarrenMill"
-            elif realm_pre == "Colinaspardas":
-                realm_final = "ColinasPardas"
-            elif realm_pre == "Burninglegion":
-                realm_final = "BurningLegion"
-            elif realm_pre == "Themaelstrom":
-                realm_final = "TheMaelstrom"
-            elif realm_pre == "Defiasbrotherhood":
-                realm_final = "Defias"
-            elif realm_pre == "Shatteredhand":
-                realm_final = "Shattered"
-            elif realm_pre == "Argentdawn":
-                realm_final = "ArgentDawn"
-            elif realm_pre == "Burningblade":
-                realm_final = "BurningBlade"
-            else:
-                realm_final = realm_pre
-            await user.edit(nick=f"{name.capitalize()}-{realm_final} [{char_faction[0].upper()}]")
-            roles_toadd = [get(ctx.guild.roles, name=char_faction.capitalize()), get(
-                ctx.guild.roles, name=char_class.capitalize()), get(ctx.guild.roles, name="PVP"), get(ctx.guild.roles, name="EU")]
-            await user.add_roles(*roles_toadd)
-            if realm == "sanguino" or realm == "uldum" or realm == "Shen'dralar" or realm == "zul'jin":
-                await user.add_roles(get(ctx.guild.roles, name="SPA"))
-            if realm == "pozzo-delleternità":
-                await user.add_roles(get(ctx.guild.roles, name="ITA"))
-            if realm == "hyjal":
-                await user.add_roles(get(ctx.guild.roles, name="Hyjal"))
-            if realm == "dalaran" or realm.startswith("Marécage"):
-                await user.add_roles(get(ctx.guild.roles, name="Dalaran"))
-            if realm == "Drak'thul":
-                await user.add_roles(get(ctx.guild.roles, name="Drak'thul"))
-            if realm == "Exodar":
-                await user.add_roles(get(ctx.guild.roles, name="Exodar"))
-            if realm == "TheMaelstrom":
-                await user.add_roles(get(ctx.guild.roles, name="The-Maelstrom"))
-            await user.create_dm()
-            await user.dm_channel.send(
-                f"Hello **{user.name}** :slight_smile:\nYour application for ***NOVA*** as a booster has been "
-                "accepted, **CHECK YOUR ROLES** and__ please read all our channels before taking further steps "
-                "inside the community.__\n \n**# ow-payment-works** Important info regarding how payment works;\n"
-                "**# Rules** That you must follow at all costs or your risk yourself getting Strike / banned; \n"
-                "**# old-balance** To check your weekly earnings;\n"
-                "**# Payday-info** To see when the next payment wave will be done;\n"
-                "**# ick-your-roles** To request further roles (you don't need to go through the google form "
-                "once inside);\n \nThank you,\n"
-                "***NOVA Team***")
-            if get(ctx.guild.roles, name="Client") in user.roles:
-                await user.remove_roles(get(ctx.guild.roles, name="Client"))
-            if get(ctx.guild.roles, name="PickYourRegion") in user.roles:
-                await user.remove_roles(get(ctx.guild.roles, name="PickYourRegion"))
-            await pvps_channel.send(f"`{name.capitalize()}-{realm_final} "
-                                    f"[{char_faction[0].upper()}] Accepted and given the ranks`")
+    response = requests.get(
+        "https://raider.io/api/v1/characters/profile?region=eu&"
+        f"realm={realm}&name={name}&fields=mythic_plus_scores_by_season%3Acurrent%3Aseason-bfa-3")
+    if response.status_code == 200:
+        json_str = json.dumps(response.json())
+        resp = json.loads(json_str)
+        char_class = resp['class']
+        char_faction = resp['faction']
+        realm_pre = realm.capitalize().replace(' ', '')
+        if realm_pre.startswith("Pozzo"):
+            realm_final = "Pozzo"
+        elif realm_pre == "Dunmodr":
+            realm_final = "DunModr"
+        elif realm_pre == "Twistingnether":
+            realm_final = "TwistingNether"
+        elif realm_pre == "Tarrenmill":
+            realm_final = "TarrenMill"
+        elif realm_pre == "Colinaspardas":
+            realm_final = "ColinasPardas"
+        elif realm_pre == "Burninglegion":
+            realm_final = "BurningLegion"
+        elif realm_pre == "Themaelstrom":
+            realm_final = "TheMaelstrom"
+        elif realm_pre == "Defiasbrotherhood":
+            realm_final = "Defias"
+        elif realm_pre == "Shatteredhand":
+            realm_final = "Shattered"
+        elif realm_pre == "Argentdawn":
+            realm_final = "ArgentDawn"
+        elif realm_pre == "Burningblade":
+            realm_final = "BurningBlade"
         else:
-            await pvps_channel.send(f"No records found for {name.capitalize()}-{realm.capitalize().replace(' ', '')} "
-                                    f"on raider.io")
-    except commands.BadArgument:
-        await ctx.send("Please double check command structure", delete_after=5)
-    except Exception:
-        logger.error("--CheckPvp---")
-        logger.error(traceback.format_exc())
-        bot_log_channel = get(ctx.guild.text_channels, name='bot-logs')
-        embed_bot_log = discord.Embed(
-            title="Error Log.", description="on CheckPvp", color=0x5d4991)
-        embed_bot_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None))
-        await bot_log_channel.send(embed=embed_bot_log)
+            realm_final = realm_pre
+        await user.edit(nick=f"{name.capitalize()}-{realm_final} [{char_faction[0].upper()}]")
+        roles_toadd = [get(ctx.guild.roles, name=char_faction.capitalize()), 
+            get(ctx.guild.roles, name=char_class.capitalize()), 
+            get(ctx.guild.roles, name="PVP"), 
+            get(ctx.guild.roles, name="EU")]
+        await user.add_roles(*roles_toadd)
+        if realm == "sanguino" or realm == "uldum" or realm == "Shen'dralar" or realm == "zul'jin":
+            await user.add_roles(get(ctx.guild.roles, name="SPA"))
+        if realm == "pozzo-delleternità":
+            await user.add_roles(get(ctx.guild.roles, name="ITA"))
+        if realm == "hyjal":
+            await user.add_roles(get(ctx.guild.roles, name="Hyjal"))
+        if realm == "dalaran" or realm.startswith("Marécage"):
+            await user.add_roles(get(ctx.guild.roles, name="Dalaran"))
+        if realm == "Drak'thul":
+            await user.add_roles(get(ctx.guild.roles, name="Drak'thul"))
+        if realm == "Exodar":
+            await user.add_roles(get(ctx.guild.roles, name="Exodar"))
+        if realm == "TheMaelstrom":
+            await user.add_roles(get(ctx.guild.roles, name="The-Maelstrom"))
+        await user.create_dm()
+        await user.dm_channel.send(
+            f"Hello **{user.name}** :slight_smile:\nYour application for ***NOVA*** as a booster has been "
+            "accepted, **CHECK YOUR ROLES** and__ please read all our channels before taking further steps "
+            "inside the community.__\n \n**# ow-payment-works** Important info regarding how payment works;\n"
+            "**# Rules** That you must follow at all costs or your risk yourself getting Strike / banned; \n"
+            "**# old-balance** To check your weekly earnings;\n"
+            "**# Payday-info** To see when the next payment wave will be done;\n"
+            "**# ick-your-roles** To request further roles (you don't need to go through the google form "
+            "once inside);\n \nThank you,\n"
+            "***NOVA Team***")
+        if get(ctx.guild.roles, name="Client") in user.roles:
+            await user.remove_roles(get(ctx.guild.roles, name="Client"))
+        if get(ctx.guild.roles, name="PickYourRegion") in user.roles:
+            await user.remove_roles(get(ctx.guild.roles, name="PickYourRegion"))
+        await pvps_channel.send(f"`{name.capitalize()}-{realm_final} "
+                                f"[{char_faction[0].upper()}] Accepted and given the ranks`")
+    else:
+        await pvps_channel.send(f"No records found for {name.capitalize()}-{realm.capitalize().replace(' ', '')} "
+                                f"on raider.io")
 
 
 @bot.command()
@@ -3248,97 +3238,89 @@ async def CheckPvp(ctx, user: discord.Member, name, realm):
 async def CheckRbg(ctx, user: discord.Member, name, realm):
     await ctx.message.delete()
     rbg_channel = get(ctx.guild.text_channels, id=804513656271667220)
-    try:
-        response = requests.get(
-            "https://raider.io/api/v1/characters/profile?region=eu&realm=" + realm + "&name=" + name + "&fields=mythic_plus_scores_by_season%3Acurrent")
-        if response.status_code == 200:
-            json_str = json.dumps(response.json())
-            resp = json.loads(json_str)
-            # char_class = resp['class']
-            char_faction = resp['faction']
-            realm_pre = realm.capitalize().replace(' ', '')
-            if realm_pre.startswith("Pozzo"):
-                realm_final = "Pozzo"
-            elif realm_pre == "Dunmodr":
-                realm_final = "DunModr"
-            elif realm_pre == "Twistingnether":
-                realm_final = "TwistingNether"
-            elif realm_pre == "Tarrenmill":
-                realm_final = "TarrenMill"
-            elif realm_pre == "Colinaspardas":
-                realm_final = "ColinasPardas"
-            elif realm_pre == "Burninglegion":
-                realm_final = "BurningLegion"
-            elif realm_pre == "Themaelstrom":
-                realm_final = "TheMaelstrom"
-            elif realm_pre == "Defiasbrotherhood":
-                realm_final = "Defias"
-            elif realm_pre == "Shatteredhand":
-                realm_final = "Shattered"
-            elif realm_pre == "Argentdawn":
-                realm_final = "ArgentDawn"
-            elif realm_pre == "Burningblade":
-                realm_final = "BurningBlade"
-            elif realm_pre.startswith("Aggra-"):
-                realm_final = "Aggra"
-            else:
-                realm_final = realm_pre
-            await user.edit(nick=f"{name.capitalize()}-{realm_final} [{char_faction[0].upper()}]")
-            roles_toadd = [get(ctx.guild.roles, name=char_faction.capitalize()),
-                           get(ctx.guild.roles, name="RBG"),
-                           get(ctx.guild.roles, name="EU")]
-            await user.add_roles(*roles_toadd)
-            if realm_final.lower().startswith("pozzo") and char_faction.lower() == "alliance":
-                await user.add_roles(get(ctx.guild.roles, name="ITA"))
-            elif realm_final.lower().startswith("pozzo") and char_faction.lower() == "horde":
-                await user.add_roles(get(ctx.guild.roles, name="ITA [H]"))
-            elif realm_final.lower() == "hyjal":
-                await user.add_roles(get(ctx.guild.roles, name="Hyjal"))
-            elif realm_final.lower() == "dalaran" or realm_final.lower().startswith("marécage"):
-                await user.add_roles(get(ctx.guild.roles, name="Dalaran"))
-            elif realm_final.lower() == "drak'thul" and char_faction.lower() == "alliance":
-                await user.add_roles(get(ctx.guild.roles, name="Drak'thul"))
-            elif realm_final.lower() == "exodar":
-                await user.add_roles(get(ctx.guild.roles, name="Exodar"))
-            elif realm_final.lower() == "themaelstrom":
-                await user.add_roles(get(ctx.guild.roles, name="The-Maelstrom"))
-            elif (realm_final.lower() == "drak'thul" or realm_final.lower() == "burningblade") and char_faction.lower() == "horde":
-                await user.add_roles(get(ctx.guild.roles, name="DB"))
-            elif (realm_final.lower() == "frostmane" or realm_final.lower() == "grimbatol" or realm_final.lower() == "aggra") and char_faction.lower() == "horde":
-                await user.add_roles(get(ctx.guild.roles, name="GFA"))
-
-            await user.create_dm()
-            await user.dm_channel.send(
-                f"Hello **{user.name}** :slight_smile:\nYour application for ***NOVA*** as a booster has been "
-                "accepted, **CHECK YOUR ROLES** and__ please read all our channels before taking further steps "
-                "inside the community.__\n \n**# Information** Important info regarding how payment works;\n"
-                "**# Rules** That you must follow at all costs or your risk yourself getting Strike / banned; \n"
-                "**# Balance-check** To check your weekly earnings;\n"
-                "**# Payday-info** To see when the next payment wave will be done;\n"
-                "**# Pick-your-roles** To request further roles (you don't need to go through the google form "
-                "once inside);\n \nThank you,\n"
-                "***NOVA Team***")
-            if get(ctx.guild.roles, name="Client") in user.roles:
-                await user.remove_roles(get(ctx.guild.roles, name="Client"))
-            if get(ctx.guild.roles, name="PickYourRegion") in user.roles:
-                await user.remove_roles(get(ctx.guild.roles, name="PickYourRegion"))
-            await rbg_channel.send(f"`{name.capitalize()}-{realm_final} "
-                                   f"[{char_faction[0].upper()}] Accepted and given the ranks`")
+    
+    response = requests.get(
+        "https://raider.io/api/v1/characters/profile?region=eu&"
+        f"realm={realm}&name={name}&fields=mythic_plus_scores_by_season%3Acurrent")
+    if response.status_code == 200:
+        json_str = json.dumps(response.json())
+        resp = json.loads(json_str)
+        # char_class = resp['class']
+        char_faction = resp['faction']
+        realm_pre = realm.capitalize().replace(' ', '')
+        if realm_pre.startswith("Pozzo"):
+            realm_final = "Pozzo"
+        elif realm_pre == "Dunmodr":
+            realm_final = "DunModr"
+        elif realm_pre == "Twistingnether":
+            realm_final = "TwistingNether"
+        elif realm_pre == "Tarrenmill":
+            realm_final = "TarrenMill"
+        elif realm_pre == "Colinaspardas":
+            realm_final = "ColinasPardas"
+        elif realm_pre == "Burninglegion":
+            realm_final = "BurningLegion"
+        elif realm_pre == "Themaelstrom":
+            realm_final = "TheMaelstrom"
+        elif realm_pre == "Defiasbrotherhood":
+            realm_final = "Defias"
+        elif realm_pre == "Shatteredhand":
+            realm_final = "Shattered"
+        elif realm_pre == "Argentdawn":
+            realm_final = "ArgentDawn"
+        elif realm_pre == "Burningblade":
+            realm_final = "BurningBlade"
+        elif realm_pre.startswith("Aggra-"):
+            realm_final = "Aggra"
         else:
-            await rbg_channel.send(f"No records found for {name.capitalize()}-{realm.capitalize().replace(' ', '')} "
-                                   f"on raider.io")
-    except commands.BadArgument:
-        await ctx.send("Please double check command structure", delete_after=5)
-    except discord.errors.Forbidden:
-        await ctx.send(f"Cannot send you a DM to {user.mention}", delete_after=5)
-    except Exception:
-        logger.error("--CheckRbg Command---")
-        logger.error(traceback.format_exc())
-        bot_log_channel = get(ctx.guild.text_channels, name='bot-logs')
-        embed_bot_log = discord.Embed(
-            title="Error Log.", description="on CheckRbg Command", color=0x5d4991)
-        embed_bot_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None))
-        await bot_log_channel.send(embed=embed_bot_log)
+            realm_final = realm_pre
+        await user.edit(nick=f"{name.capitalize()}-{realm_final} [{char_faction[0].upper()}]")
+        roles_toadd = [get(ctx.guild.roles, name=char_faction.capitalize()),
+                        get(ctx.guild.roles, name="RBG"),
+                        get(ctx.guild.roles, name="EU")]
+        await user.add_roles(*roles_toadd)
+        if realm_final.lower().startswith("pozzo") and char_faction.lower() == "alliance":
+            await user.add_roles(get(ctx.guild.roles, name="ITA"))
+        elif realm_final.lower().startswith("pozzo") and char_faction.lower() == "horde":
+            await user.add_roles(get(ctx.guild.roles, name="ITA [H]"))
+        elif realm_final.lower() == "hyjal":
+            await user.add_roles(get(ctx.guild.roles, name="Hyjal"))
+        elif realm_final.lower() == "dalaran" or realm_final.lower().startswith("marécage"):
+            await user.add_roles(get(ctx.guild.roles, name="Dalaran"))
+        elif realm_final.lower() == "drak'thul" and char_faction.lower() == "alliance":
+            await user.add_roles(get(ctx.guild.roles, name="Drak'thul"))
+        elif realm_final.lower() == "exodar":
+            await user.add_roles(get(ctx.guild.roles, name="Exodar"))
+        elif realm_final.lower() == "themaelstrom":
+            await user.add_roles(get(ctx.guild.roles, name="The-Maelstrom"))
+        elif ((realm_final.lower() == "drak'thul" or realm_final.lower() == "burningblade") and 
+            char_faction.lower() == "horde"):
+            await user.add_roles(get(ctx.guild.roles, name="DB"))
+        elif ((realm_final.lower() == "frostmane" or realm_final.lower() == "grimbatol" or 
+            realm_final.lower() == "aggra") and char_faction.lower() == "horde"):
+            await user.add_roles(get(ctx.guild.roles, name="GFA"))
+
+        await user.create_dm()
+        await user.dm_channel.send(
+            f"Hello **{user.name}** :slight_smile:\nYour application for ***NOVA*** as a booster has been "
+            "accepted, **CHECK YOUR ROLES** and__ please read all our channels before taking further steps "
+            "inside the community.__\n \n**# Information** Important info regarding how payment works;\n"
+            "**# Rules** That you must follow at all costs or your risk yourself getting Strike / banned; \n"
+            "**# Balance-check** To check your weekly earnings;\n"
+            "**# Payday-info** To see when the next payment wave will be done;\n"
+            "**# Pick-your-roles** To request further roles (you don't need to go through the google form "
+            "once inside);\n \nThank you,\n"
+            "***NOVA Team***")
+        if get(ctx.guild.roles, name="Client") in user.roles:
+            await user.remove_roles(get(ctx.guild.roles, name="Client"))
+        if get(ctx.guild.roles, name="PickYourRegion") in user.roles:
+            await user.remove_roles(get(ctx.guild.roles, name="PickYourRegion"))
+        await rbg_channel.send(f"`{name.capitalize()}-{realm_final} "
+                                f"[{char_faction[0].upper()}] Accepted and given the ranks`")
+    else:
+        await rbg_channel.send(f"No records found for {name.capitalize()}-{realm.capitalize().replace(' ', '')} "
+                                f"on raider.io")
+    
 
 
 # region code from MPlus bot
@@ -3428,7 +3410,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
        example: !Collected 100K "Advertiser-Kazzak [H]" "Draenor [H]" description of the collection
     """
     await ctx.message.delete()
-    d1 = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     async with ctx.bot.mplus_pool.acquire() as conn:
         if ctx.channel.name == "collectors":
             collected_embed = discord.Embed(
@@ -3471,7 +3453,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
                             (collection_id, collector, trialadv, realm, amount, date_collected) 
                             VALUES (%s, %s, %s, %s, %s, %s)
                     """
-                    val = (collected_msg.id, user_final, adv, realm, pot, d1)
+                    val = (collected_msg.id, user_final, adv, realm, pot, now)
                     await cursor.execute(query, val)
                     await collected_msg.add_reaction(u"\U0001F5C4")
     
@@ -3780,7 +3762,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             strike_channel = get(ctx.guild.text_channels, name='strike-channel')
-            d1 = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+            now = datetime.now(timezone.utc).replace(tzinfo=None)
             name, realm = await checkPers(user.id)
             if name is None:
                 if "-" not in user.nick:
@@ -3797,7 +3779,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                     (operation_id, date, name, realm, operation, command, reason, amount, author)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            val = (ctx.message.id, d1, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
+            val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
             await cursor.execute(query, val)
             if command_amount != 0:
                 await strike_channel.send(
@@ -3817,7 +3799,7 @@ async def AddBalance(ctx, user: discord.Member, amount, *, reason):
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
         track_channel = get(ctx.guild.text_channels, id=840733014622601226)
-        d1 = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+        now = datetime.now(timezone.utc).replace(tzinfo=None)
         name, realm = await checkPers(user.id)
         if name is None:
             if "-" not in user.nick:
@@ -3831,7 +3813,7 @@ async def AddBalance(ctx, user: discord.Member, amount, *, reason):
                     (operation_id, date, name, realm, operation, command, reason, amount, author) 
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            val = (ctx.message.id, d1, name, realm, 'Add', 'AddBalance', reason, command_add, ctx.message.author.display_name)
+            val = (ctx.message.id, now, name, realm, 'Add', 'AddBalance', reason, command_add, ctx.message.author.display_name)
             await cursor.execute(query, val)
             em = discord.Embed(title="Balance Added",
                                 description=
@@ -3851,7 +3833,7 @@ async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
     """
     await ctx.message.delete()
     balance_channel = get(ctx.guild.text_channels, id=840733014622601226)
-    d1 = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     async with ctx.bot.mplus_pool.acquire() as conn:
         name, realm = await checkPers(user.id)
         if name is None:
@@ -3871,7 +3853,7 @@ async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
 
-            val = (ctx.message.id, d1, name, realm, 'Deduction', 'RemoveBalance', reason, command_deduct, ctx.message.author.display_name)
+            val = (ctx.message.id, now, name, realm, 'Deduction', 'RemoveBalance', reason, command_deduct, ctx.message.author.display_name)
             await cursor.execute(query, val)
             em = discord.Embed(title="Balance Deducted",
                                 description=
@@ -4268,7 +4250,7 @@ async def ExportStrikes(ctx):
         async with conn.cursor() as cursor:
             query = """
                 SELECT author, COUNT(operation_id) FROM balance_ops WHERE deleted_at IS NULL AND 
-                DATE(STR_TO_DATE(`date`, '%d/%m/%Y %H:%i:%s')) BETWEEN (SELECT pre1 FROM variables WHERE id = 1) AND 
+                DATE(`date`) BETWEEN (SELECT pre1 FROM variables WHERE id = 1) AND 
                 (SELECT pre2 FROM variables WHERE id = 1) AND command = 'Strike'
                 GROUP BY author
             """
@@ -4319,10 +4301,10 @@ async def Collections(ctx):
             await cursor.execute(query, val)
             query = """
                 SELECT (SELECT COUNT(collection_id) FROM collectors WHERE collector = @collector AND deleted_at IS NULL AND 
-                DATE(str_to_date(date_collected, '%d/%m/%Y %H:%i:%s')) BETWEEN (SELECT cur1 FROM variables WHERE id = 1) AND 
+                DATE(date_collected) BETWEEN (SELECT cur1 FROM variables WHERE id = 1) AND 
                 (SELECT cur2 FROM variables WHERE id = 1)) AS Current_Week ,
                 (SELECT COUNT(collection_id) FROM collectors WHERE collector = @collector AND deleted_at IS NULL AND
-                DATE(str_to_date(date_collected, '%d/%m/%Y %H:%i:%s')) BETWEEN (SELECT pre1 FROM variables WHERE id = 1) AND 
+                DATE(date_collected) BETWEEN (SELECT pre1 FROM variables WHERE id = 1) AND 
                 (SELECT pre2 FROM variables WHERE id = 1)) AS Previous_Week
             """
             await cursor.execute(query)
