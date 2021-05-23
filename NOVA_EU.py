@@ -3322,6 +3322,34 @@ async def CheckRbg(ctx, user: discord.Member, name, realm):
                                 f"on raider.io")
     
 
+@bot.command()
+@commands.has_any_role('Moderator', 'Staff', 'Management')
+async def ImportRaids(ctx, *, pastebin_url):
+    """To manually import raids from the sheet to DB
+    example : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG
+    """
+    await ctx.message.delete()
+    raid_vals = []    
+    response = requests.get(pastebin_url)
+    response.encoding = "utf-8"
+    body = response.content.decode("utf-8")
+    raid_names = body.replace("\r","").split("\n")
+    for i in raid_names:
+        name, realm, amount = i.split("\t")
+        raid_vals.append([name, realm, amount.replace(",","")])
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute("DELETE FROM `raid_balance`")
+            await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
+            query = """
+                INSERT INTO `raid_balance` (`name`, `realm`,`amount`) 
+                    VALUES (%s, %s, %s)
+            """
+            await cursor.executemany(query, raid_vals)
+            await ctx.send(
+                f"{cursor.rowcount} Records inserted successfully into raid_balance table",
+                delete_after=10)
+
 
 # region code from MPlus bot
 @bot.command()
