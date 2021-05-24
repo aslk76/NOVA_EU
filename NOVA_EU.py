@@ -4299,13 +4299,21 @@ async def ExportNegative(ctx):
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
-            query = """SELECT * FROM ov_creds WHERE balance LIKE '-%'
+            query = """
+                SELECT * FROM ov_creds 
+                WHERE cur_balance < 0 OR pre_balance < 0
             """
             await cursor.execute(query)
             rows = await cursor.fetchall()
-            string_row = ""
+            string_row = [
+                [
+                    "Name",
+                    "Current_Balance",
+                    "Previous_Balance"
+                ]
+            ]
             for row in rows:
-                string_row +=f"{row[0]}: {row[1]}\n"
+                string_row +=f"{row[0]}: {row[1]} == {row[2]}\n"
 
             await ctx.author.send(f"People that is in debt with Nova: \n{string_row}")
 
