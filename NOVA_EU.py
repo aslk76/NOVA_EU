@@ -4299,7 +4299,7 @@ async def ExportNegative(ctx):
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
-            query = """SELECT * FROM credits WHERE balance LIKE '-%'
+            query = """SELECT * FROM ov_creds WHERE balance LIKE '-%'
             """
             await cursor.execute(query)
             rows = await cursor.fetchall()
