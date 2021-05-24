@@ -4185,7 +4185,7 @@ async def balance_command(ctx, *, target_booster=None):
                 await cursor.execute(query, val)
                 balance_result = await cursor.fetchall()
                 if balance_result:
-                    cur_bal, pre_bal, tot_bal = balance_result
+                    cur_bal, pre_bal, tot_bal = balance_result[0]
                 else:
                     cur_bal = pre_bal = tot_bal = 0
 
