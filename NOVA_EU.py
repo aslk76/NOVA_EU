@@ -101,8 +101,8 @@ bot= EU_Bot(command_prefix=commands.when_mentioned_or('!'), case_insensitive=Tru
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)
-# handler = logging.FileHandler(filename='/NOVA/NOVA_EU/NOVA_EU.log', encoding='utf-8', mode='a')
-handler = logging.FileHandler(filename='NOVA_EU.log', encoding='utf-8', mode='a')
+handler = logging.FileHandler(filename='/NOVA/NOVA_EU/NOVA_EU.log', encoding='utf-8', mode='a')
+# handler = logging.FileHandler(filename='NOVA_EU.log', encoding='utf-8', mode='a')
 handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s'))
 logger.addHandler(handler)
 
@@ -3324,9 +3324,10 @@ async def CheckRbg(ctx, user: discord.Member, name, realm):
 
 @bot.command()
 @commands.has_any_role('Moderator', 'Staff', 'Management')
-async def ImportRaids(ctx, *, pastebin_url):
+async def ImportRaids(ctx, *, pastebin_url, date_of_import:None):
     """To manually import raids from the sheet to DB
     example : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG
+    example to import with specific date : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG 2021-05-05
     """
     await ctx.message.delete()
     raid_vals = []
@@ -3334,22 +3335,44 @@ async def ImportRaids(ctx, *, pastebin_url):
     response.encoding = "utf-8"
     body = response.content.decode("utf-8")
     raid_names = body.replace("\r","").split("\n")
-    now = datetime.date(datetime.now(timezone.utc))
-    for i in raid_names:
-        name, realm, amount = i.split("\t")
-        raid_vals.append([now, name, realm, amount.replace(",","")])
-    async with ctx.bot.pool.acquire() as conn:
-        async with conn.cursor() as cursor:
-            query = """
-                INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
-                    VALUES (%s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE 
-                    `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
-            """
-            await cursor.executemany(query, raid_vals)
-            await ctx.send(
-                f"{cursor.rowcount} Records inserted successfully into raid_balance table",
-                delete_after=10)
+    if date_of_import is None:
+        now = datetime.date(datetime.now(timezone.utc))
+        for i in raid_names:
+            name, realm, amount = i.split("\t")
+            raid_vals.append([now, name, realm, amount.replace(",","")])
+        async with ctx.bot.pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                # await cursor.execute("DELETE FROM `raid_balance`")
+                # await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
+                query = """
+                    INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
+                        VALUES (%s, %s, %s, %s)
+                    ON DUPLICATE KEY UPDATE 
+                        `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
+                """
+                await cursor.executemany(query, raid_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into raid_balance table",
+                    delete_after=10)
+    else:
+        now = datetime.strptime(date_of_import, 'YYYY-MM-DD')
+        for i in raid_names:
+            name, realm, amount = i.split("\t")
+            raid_vals.append([now, name, realm, amount.replace(",","")])
+        async with ctx.bot.pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                # await cursor.execute("DELETE FROM `raid_balance`")
+                # await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
+                query = """
+                    INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
+                        VALUES (%s, %s, %s, %s)
+                    ON DUPLICATE KEY UPDATE 
+                        `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
+                """
+                await cursor.executemany(query, raid_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into raid_balance table",
+                    delete_after=10)
 
 
 # region code from MPlus bot
@@ -4298,7 +4321,7 @@ async def ExportNegative(ctx):
     """To Export last week negative balance.
     """
     await ctx.message.delete()
-    async with ctx.bot.mplus_pool.acquire() as conn:
+    async with ctx.bot.pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT booster, cur_balance, pre_balance FROM ov_creds 
@@ -4313,10 +4336,97 @@ async def ExportNegative(ctx):
                     "Previous_Balance"
                 ]
             ]
-            string_row += rows[0]
+            string_row += rows
             await ctx.author.send(f"Total number of members in negative:{len(string_row)-1}")
             for item in string_row:
-                await ctx.author.send(f"{item.index(item)} : {item}")
+                item_string = ' '.join(map(str, item))
+                await ctx.author.send(f"{string_row.index(item)} : {item_string}")
+
+
+@bot.command()
+@commands.has_any_role('Moderator', 'Staff', 'Management')
+async def TestExpNeg(ctx):
+    """To Export last week negative balance.
+    """
+    await ctx.message.delete()
+    async with ctx.bot.pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                SELECT booster, cur_balance, pre_balance 
+                FROM ov_creds 
+                WHERE cur_balance < 0 OR pre_balance < 0
+            """
+            await cursor.execute(query)
+            rows = await cursor.fetchall()
+            string_row = [
+                [
+                    "Name\t",
+                    "Current_Balance",
+                    "Previous_Balance"
+                ]
+            ]
+            string_row += rows
+            i = 1
+            page = {}
+            page0 = discord.Embed(
+                title="People that is in debt with Nova", 
+                description="Use the buttons below to navigate between names.", 
+                colour=discord.Colour.orange())
+            help_pages = [page0]
+            for item in string_row:
+                item_string = '\t'.join(map(str, item))
+                page["{0}".format(i)] = discord.Embed(
+                    title=f"{item_string}", 
+                    description="", 
+                    colour=discord.Colour.orange())
+                help_pages.append(page[f'{i}'])
+                i+=1
+    ctx.bot.help_pages = help_pages
+    buttons = [u"\u23EA", u"\u2B05", u"\u27A1", u"\u23E9", u"\u23F9"] # skip to start, left, right, skip to end, stop
+    current = 0
+    msg = await ctx.send(embed=bot.help_pages[current])
+    
+    for button in buttons:
+        await msg.add_reaction(button)
+        
+    while True:
+        try:
+            reaction, user = await bot.wait_for(
+                "reaction_add", 
+                check=lambda reaction, 
+                user: user == ctx.author and reaction.emoji in buttons, timeout=30.0)
+
+        except asyncio.TimeoutError:
+            await ctx.send("Timer for reaction has expired, terminating", delete_after=10)
+            await msg.delete()
+            return
+
+        else:
+            previous_page = current
+            if reaction.emoji == u"\u23EA":
+                current = 0
+                
+            elif reaction.emoji == u"\u2B05":
+                if current > 0:
+                    current -= 1
+                    
+            elif reaction.emoji == u"\u27A1":
+                if current < len(bot.help_pages)-1:
+                    current += 1
+
+            elif reaction.emoji == u"\u23E9":
+                current = len(bot.help_pages)-1
+            
+            elif reaction.emoji == u"\u23F9":
+                return await msg.delete()
+
+
+            for button in buttons:
+                await msg.remove_reaction(button, ctx.author)
+
+            if current != previous_page:
+                await msg.edit(embed=bot.help_pages[current])
+
 
 
 @bot.command()
