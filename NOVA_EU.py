@@ -70,6 +70,7 @@ class EU_Bot(commands.Bot):
         self.mplus_pool = None
         self.ops_pool = None
         self._resolver = aiohttp.AsyncResolver()
+        self.help_pages = []
 
         # Use AF_INET as its socket family to prevent HTTPS related problems both locally
         # and in production.
@@ -196,6 +197,7 @@ async def on_ready():
 
 
 @bot.command(aliases=['ADA', 'AddCrossFaction'])
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def AddDoubleAgent(ctx, discord_id :int, alliance_name, horde_name):
     """To manually add cross faction booster
@@ -257,6 +259,7 @@ async def SuspensionCheck_loop():
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'NOVA')
 async def checkRole(ctx):
     """To manually assign PickYourRegion for those who are eligible
@@ -291,6 +294,7 @@ async def checkRole(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('NOVA', 'Moderator')
 async def Logout(ctx):
     await ctx.message.delete()
@@ -298,6 +302,7 @@ async def Logout(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
     """To suspend a booster from signing up to boosts
@@ -370,6 +375,7 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def SuspensionCheck(ctx):
     """To manually check the suspension durations
@@ -412,6 +418,7 @@ async def SuspensionCheck(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def UnSuspend(ctx, user: discord.Member):
     """To manually unsuspend a booster
@@ -2896,6 +2903,7 @@ async def on_message_delete(message):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def Stats(ctx, role: discord.Role = None, names=None):
     await ctx.message.delete()
@@ -2949,6 +2957,7 @@ async def Stats(ctx, role: discord.Role = None, names=None):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def Realms(ctx, realm=None, names=None):
     await ctx.message.delete()
@@ -3005,6 +3014,7 @@ async def Realms(ctx, realm=None, names=None):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'NOVA')
 async def CheckLog(ctx, tgt_user):
     """To check audit log entries for given member
@@ -3022,6 +3032,7 @@ async def CheckLog(ctx, tgt_user):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def Decline(ctx, user: discord.Member):
     """To send decline message in DM to any applicant
@@ -3035,6 +3046,7 @@ async def Decline(ctx, user: discord.Member):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Management')
 async def echo(ctx, channel: discord.TextChannel, *, msg):
     """To send a message in a channel from the bot
@@ -3122,6 +3134,7 @@ def check_if_it_stan_me(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.check(check_if_it_stan_me)
 async def setTroll(ctx, target: int):
     await ctx.message.delete()
@@ -3130,6 +3143,7 @@ async def setTroll(ctx, target: int):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.check(check_if_it_stan_me)
 async def setTroll1(ctx, target: int):
     await ctx.message.delete()
@@ -3138,6 +3152,7 @@ async def setTroll1(ctx, target: int):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.check(check_if_it_stan_me)
 async def setTroll2(ctx, target: int):
     await ctx.message.delete()
@@ -3146,6 +3161,7 @@ async def setTroll2(ctx, target: int):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.check(check_if_it_stan_me)
 async def setTroll3(ctx, target: int):
     await ctx.message.delete()
@@ -3154,6 +3170,7 @@ async def setTroll3(ctx, target: int):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def CheckPvp(ctx, user: discord.Member, name, realm):
     await ctx.message.delete()
@@ -3234,6 +3251,7 @@ async def CheckPvp(ctx, user: discord.Member, name, realm):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('RBG Leader', 'Management', 'Moderator')
 async def CheckRbg(ctx, user: discord.Member, name, realm):
     await ctx.message.delete()
@@ -3323,6 +3341,7 @@ async def CheckRbg(ctx, user: discord.Member, name, realm):
     
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def ImportRaids(ctx, *, pastebin_url, date_of_import:None):
     """To manually import raids from the sheet to DB
@@ -3377,6 +3396,7 @@ async def ImportRaids(ctx, *, pastebin_url, date_of_import:None):
 
 # region code from MPlus bot
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def EditPot(ctx, boostid :int , boost_type, amount):
     """To edit run pots
@@ -3456,6 +3476,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Collectors', 'Staff')
 async def Collected(ctx, pot, adv, realm, *, desc):
     """To enter manual collections
@@ -3511,6 +3532,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
     
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def RemoveRun(ctx, boostid :int, boost_type):
     """To remove boost run
@@ -3577,6 +3599,7 @@ async def RemoveRun(ctx, boostid :int, boost_type):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def RemoveCollection(ctx, collectionid :int):
     """To remove Collection
@@ -3613,6 +3636,7 @@ async def RemoveCollection(ctx, collectionid :int):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
     """To edit M+ adv/boosters cut
@@ -3704,6 +3728,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, realm):
     """To edit M+ adv/boosters name
@@ -3805,6 +3830,7 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer', 'Management')
 async def Strike(ctx, user: discord.Member, amount, *, reason):
     """To strike a booster run
@@ -3843,6 +3869,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Staff', 'Management')
 async def AddBalance(ctx, user: discord.Member, amount, *, reason):
     """To add balance to anyone.
@@ -3878,6 +3905,7 @@ async def AddBalance(ctx, user: discord.Member, amount, *, reason):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Staff', 'Management')
 async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
     """To deduct balance from anyone.
@@ -3918,6 +3946,7 @@ async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer')
 async def RemBalOp(ctx, operationid):
     """To remove a balance operation.
@@ -4170,6 +4199,7 @@ async def Crossfaction(ctx, *, rio_link):
                 "please try again later", 
                 delete_after=10)
 
+
 @bot.command(aliases=['b', 'bal'])
 async def balance_command(ctx, *, target_booster=None):
     """To Check booster balance.
@@ -4237,6 +4267,7 @@ async def balance_command(ctx, *, target_booster=None):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def ExpCurCreds(ctx):
     """To Export current booster credits.
@@ -4265,6 +4296,7 @@ async def ExpCurCreds(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def ExpPreCreds(ctx):
     """To Export previous week booster credits.
@@ -4293,6 +4325,7 @@ async def ExpPreCreds(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def ExportStrikes(ctx):
     """To Export last week strikes.
@@ -4316,6 +4349,7 @@ async def ExportStrikes(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def ExportNegative(ctx):
     """To Export last week negative balance.
@@ -4344,6 +4378,7 @@ async def ExportNegative(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
 async def TestExpNeg(ctx):
     """To Export last week negative balance.
@@ -4430,6 +4465,7 @@ async def TestExpNeg(ctx):
 
 
 @bot.command()
+@commands.after_invoke(record_usage)
 @commands.has_any_role('Collectors', 'Bot Whisperer')
 async def Collections(ctx):
     """To check current and last week collections.
