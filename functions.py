@@ -81,5 +81,5 @@ async def record_usage(ctx):
                 INSERT INTO commands_log (command_author, command_name, command_args, command_date) 
                 VALUES (%s, %s, %s, %s)
             """
-            val = (ctx.author.display_name, ctx.command, ', '.join(ctx.args[1:]), ctx.message.created_at.replace(microsecond=0))
+            val = (ctx.author.display_name, ctx.command.name, ', '.join(ctx.args[1:]), ctx.message.created_at.replace(microsecond=0))
             await cursor.execute(query, val)

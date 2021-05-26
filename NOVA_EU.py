@@ -3343,7 +3343,7 @@ async def CheckRbg(ctx, user: discord.Member, name, realm):
 @bot.command()
 @commands.after_invoke(record_usage)
 @commands.has_any_role('Moderator', 'Staff', 'Management')
-async def ImportRaids(ctx, *, pastebin_url, date_of_import:None):
+async def ImportRaids(ctx, pastebin_url, date_of_import=None):
     """To manually import raids from the sheet to DB
     example : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG
     example to import with specific date : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG 2021-05-05
@@ -3361,38 +3361,33 @@ async def ImportRaids(ctx, *, pastebin_url, date_of_import:None):
             raid_vals.append([now, name, realm, amount.replace(",","")])
         async with ctx.bot.pool.acquire() as conn:
             async with conn.cursor() as cursor:
-                # await cursor.execute("DELETE FROM `raid_balance`")
-                # await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
                         VALUES (%s, %s, %s, %s)
                     ON DUPLICATE KEY UPDATE 
-                        `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
+                        `import_date`=VALUES(`import_date`), `amount`=`amount`+VALUES(`amount`);
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
                     f"{cursor.rowcount} Records inserted successfully into raid_balance table",
                     delete_after=10)
     else:
-        now = datetime.strptime(date_of_import, 'YYYY-MM-DD')
+        now = datetime.strptime(date_of_import, '%Y-%m-%d')
         for i in raid_names:
             name, realm, amount = i.split("\t")
             raid_vals.append([now, name, realm, amount.replace(",","")])
         async with ctx.bot.pool.acquire() as conn:
             async with conn.cursor() as cursor:
-                # await cursor.execute("DELETE FROM `raid_balance`")
-                # await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
                         VALUES (%s, %s, %s, %s)
                     ON DUPLICATE KEY UPDATE 
-                        `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
+                        `import_date`=VALUES(`import_date`), `amount`=`amount`+VALUES(`amount`);
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
                     f"{cursor.rowcount} Records inserted successfully into raid_balance table",
                     delete_after=10)
-
 
 # region code from MPlus bot
 @bot.command()
