@@ -3329,21 +3329,22 @@ async def ImportRaids(ctx, *, pastebin_url):
     example : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG
     """
     await ctx.message.delete()
-    raid_vals = []    
+    raid_vals = []
     response = requests.get(pastebin_url)
     response.encoding = "utf-8"
     body = response.content.decode("utf-8")
     raid_names = body.replace("\r","").split("\n")
+    now = datetime.date(datetime.now(timezone.utc))
     for i in raid_names:
         name, realm, amount = i.split("\t")
-        raid_vals.append([name, realm, amount.replace(",","")])
-    async with ctx.bot.mplus_pool.acquire() as conn:
+        raid_vals.append([now, name, realm, amount.replace(",","")])
+    async with ctx.bot.pool.acquire() as conn:
         async with conn.cursor() as cursor:
-            await cursor.execute("DELETE FROM `raid_balance`")
-            await cursor.execute("ALTER TABLE `raid_balance` AUTO_INCREMENT = 1")
             query = """
-                INSERT INTO `raid_balance` (`name`, `realm`,`amount`) 
-                    VALUES (%s, %s, %s)
+                INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
+                    VALUES (%s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE 
+                    `import_date`=VALUES(`import_date`), `amount`=VALUES(`amount`);
             """
             await cursor.executemany(query, raid_vals)
             await ctx.send(
@@ -4300,7 +4301,7 @@ async def ExportNegative(ctx):
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
-                SELECT * FROM ov_creds 
+                SELECT booster, cur_balance, pre_balance FROM ov_creds 
                 WHERE cur_balance < 0 OR pre_balance < 0
             """
             await cursor.execute(query)
@@ -4312,10 +4313,10 @@ async def ExportNegative(ctx):
                     "Previous_Balance"
                 ]
             ]
-            for row in rows:
-                string_row +=f"{row[0]}: {row[1]} == {row[2]}\n"
-
-            await ctx.author.send(f"People that is in debt with Nova: \n{string_row}")
+            string_row += rows[0]
+            await ctx.author.send(f"Total number of members in negative:{len(string_row)-1}")
+            for item in string_row:
+                await ctx.author.send(f"{item.index(item)} : {item}")
 
 
 @bot.command()
