@@ -62,7 +62,6 @@ MPLUS_DB =  os.getenv("MPLUS_DB")
 
 
 intents = discord.Intents().all()
-
 class EU_Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -308,7 +307,7 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
     """To suspend a booster from signing up to boosts
     example: !Suspend @ASLK76#2188 60 for signing up to a boost with wrong roles
     """
-    durToDB = datetime.utcnow() + timedelta(minutes=duration)
+    durToDB = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None) + timedelta(minutes=duration)
     HighKeyBoosterA = get(user.roles, name="High Key Booster [A]")
     MBoosterA = get(user.roles, name="M+ Booster [A]")
     ###############################################################
@@ -389,12 +388,13 @@ async def SuspensionCheck(ctx):
     MBoosterH_role = get(ctx.guild.roles, name='M+ Booster [H]')
     SuspendedA_role = get(ctx.guild.roles, name='Suspended')
     SuspendedH_role = get(ctx.guild.roles, name='Suspended {H}')
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     async with ctx.bot.ops_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()
             for x in myresult:
-                if datetime.strptime(x[4], '%Y-%m-%d %H:%M:%S.%f') < datetime.utcnow():
+                if datetime.strptime(x[4], '%Y-%m-%d %H:%M:%S') < now:
                     member_fromDB = ctx.guild.get_member(x[0])
                     if x[1] == "High Key Booster [A]":
                         await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
@@ -472,7 +472,7 @@ async def on_raw_reaction_add(payload):
     user = guild.get_member(payload.user_id)
     hundred_emoji = [reaction for reaction in message.reactions if reaction.emoji == u"\U0001F4AF"]
     moneybag_emoji = [reaction for reaction in message.reactions if reaction.emoji == u"\U0001F4B0"]
-    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     Staff_role = get(guild.roles, name="Staff")
     Management_role = get(guild.roles, name="Management")
     Nova_role = get(guild.roles, name="NOVA")
@@ -3478,7 +3478,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
        example: !Collected 100K "Advertiser-Kazzak [H]" "Draenor [H]" description of the collection
     """
     await ctx.message.delete()
-    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     async with ctx.bot.mplus_pool.acquire() as conn:
         if ctx.channel.name == "collectors":
             collected_embed = discord.Embed(
@@ -3873,7 +3873,7 @@ async def AddBalance(ctx, user: discord.Member, amount, *, reason):
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
         track_channel = get(ctx.guild.text_channels, id=840733014622601226)
-        now = datetime.now(timezone.utc).replace(tzinfo=None)
+        now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
         name, realm = await checkPers(user.id)
         if name is None:
             if "-" not in user.nick:
@@ -3908,7 +3908,7 @@ async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
     """
     await ctx.message.delete()
     balance_channel = get(ctx.guild.text_channels, id=840733014622601226)
-    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     async with ctx.bot.mplus_pool.acquire() as conn:
         name, realm = await checkPers(user.id)
         if name is None:
