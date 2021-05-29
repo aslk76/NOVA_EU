@@ -1,3 +1,6 @@
+from string import ascii_lowercase
+import NOVA_EU
+
 def convert_si_to_number(i):
     if not i:
         return 0
@@ -42,7 +45,7 @@ async def search_nested_horde(mylist, val):
 
 
 async def checkPers(id :int):
-    async with bot.mplus_pool.acquire() as conn:
+    async with NOVA_EU.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT name , serv FROM persdict WHERE discord_id = %s
@@ -81,5 +84,12 @@ async def record_usage(ctx):
                 INSERT INTO commands_log (command_author, command_name, command_args, command_date) 
                 VALUES (%s, %s, %s, %s)
             """
-            val = (ctx.author.display_name, ctx.command.name, ', '.join(ctx.args[1:]), ctx.message.created_at.replace(microsecond=0))
+            if len(ctx.args[1:]) > 0 and ctx.args[0] is not None:
+                val = (ctx.author.display_name, ctx.command.name, ', '.join(map(str,ctx.args[1:])), ctx.message.created_at.replace(microsecond=0))
+                if len(ctx.kwargs) > 0:
+                    y = list(val)
+                    y[2] += " " + list(ctx.kwargs.values())[0]
+                    val = tuple(y)
+            else:
+                val = (ctx.author.display_name, ctx.command.name, "no arguments passed", ctx.message.created_at.replace(microsecond=0))
             await cursor.execute(query, val)

@@ -18,7 +18,6 @@ import re
 from dotenv import load_dotenv
 import gspread_asyncio
 from google.oauth2.service_account import Credentials
-from string import ascii_lowercase
 
 
 from constants import *
@@ -3818,6 +3817,117 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
                                                         f"was edited from **{previous_booster}** to **{name}-{realm}** "
                                                         f"by {ctx.message.author.mention}",
                                                     color=discord.Color.orange())
+                                await track_channel.send(embed=em)
+                                await ctx.author.send(embed=em)
+                    else:
+                        await ctx.author.send(f"The boost run with ID {boostid} doesn't exist in the Database.")
+
+
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Moderator', 'Staff', 'Management')
+async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
+    """To edit name for run payment realm
+       
+       -<boost_type> is `mplus` for M+ or `various` for the rest.
+
+       example: nm!EditRunRealm 839463136980631552 mplus TarrenMill [H]
+       
+       Please make sure you copy paste the correct realm name
+    """
+    await ctx.message.delete()
+    track_channel = get(ctx.guild.text_channels, id=840733014622601226)
+    async with ctx.bot.pool.acquire() as conn:
+        if boost_type == "mplus":
+            if boost_realm.title() not in realm_name:
+                em = discord.Embed(title="Wrong realm name",
+                    description = 
+                        f"This realm name {boost_realm} is not supported"
+                        ", you can check correct correct realm names "
+                        "[here](https://docs.google.com/spreadsheets/d/1u0l82EmuDLIw4D6QFsFi0LKrto6yZ9M0WwDPdFYfUGk/edit#gid=0)",
+                    color=discord.Color.red())
+                await ctx.author.send(embed=em)
+            else:
+                async with conn.cursor() as cursor:
+                    query  = """
+                    SELECT * FROM m_plus where boost_id = %s 
+                        AND deleted_at IS NULL or deleted_at = ' '
+                    """
+                    val = (boostid,)
+                    await cursor.execute(query, val)
+                    notSoftDeleted = await cursor.fetchall()
+                    if notSoftDeleted is not None:                          
+                        async with conn.cursor() as cursor:
+                            query  = """
+                                SELECT boost_realm
+                                FROM m_plus where boost_id = %s
+                            """
+                            val = (boostid,)
+                            await cursor.execute(query, val)
+                            (previous_realm,) = await cursor.fetchone()
+
+                            if previous_realm.lower() == boost_realm.lower():
+                                await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
+                            else:
+                                query  = (f"UPDATE m_plus SET "
+                                            f"edited_at      = UTC_TIMESTAMP(), "
+                                            f"boost_realm    = %(boost_realm)s "
+                                            f"WHERE boost_id = %(boost_id)s")
+                                val = {"boost_realm": boost_realm, "boost_id": boostid}
+                                await cursor.execute(query, val)
+                                em = discord.Embed(title="MPlus Realm Changed",
+                                    description=
+                                        f"The Realm for run with ID {boostid} "
+                                        f"was edited from **{previous_realm}** to **{boost_realm.title()}** "
+                                        f"by {ctx.message.author.mention}",
+                                    color=discord.Color.orange())
+                                await track_channel.send(embed=em)
+                                await ctx.author.send(embed=em)
+                    else:
+                        await ctx.author.send(f"The boost run with ID {boostid} doesn't exist in the Database.")
+
+        elif boost_type == "various":
+            if boost_realm.title() not in realm_name:
+                em = discord.Embed(title="Wrong realm name",
+                    description = 
+                        f"This realm name {boost_realm} is not supported"
+                        ", you can check correct correct realm names "
+                        "[here](https://docs.google.com/spreadsheets/d/1u0l82EmuDLIw4D6QFsFi0LKrto6yZ9M0WwDPdFYfUGk/edit#gid=0)",
+                    color=discord.Color.red())
+                await ctx.author.send(embed=em)
+            else:
+                async with conn.cursor() as cursor:
+                    query  = """
+                        SELECT * FROM various where boost_id = %s 
+                        AND deleted_at IS NULL or deleted_at = ' '
+                    """
+                    val = (boostid,)
+                    await cursor.execute(query, val)
+                    notSoftDeleted = await cursor.fetchall()
+                    if notSoftDeleted is not None:
+                        async with conn.cursor() as cursor:
+                            query  = """
+                                SELECT boost_realm
+                                FROM various where boost_id = %s
+                            """
+                            val = (boostid,)
+                            await cursor.execute(query, val)
+                            (previous_realm,) = await cursor.fetchone()
+                            if previous_realm.lower() == boost_realm.lower():
+                                await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
+                            else:
+                                query  = (f"UPDATE various SET "
+                                            f"edited_at      = UTC_TIMESTAMP(), "
+                                            f"boost_realm    = %(boost_realm)s "
+                                            f"WHERE boost_id = %(boost_id)s")
+                                val = {"boost_realm": boost_realm, "boost_id": boostid}
+                                await cursor.execute(query, val)
+                                em = discord.Embed(title="Various Booster Changed",
+                                    description=
+                                        f"The Realm for run with ID {boostid} "
+                                        f"was edited from **{previous_realm}** to **{boost_realm.title()}** "
+                                        f"by {ctx.message.author.mention}",
+                                    color=discord.Color.orange())
                                 await track_channel.send(embed=em)
                                 await ctx.author.send(embed=em)
                     else:
