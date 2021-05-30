@@ -142,7 +142,7 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=em, delete_after=5)
     elif isinstance(error, commands.BadArgument):
         em = discord.Embed(title="❌ Bad arguments",
-                           description=error,
+                           description="",
                            color=discord.Color.red())
         await ctx.send(embed=em, delete_after=5)
     elif isinstance(error, commands.MissingRequiredArgument):
@@ -153,12 +153,12 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandOnCooldown):
         await ctx.message.delete()
         em = discord.Embed(title="❌ On Cooldown",
-                           description="{ctx.command.name} is on cooldown, please try again in {:.2f}s".format(
-                               error.retry_after),
+                           description=f"{ctx.command.name} is on cooldown, please try again in {error.retry_after:.2f}s",
                            color=discord.Color.red())
         await ctx.send(embed=em, delete_after=5)
+    error = getattr(error, 'original', error)
     logger.error(f"========on {ctx.command.name} START=======")
-    logger.error(f"traceback: {traceback.format_exc()}")
+    logger.error(f"traceback: {traceback.print_exception(type(error), error, error.__traceback__)}")
     logger.error(f"error: {error}")
     logger.error(f"========on {ctx.command.name} END=========")
     bot_log_channel = get(ctx.guild.text_channels, name='bot-logs')
@@ -166,9 +166,8 @@ async def on_command_error(ctx, error):
         title=f"{ctx.bot.user.name} Error Log.",
         description=f"on {ctx.command.name}",
         color=discord.Color.blue())
-    embed_bot_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None))
+    embed_bot_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
     await bot_log_channel.send(embed=embed_bot_log)
-
 
 @bot.event
 async def on_ready():
