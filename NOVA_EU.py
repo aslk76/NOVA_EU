@@ -3415,7 +3415,6 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
                         SET @adv_cut := (SELECT adv_cut/boost_pot FROM m_plus WHERE boost_id = %(boost_id)s LIMIT 1);
                         UPDATE m_plus SET
                             boost_pot  = %(amount)s,
-                            edited_at  = UTC_TIMESTAMP(),
                             adv_cut    = @adv_cut * %(amount)s,
                             tank_cut   = %(amount)s * 0.175,
                             healer_cut = %(amount)s * 0.175,
@@ -3449,7 +3448,6 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
                         SET @adv_cut := (SELECT adv_cut/boost_pot FROM various WHERE boost_id = %(boost_id)s LIMIT 1);
                         UPDATE various SET
                             boost_pot  = %(amount)s,
-                            edited_at  = UTC_TIMESTAMP(),
                             adv_cut    = @adv_cut * %(amount)s,
                             tank_cut   = %(amount)s * 0.175
 
@@ -3661,7 +3659,6 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
                     if notSoftDeleted is not None:
                         async with conn.cursor() as cursor:
                             query  = (f"UPDATE m_plus SET "
-                                        f"edited_at = UTC_TIMESTAMP(), "
                                         f"{booster}_cut   = %(amount)s "
                                         f"WHERE boost_id = %(boost_id)s")
                             val = {"amount": amount, "boost_id": boostid}
@@ -3698,7 +3695,6 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
                     if notSoftDeleted is not None:
                         async with conn.cursor() as cursor:
                             query  = (f"UPDATE various SET "
-                                    f"edited_at  = UTC_TIMESTAMP(),"
                                     f"{booster}_cut   = %(amount)s "
                                     f"WHERE boost_id = %(boost_id)s")
                             val = {"amount": amount, "boost_id": boostid}
@@ -3763,7 +3759,6 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
                                 await ctx.author.send(f"The booster with the name {name}-{realm} is already changed")
                             else:
                                 query  = (f"UPDATE m_plus SET "
-                                            f"edited_at            = UTC_TIMESTAMP(), "
                                             f"{booster_role}_name  = %(name)s, "
                                             f"{booster_role}_realm = %(realm)s "
                                             f"WHERE boost_id       = %(boost_id)s")
@@ -3804,7 +3799,6 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
                                 await ctx.author.send(f"The booster with the name {name}-{realm} is already changed")
                             else:
                                 query  = (f"UPDATE various SET "
-                                            f"edited_at            = UTC_TIMESTAMP(), "
                                             f"{booster_role}_name  = %(name)s, "
                                             f"{booster_role}_realm = %(realm)s "
                                             f"WHERE boost_id       = %(boost_id)s")
@@ -3869,7 +3863,6 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                                 await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
                             else:
                                 query  = (f"UPDATE m_plus SET "
-                                            f"edited_at      = UTC_TIMESTAMP(), "
                                             f"boost_realm    = %(boost_realm)s "
                                             f"WHERE boost_id = %(boost_id)s")
                                 val = {"boost_realm": boost_realm, "boost_id": boostid}
@@ -3916,7 +3909,6 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                                 await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
                             else:
                                 query  = (f"UPDATE various SET "
-                                            f"edited_at      = UTC_TIMESTAMP(), "
                                             f"boost_realm    = %(boost_realm)s "
                                             f"WHERE boost_id = %(boost_id)s")
                                 val = {"boost_realm": boost_realm, "boost_id": boostid}
