@@ -3403,7 +3403,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
             async with conn.cursor() as cursor:
                 query  = """
                     SELECT * FROM m_plus where boost_id = %s 
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                 """
                 val = (boostid,)
                 await cursor.execute(query, val)
@@ -3437,7 +3437,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
 
         elif boost_type == "various":
             async with conn.cursor() as cursor:
-                query  = "SELECT * FROM various where boost_id = %s AND deleted_at IS NULL or deleted_at = ' '"
+                query  = "SELECT * FROM various where boost_id = %s AND deleted_at IS NULL"
                 val = (boostid,)
                 await cursor.execute(query, val)
                 notSoftDeleted = await cursor.fetchone()
@@ -3537,7 +3537,7 @@ async def RemoveRun(ctx, boostid :int, boost_type):
             async with conn.cursor() as cursor:
                 query = """
                     SELECT * FROM m_plus where boost_id = %s
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                 """
                 val = (boostid,)
                 await cursor.execute(query, val)
@@ -3565,7 +3565,7 @@ async def RemoveRun(ctx, boostid :int, boost_type):
             async with conn.cursor() as cursor:
                 query = """
                     SELECT * FROM various where boost_id = %s
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                 """
                 val = (boostid,)
                 await cursor.execute(query, val)
@@ -3602,7 +3602,7 @@ async def RemoveCollection(ctx, collectionid :int):
         async with conn.cursor() as cursor:
             query = """
                 SELECT * FROM collectors where collection_id = %s
-                    AND deleted_at IS NULL or deleted_at = ' '
+                    AND deleted_at IS NULL
             """
             val = (collectionid,)
             await cursor.execute(query, val)
@@ -3651,7 +3651,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
                 async with conn.cursor() as cursor:
                     query  = """
                     SELECT * FROM m_plus where boost_id = %s 
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -3687,7 +3687,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
                 async with conn.cursor() as cursor:
                     query  = """
                         SELECT * FROM various where boost_id = %s 
-                            AND deleted_at IS NULL or deleted_at = ' '
+                            AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -3742,7 +3742,7 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
                 async with conn.cursor() as cursor:
                     query  = """
                     SELECT * FROM m_plus where boost_id = %s 
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -3783,7 +3783,7 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
                 async with conn.cursor() as cursor:
                     query  = """
                         SELECT * FROM various where boost_id = %s 
-                            AND deleted_at IS NULL or deleted_at = ' '
+                            AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -3844,7 +3844,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                 async with conn.cursor() as cursor:
                     query  = """
                     SELECT * FROM m_plus where boost_id = %s 
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -3891,7 +3891,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                 async with conn.cursor() as cursor:
                     query  = """
                         SELECT * FROM various where boost_id = %s 
-                        AND deleted_at IS NULL or deleted_at = ' '
+                        AND deleted_at IS NULL
                     """
                     val = (boostid,)
                     await cursor.execute(query, val)
@@ -4054,7 +4054,7 @@ async def RemBalOp(ctx, operationid):
         async with conn.cursor() as cursor:
             query = """
                 SELECT * FROM balance_ops where operation_id = %s
-                    AND deleted_at IS NULL or deleted_at = ' '
+                    AND deleted_at IS NULL
             """
             val = (operationid,)
             await cursor.execute(query, val)
