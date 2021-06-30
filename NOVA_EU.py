@@ -2741,6 +2741,8 @@ async def on_message(message):
                 AdvertiserH_role, AdvertiserH_trial_role, Staff_role, 
                 Management_role, Nova_role, Moderator_role, CommunitySupport_role]
         msg_user = message.guild.get_member(message.author.id)
+        logger.warning(message.author.id)
+        logger.warning(message.author)
         roles_check =  any(item in msg_user.roles for item in roles_to_check)
 
         if message.channel.name.startswith("post-run") and message.author.bot:
@@ -3929,7 +3931,8 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
         confirmation_msg = await ctx.send(
             "**Attention!**\n"
             f"{command_issuer.mention} You are striking the booster {user.mention} "
-            f"for the reason of {reason}"
+            f"for the reason of `{reason}` "
+            f"for the amount of `{amount}` "
             "for more than the allowed threshhold.\n"
             "Please wait for Staff or above to confirm.\n"
             "`Staff or above type 'Yes', to accept the strike. You have 60 seconds to reply here.`"
