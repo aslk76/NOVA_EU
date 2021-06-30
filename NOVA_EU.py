@@ -2769,8 +2769,7 @@ async def on_message(message):
                         await asyncio.sleep(1)
                         await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
                         await message.add_reaction(u"\u2705")
-                        if (AdvertiserA_trial_role in message.author.roles and 
-                            (x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'))):
+                        if AdvertiserA_trial_role in message.author.roles:
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2785,33 +2784,13 @@ async def on_message(message):
                             embed_collection_log.add_field(
                                 name="Link", value=message.jump_url, inline=True)
                             embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                            await collectors_channel.send(embed=embed_collection_log)
+                            collection_embed = await collectors_channel.send(embed=embed_collection_log)
                             await collectors_tag_msg.clear_reactions()
                             await collectors_tag_msg.clear_reactions()
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(Pending_role)
-                        """ else:
-                            collectors_channel = get(message.guild.text_channels, name='collectors')
-                            collectors_role = get(message.guild.roles, name="Collectors")
-                            collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
-                            embed_collection_log = discord.Embed(
-                                title="Gold Collection", description="Run has been posted", color=0x5d4991)
-                            embed_collection_log.add_field(
-                                name="Author", value=message.author.mention, inline=True)
-                            embed_collection_log.add_field(name="Realm: ", value=x[2], inline=True)
-                            embed_collection_log.add_field(name="Amount: ", value=x[3], inline=True)
-                            embed_collection_log.add_field(
-                                name="Channel", value=message.channel.name, inline=False)
-                            embed_collection_log.add_field(
-                                name="Link", value=message.jump_url, inline=True)
-                            embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                            await collectors_channel.send(embed=embed_collection_log)
-                            await collectors_tag_msg.clear_reactions()
-                            await collectors_tag_msg.clear_reactions()
-                            await message.clear_reactions()
-                            await message.add_reaction(u"\U0001F513")
-                            await message.author.add_roles(Pending_role) """
+                            await collection_embed.add_reaction(u"\u2705")
                     else:
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
@@ -2826,8 +2805,7 @@ async def on_message(message):
                         await asyncio.sleep(1)
                         await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
                         await message.add_reaction(u"\u2705")
-                        if (AdvertiserH_trial_role in message.author.roles and 
-                            (x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'))):
+                        if AdvertiserH_trial_role in message.author.roles:
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2842,33 +2820,13 @@ async def on_message(message):
                             embed_collection_log.add_field(
                                 name="Link", value=message.jump_url, inline=True)
                             embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                            await collectors_channel.send(embed=embed_collection_log)
+                            collection_embed = await collectors_channel.send(embed=embed_collection_log)
                             await collectors_tag_msg.clear_reactions()
                             await collectors_tag_msg.clear_reactions()
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
-                        """ else:
-                            collectors_channel = get(message.guild.text_channels, name='collectors')
-                            collectors_role = get(message.guild.roles, name="Collectors")
-                            collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
-                            embed_collection_log = discord.Embed(
-                                title="Gold Collection", description="Run has been posted", color=0x5d4991)
-                            embed_collection_log.add_field(
-                                name="Author", value=message.author.mention, inline=True)
-                            embed_collection_log.add_field(name="Realm: ", value=x[2], inline=True)
-                            embed_collection_log.add_field(name="Amount: ", value=x[3], inline=True)
-                            embed_collection_log.add_field(
-                                name="Channel", value=message.channel.name, inline=False)
-                            embed_collection_log.add_field(
-                                name="Link", value=message.jump_url, inline=True)
-                            embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                            await collectors_channel.send(embed=embed_collection_log)
-                            await collectors_tag_msg.clear_reactions()
-                            await collectors_tag_msg.clear_reactions()
-                            await message.clear_reactions()
-                            await message.add_reaction(u"\U0001F513")
-                            await message.author.add_roles(PendingH_role) """
+                            await collection_embed.add_reaction(u"\u2705")
                     else:
                         await message.delete()
             
@@ -2876,8 +2834,7 @@ async def on_message(message):
                     (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp")):
                 if roles_check and Pending_role not in message.author.roles:
                     await message.add_reaction(u"\u2705")
-                    if (AdvertiserA_trial_role in message.author.roles and 
-                        (x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:'))):
+                    if AdvertiserA_trial_role in message.author.roles:
                         collectors_channel = get(message.guild.text_channels, name='collectors')
                         collectors_role = get(message.guild.roles, name="Collectors")
                         collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2892,32 +2849,13 @@ async def on_message(message):
                         embed_collection_log.add_field(
                             name="Link", value=message.jump_url, inline=True)
                         embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                        await collectors_channel.send(embed=embed_collection_log)
+                        collection_embed = await collectors_channel.send(embed=embed_collection_log)
                         await collectors_tag_msg.clear_reactions()
                         await collectors_tag_msg.clear_reactions()
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(Pending_role)
-                    """ else:
-                        collectors_channel = get(message.guild.text_channels, name='collectors')
-                        collectors_role = get(message.guild.roles, name="Collectors")
-                        collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
-                        embed_collection_log = discord.Embed(
-                            title="Gold Collection", description="Run has been posted", color=0x5d4991)
-                        embed_collection_log.add_field(
-                            name="Author", value=message.author.mention, inline=True)
-                        embed_collection_log.add_field(name="Realm: ", value=x[3], inline=True)
-                        embed_collection_log.add_field(name="Amount: ", value=x[2], inline=True)
-                        embed_collection_log.add_field(
-                            name="Channel", value=message.channel.name, inline=False)
-                        embed_collection_log.add_field(
-                            name="Link", value=message.jump_url, inline=True)
-                        embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                        await collectors_channel.send(embed=embed_collection_log)
-                        await collectors_tag_msg.clear_reactions()
-                        await message.clear_reactions()
-                        await message.add_reaction(u"\U0001F513")
-                        await message.author.add_roles(Pending_role) """
+                        await collection_embed.add_reaction(u"\u2705")
                 else:
                     await message.delete()
 
@@ -2941,32 +2879,14 @@ async def on_message(message):
                         embed_collection_log.add_field(
                             name="Link", value=message.jump_url, inline=True)
                         embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                        await collectors_channel.send(embed=embed_collection_log)
+                        collection_embed = await collectors_channel.send(embed=embed_collection_log)
                         await collectors_tag_msg.clear_reactions()
                         await collectors_tag_msg.clear_reactions()
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
-                        await message.author.add_roles(Pending_role)
-                    """ else:
-                        collectors_channel = get(message.guild.text_channels, name='collectors')
-                        collectors_role = get(message.guild.roles, name="Collectors")
-                        collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
-                        embed_collection_log = discord.Embed(
-                            title="Gold Collection", description="Run has been posted", color=0x5d4991)
-                        embed_collection_log.add_field(
-                            name="Author", value=message.author.mention, inline=True)
-                        embed_collection_log.add_field(name="Realm: ", value=x[3], inline=True)
-                        embed_collection_log.add_field(name="Amount: ", value=x[2], inline=True)
-                        embed_collection_log.add_field(
-                            name="Channel", value=message.channel.name, inline=False)
-                        embed_collection_log.add_field(
-                            name="Link", value=message.jump_url, inline=True)
-                        embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                        await collectors_channel.send(embed=embed_collection_log)
-                        await collectors_tag_msg.clear_reactions()
-                        await message.clear_reactions()
-                        await message.add_reaction(u"\U0001F513")
-                        await message.author.add_roles(Pending_role) """
+                        await message.author.add_roles(PendingH_role)
+                        await collection_embed.add_reaction(u"\u2705")
+                    
                 else:
                     await message.delete()
 
