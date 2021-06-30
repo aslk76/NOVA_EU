@@ -2770,6 +2770,12 @@ async def on_message(message):
                         await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
                         await message.add_reaction(u"\u2705")
                         if AdvertiserA_trial_role in message.author.roles:
+                            if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
+                                realm_field = x[3]
+                                amount_field = x[4]
+                            else:
+                                realm_field = x[2]
+                                amount_field = x[3]
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2777,8 +2783,8 @@ async def on_message(message):
                                 title="Gold Collection", description="Run has been posted", color=0x5d4991)
                             embed_collection_log.add_field(
                                 name="Author", value=message.author.mention, inline=True)
-                            embed_collection_log.add_field(name="Realm: ", value=x[3], inline=True)
-                            embed_collection_log.add_field(name="Amount: ", value=x[4], inline=True)
+                            embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                            embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
                             embed_collection_log.add_field(
                                 name="Channel", value=message.channel.name, inline=False)
                             embed_collection_log.add_field(
@@ -2806,6 +2812,12 @@ async def on_message(message):
                         await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
                         await message.add_reaction(u"\u2705")
                         if AdvertiserH_trial_role in message.author.roles:
+                            if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
+                                realm_field = x[3]
+                                amount_field = x[4]
+                            else:
+                                realm_field = x[2]
+                                amount_field = x[3]
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2813,8 +2825,8 @@ async def on_message(message):
                                 title="Gold Collection", description="Run has been posted", color=0x5d4991)
                             embed_collection_log.add_field(
                                 name="Author", value=message.author.mention, inline=True)
-                            embed_collection_log.add_field(name="Realm: ", value=x[3], inline=True)
-                            embed_collection_log.add_field(name="Amount: ", value=x[4], inline=True)
+                            embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                            embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
                             embed_collection_log.add_field(
                                 name="Channel", value=message.channel.name, inline=False)
                             embed_collection_log.add_field(
@@ -2835,6 +2847,12 @@ async def on_message(message):
                 if roles_check and Pending_role not in message.author.roles:
                     await message.add_reaction(u"\u2705")
                     if AdvertiserA_trial_role in message.author.roles:
+                        if x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:'):
+                            realm_field = x[4]
+                            amount_field = x[3]
+                        else:
+                            realm_field = x[3]
+                            amount_field = x[2]
                         collectors_channel = get(message.guild.text_channels, name='collectors')
                         collectors_role = get(message.guild.roles, name="Collectors")
                         collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2842,8 +2860,8 @@ async def on_message(message):
                             title="Gold Collection", description="Run has been posted", color=0x5d4991)
                         embed_collection_log.add_field(
                             name="Author", value=message.author.mention, inline=True)
-                        embed_collection_log.add_field(name="Realm: ", value=x[4], inline=True)
-                        embed_collection_log.add_field(name="Amount: ", value=x[3], inline=True)
+                        embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                        embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
                         embed_collection_log.add_field(
                             name="Channel", value=message.channel.name, inline=False)
                         embed_collection_log.add_field(
@@ -2863,8 +2881,13 @@ async def on_message(message):
                 (message.channel.id == 815104639368298536 or message.channel.name == "🔴pvp-build-grp")):
                 if roles_check and PendingH_role not in message.author.roles:
                     await message.add_reaction(u"\u2705")
-                    if (AdvertiserH_trial_role in message.author.roles and 
-                        (x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:'))):
+                    if AdvertiserH_trial_role in message.author.roles:
+                        if x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:'):
+                            realm_field = x[4]
+                            amount_field = x[3]
+                        else:
+                            realm_field = x[3]
+                            amount_field = x[2]
                         collectors_channel = get(message.guild.text_channels, name='collectors')
                         collectors_role = get(message.guild.roles, name="Collectors")
                         collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2872,8 +2895,8 @@ async def on_message(message):
                             title="Gold Collection", description="Run has been posted", color=0x5d4991)
                         embed_collection_log.add_field(
                             name="Author", value=message.author.mention, inline=True)
-                        embed_collection_log.add_field(name="Realm: ", value=x[4], inline=True)
-                        embed_collection_log.add_field(name="Amount: ", value=x[3], inline=True)
+                        embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                        embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
                         embed_collection_log.add_field(
                             name="Channel", value=message.channel.name, inline=False)
                         embed_collection_log.add_field(
