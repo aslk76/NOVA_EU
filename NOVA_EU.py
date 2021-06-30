@@ -3938,7 +3938,6 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
             "Please wait for Staff or above to confirm.\n"
             "`Staff or above type 'Yes', to accept the strike. You have 60 seconds to reply here.`"
         )
-        s_msg_user = None
 
         def check(m):
             s_msg_user = m.guild.get_member(m.author.id)
@@ -3976,7 +3975,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                             (operation_id, date, name, realm, operation, command, reason, amount, author, approved_by)
                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
-                    val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name, s_msg_user.display_name)
+                    val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name, msg.author.display_name)
                     await cursor.execute(query, val)
                     if command_amount != 0:
                         await strike_channel.send(
