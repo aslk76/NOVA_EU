@@ -51,7 +51,7 @@ troll_target3 = 0
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-GUILD_ID = os.getenv('NOVA_ID')
+GUILD_ID: int = os.getenv('NOVA_ID')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
 DB_USER = os.getenv('DB_USER')
