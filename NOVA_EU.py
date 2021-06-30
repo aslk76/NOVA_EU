@@ -2672,7 +2672,7 @@ async def on_raw_reaction_add(payload):
 @bot.event
 async def on_message(message):
     if message.author == bot.user and not isinstance(message.channel, discord.DMChannel):
-            return
+        return
     elif (message.author.id == troll_target and (not message.channel.name.startswith('high-') or 
         not message.channel.name.startswith('build-'))):
         await message.delete()
@@ -2741,9 +2741,10 @@ async def on_message(message):
                 AdvertiserH_role, AdvertiserH_trial_role, Staff_role, 
                 Management_role, Nova_role, Moderator_role, CommunitySupport_role]
         msg_user = message.guild.get_member(message.author.id)
-        logger.warning(message.author.id)
-        logger.warning(message.author)
-        roles_check =  any(item in msg_user.roles for item in roles_to_check)
+        if msg_user is not None:
+            roles_check =  any(item in msg_user.roles for item in roles_to_check)
+        else:
+            roles_check = False
 
         if message.channel.name.startswith("post-run") and message.author.bot:
                 await message.add_reaction(u"\U0001F4B0")
@@ -3926,7 +3927,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
     Nova_role = get(ctx.guild.roles, name="NOVA")
     Moderator_role = get(ctx.guild.roles, name="Moderator")
     roles_to_check = [Staff_role, Management_role, Nova_role, Moderator_role]
-    roles_check =  any(item in ctx.author.roles for item in roles_to_check)
+    roles_check = any(item in ctx.author.roles for item in roles_to_check)
     if amount >= 75000 and not roles_check:
         confirmation_msg = await ctx.send(
             "**Attention!**\n"
@@ -3939,10 +3940,11 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
         )
 
         def check(m):
-            logger.info(m)
-            logger.info(m.author.id)
-            s_msg_user = ctx.guild.get_member(m.author.id)
-            m_roles_check =  any(item in s_msg_user.roles for item in roles_to_check)
+            s_msg_user = m.guild.get_member(m.author.id)
+            if s_msg_user is not None:
+                m_roles_check =  any(item in s_msg_user.roles for item in roles_to_check)
+            else:
+                m_roles_check = False
             return m.content.lower() == "yes" and m.channel == ctx.channel and m_roles_check
 
         try:
