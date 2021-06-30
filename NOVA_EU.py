@@ -664,8 +664,12 @@ async def on_raw_reaction_add(payload):
                     adv_id_pre = embed_fields[0]["value"].partition("@!")[2]
                     adv_id = int(adv_id_pre.partition(">")[0])
                     adv_final = get(guild.members, id=adv_id)
-                    realm = embed_fields[1]["value"].partition(">")[2].strip()
-                    amount = embed_fields[2]["value"].partition(">")[2].strip()
+                    if ":" in embed_fields[1]["value"]:
+                        realm = embed_fields[1]["value"].partition(":")[2].strip()
+                        amount = embed_fields[2]["value"].partition(":")[2].strip()
+                    else:
+                        realm = embed_fields[1]["value"].partition(">")[2].strip()
+                        amount = embed_fields[2]["value"].partition(">")[2].strip()
                     async with conn.cursor() as cursor:
                         query = """
                             INSERT INTO collectors 
@@ -3927,7 +3931,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                             f" will be deducted from your balance. Strike ID: {ctx.message.id}")
                     else:
                         await strike_channel.send(
-                            f"{user.mention}, {reason}. Strike ID: {ctx.message.id}")
+                            f"{user.mention}, ```{reason}```. Strike ID: {ctx.message.id}")
     elif amount <= 74999:
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
@@ -3957,7 +3961,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                         f" will be deducted from your balance. Strike ID: {ctx.message.id}")
                 else:
                     await strike_channel.send(
-                        f"{user.mention}, {reason}. Strike ID: {ctx.message.id}")
+                        f"{user.mention}, ```{reason}```. Strike ID: {ctx.message.id}")
 
 
 @bot.command()
