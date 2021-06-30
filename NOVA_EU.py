@@ -2804,7 +2804,7 @@ async def on_message(message):
                             collection_embed_pre = collection_embed.embeds[0].to_dict()
                             collected_embed = discord.Embed.from_dict(collection_embed_pre)
                             collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                            await collected_embed.edit(embed=collection_embed_pre)
+                            await collection_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
@@ -2850,7 +2850,7 @@ async def on_message(message):
                             collection_embed_pre = collection_embed.embeds[0].to_dict()
                             collected_embed = discord.Embed.from_dict(collection_embed_pre)
                             collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                            await collected_embed.edit(embed=collection_embed_pre)
+                            await collection_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
             
@@ -2889,7 +2889,7 @@ async def on_message(message):
                         collection_embed_pre = collection_embed.embeds[0].to_dict()
                         collected_embed = discord.Embed.from_dict(collection_embed_pre)
                         collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                        await collected_embed.edit(embed=collection_embed_pre)
+                        await collection_embed.edit(embed=collection_embed_pre)
                 else:
                     await message.delete()
 
@@ -2928,7 +2928,7 @@ async def on_message(message):
                         collection_embed_pre = collection_embed.embeds[0].to_dict()
                         collected_embed = discord.Embed.from_dict(collection_embed_pre)
                         collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                        await collected_embed.edit(embed=collection_embed_pre)
+                        await collection_embed.edit(embed=collection_embed_pre)
                     
                 else:
                     await message.delete()
