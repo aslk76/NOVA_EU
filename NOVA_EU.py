@@ -3776,35 +3776,92 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
        example : !Strike @ASLK76#2188 100K depleting a key 
     """
     await ctx.message.delete()
-    async with ctx.bot.mplus_pool.acquire() as conn:
-        async with conn.cursor() as cursor:
-            strike_channel = get(ctx.guild.text_channels, name='strike-channel')
-            now = datetime.now(timezone.utc).replace(tzinfo=None)
-            name, realm = await checkPers(user.id)
-            if name is None:
-                if "-" not in user.nick:
-                    raise ValueError(f"Nickname format not correct for {user.display_name}")
-                name, realm = user.nick.split("-")
+    command_issuer = ctx.author
+    Staff_role = get(ctx.guild.roles, id=815104630538895451)
+    Management_role = get(ctx.guild.roles, name="Management")
+    Nova_role = get(ctx.guild.roles, name="NOVA")
+    Moderator_role = get(ctx.guild.roles, name="Moderator")
+    roles_to_check = [Staff_role, Management_role, Nova_role, Moderator_role]
+    roles_check =  any(item in ctx.author.roles for item in roles_to_check)
+    if amount >= 75000 and not roles_check:
+        confirmation_msg = await ctx.send(
+            "**Attention!**\n"
+            f"{command_issuer.mention} You are striking for more than the allowed threshhold.\n"
+            "Please wait for Staff or above to confirm.\n"
+            "`Staff or above type 'Yes', to accept the strike. You have 60 seconds to reply here.`"
+        )
 
-            if not amount.startswith('-'):
-                command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
-            else:
-                command_amount = convert_si_to_number(amount.replace(",", "."))
+        def check(m):
+            m_roles_check =  any(item in m.author.roles for item in roles_to_check)
+            return m.content.lower() == "yes" and m.channel == ctx.channel and m_roles_check
 
-            query = """
-                INSERT INTO balance_ops
-                    (operation_id, date, name, realm, operation, command, reason, amount, author)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
-            await cursor.execute(query, val)
-            if command_amount != 0:
-                await strike_channel.send(
-                    f"{user.mention}, {reason}. {abs(command_amount):,d}"
-                    f" will be deducted from your balance. Strike ID: {ctx.message.id}")
-            else:
-                await strike_channel.send(
-                    f"{user.mention}, {reason}. Strike ID: {ctx.message.id}")
+        try:
+            msg = await bot.wait_for("message", timeout=60.0, check=check)
+        except asyncio.TimeoutError:
+            await ctx.send("Staff didn't confirm within 60 seconds, cancelling strike", 
+                            delete_after=5)
+            await confirmation_msg.delete()
+        else:
+            await confirmation_msg.delete()
+            async with ctx.bot.mplus_pool.acquire() as conn:
+                async with conn.cursor() as cursor:
+                    strike_channel = get(ctx.guild.text_channels, name='strike-channel')
+                    now = datetime.now(timezone.utc).replace(tzinfo=None)
+                    name, realm = await checkPers(user.id)
+                    if name is None:
+                        if "-" not in user.nick:
+                            raise ValueError(f"Nickname format not correct for {user.display_name}")
+                        name, realm = user.nick.split("-")
+
+                    if not amount.startswith('-'):
+                        command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
+                    else:
+                        command_amount = convert_si_to_number(amount.replace(",", "."))
+
+                    query = """
+                        INSERT INTO balance_ops
+                            (operation_id, date, name, realm, operation, command, reason, amount, author)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """
+                    val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
+                    await cursor.execute(query, val)
+                    if command_amount != 0:
+                        await strike_channel.send(
+                            f"{user.mention}, {reason}. {abs(command_amount):,d}"
+                            f" will be deducted from your balance. Strike ID: {ctx.message.id}")
+                    else:
+                        await strike_channel.send(
+                            f"{user.mention}, {reason}. Strike ID: {ctx.message.id}")
+    elif amount <= 74999:
+        async with ctx.bot.mplus_pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                strike_channel = get(ctx.guild.text_channels, name='strike-channel')
+                now = datetime.now(timezone.utc).replace(tzinfo=None)
+                name, realm = await checkPers(user.id)
+                if name is None:
+                    if "-" not in user.nick:
+                        raise ValueError(f"Nickname format not correct for {user.display_name}")
+                    name, realm = user.nick.split("-")
+
+                if not amount.startswith('-'):
+                    command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
+                else:
+                    command_amount = convert_si_to_number(amount.replace(",", "."))
+
+                query = """
+                    INSERT INTO balance_ops
+                        (operation_id, date, name, realm, operation, command, reason, amount, author)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
+                await cursor.execute(query, val)
+                if command_amount != 0:
+                    await strike_channel.send(
+                        f"{user.mention}, {reason}. {abs(command_amount):,d}"
+                        f" will be deducted from your balance. Strike ID: {ctx.message.id}")
+                else:
+                    await strike_channel.send(
+                        f"{user.mention}, {reason}. Strike ID: {ctx.message.id}")
 
 
 @bot.command()
