@@ -956,7 +956,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1066,7 +1066,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("PvP", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1178,7 +1178,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("RBG", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1451,7 +1451,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("Torghast", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1560,7 +1560,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("PvP", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1671,7 +1671,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
                             val = ("RBG", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -1941,7 +1941,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -2049,7 +2049,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut) 
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("PvP", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -2160,7 +2160,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("RBG", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -2423,7 +2423,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("Torghast", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -2530,7 +2530,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("PvP", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -2641,7 +2641,7 @@ async def on_raw_reaction_add(payload):
                                 INSERT INTO various 
                                     (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
                             val = ("RBG", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
@@ -3948,6 +3948,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
             return m.content.lower() == "yes" and m.channel == ctx.channel and m_roles_check
 
         try:
+            s_msg_user = None
             msg = await bot.wait_for("message", timeout=60.0, check=check)
         except asyncio.TimeoutError:
             await ctx.send("Staff didn't confirm within 60 seconds, cancelling strike", 
@@ -3965,17 +3966,17 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                             raise ValueError(f"Nickname format not correct for {user.display_name}")
                         name, realm = user.nick.split("-")
 
-                    if not amount.startswith('-'):
+                    if amount >= 0:
                         command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
                     else:
                         command_amount = convert_si_to_number(amount.replace(",", "."))
 
                     query = """
                         INSERT INTO balance_ops
-                            (operation_id, date, name, realm, operation, command, reason, amount, author)
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            (operation_id, date, name, realm, operation, command, reason, amount, author, approved_by)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
-                    val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name)
+                    val = (ctx.message.id, now, name, realm, 'Deduction', 'Strike', reason, command_amount, ctx.message.author.display_name, s_msg_user.display_name)
                     await cursor.execute(query, val)
                     if command_amount != 0:
                         await strike_channel.send(
@@ -3995,7 +3996,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                         raise ValueError(f"Nickname format not correct for {user.display_name}")
                     name, realm = user.nick.split("-")
 
-                if not amount.startswith('-'):
+                if amount >= 0:
                     command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
                 else:
                     command_amount = convert_si_to_number(amount.replace(",", "."))
