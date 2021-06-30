@@ -2740,7 +2740,10 @@ async def on_message(message):
         roles_to_check = [AdvertiserA_role, AdvertiserA_trial_role, 
                 AdvertiserH_role, AdvertiserH_trial_role, Staff_role, 
                 Management_role, Nova_role, Moderator_role, CommunitySupport_role]
-        roles_check =  any(item in message.author.roles for item in roles_to_check)
+        if message.author == bot.user:
+            return
+        else:
+            roles_check =  any(item in message.author.roles for item in roles_to_check)
 
         if message.channel.name.startswith("post-run") and message.author.bot:
                 await message.add_reaction(u"\U0001F4B0")
@@ -3917,6 +3920,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
     """
     await ctx.message.delete()
     command_issuer = ctx.author
+    amount = convert_si_to_number(amount.replace(",", "."))
     Staff_role = get(ctx.guild.roles, id=815104630538895451)
     Management_role = get(ctx.guild.roles, name="Management")
     Nova_role = get(ctx.guild.roles, name="NOVA")
