@@ -2801,6 +2801,10 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(Pending_role)
                             await collection_embed.add_reaction(u"\u2705")
+                            collection_embed_pre = collection_embed.embeds[0].to_dict()
+                            collected_embed = discord.Embed.from_dict(collection_embed_pre)
+                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                            await collected_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
@@ -2843,6 +2847,10 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
                             await collection_embed.add_reaction(u"\u2705")
+                            collection_embed_pre = collection_embed.embeds[0].to_dict()
+                            collected_embed = discord.Embed.from_dict(collection_embed_pre)
+                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                            await collected_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
             
@@ -2878,6 +2886,10 @@ async def on_message(message):
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(Pending_role)
                         await collection_embed.add_reaction(u"\u2705")
+                        collection_embed_pre = collection_embed.embeds[0].to_dict()
+                        collected_embed = discord.Embed.from_dict(collection_embed_pre)
+                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                        await collected_embed.edit(embed=collection_embed_pre)
                 else:
                     await message.delete()
 
@@ -2913,6 +2925,10 @@ async def on_message(message):
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(PendingH_role)
                         await collection_embed.add_reaction(u"\u2705")
+                        collection_embed_pre = collection_embed.embeds[0].to_dict()
+                        collected_embed = discord.Embed.from_dict(collection_embed_pre)
+                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                        await collected_embed.edit(embed=collection_embed_pre)
                     
                 else:
                     await message.delete()
