@@ -3928,13 +3928,17 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
     if amount >= 75000 and not roles_check:
         confirmation_msg = await ctx.send(
             "**Attention!**\n"
-            f"{command_issuer.mention} You are striking for more than the allowed threshhold.\n"
+            f"{command_issuer.mention} You are striking the booster {user.mention} "
+            f"for the reason of {reason}"
+            "for more than the allowed threshhold.\n"
             "Please wait for Staff or above to confirm.\n"
             "`Staff or above type 'Yes', to accept the strike. You have 60 seconds to reply here.`"
         )
 
         def check(m):
-            s_msg_user = m.guild.get_member(m.author.id)
+            logger.info(m)
+            logger.info(m.author.id)
+            s_msg_user = ctx.guild.get_member(m.author.id)
             m_roles_check =  any(item in s_msg_user.roles for item in roles_to_check)
             return m.content.lower() == "yes" and m.channel == ctx.channel and m_roles_check
 
