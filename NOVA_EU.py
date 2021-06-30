@@ -681,7 +681,7 @@ async def on_raw_reaction_add(payload):
                         await message.add_reaction(u"\U0001F4AF")
                         coll_embed_pre = message.embeds[0].to_dict()
                         collected_embed = discord.Embed.from_dict(coll_embed_pre)
-                        collected_embed.set_footer(text=f"{now} Run id: {payload.message_id}")
+                        collected_embed.set_footer(text=f"{now} Collection id: {payload.message_id}")
                         await message.edit(embed=collected_embed)
         else:
             await channel.send("I could not find a fifth field. DM Sanfura")
