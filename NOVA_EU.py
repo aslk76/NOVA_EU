@@ -271,6 +271,7 @@ async def on_ready():
     if running is False:
         logger.info(f'{bot.user.name} with id {bot.user.id} and version {discord.__version__} has connected to Discord!')
         logger.info(GUILD_ID)
+        logger.info(bot.guilds)
         # guild = bot.get_guild(GUILD_ID)
         guild = get(bot.guilds, id=GUILD_ID)
         logger.info(guild)
