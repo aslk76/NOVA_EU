@@ -679,6 +679,10 @@ async def on_raw_reaction_add(payload):
                         val = (payload.message_id, collector, adv_final.nick, realm, amount, now)
                         await cursor.execute(query, val)
                         await message.add_reaction(u"\U0001F4AF")
+                        coll_embed_pre = message.embeds[0].to_dict()
+                        collected_embed = discord.Embed.from_dict(coll_embed_pre)
+                        collected_embed.set_footer(text=f"{now} Run id: {payload.message_id}")
+                        await message.edit(embed=collected_embed)
         else:
             await channel.send("I could not find a fifth field. DM Sanfura")
             # remove reaction, or whatever you want to do at this point
@@ -872,9 +876,7 @@ async def on_raw_reaction_add(payload):
                                             f"<:dps_nova:817571146907385876> {dps1_name} "
                                             f"<:dps_nova:817571146907385876> {dps2_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -982,9 +984,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1092,9 +1092,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1204,9 +1202,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1367,9 +1363,7 @@ async def on_raw_reaction_add(payload):
                                             f"<:dps_nova:817571146907385876> {dps1_name} "
                                             f"<:dps_nova:817571146907385876> {dps2_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1477,9 +1471,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1586,9 +1578,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1697,9 +1687,7 @@ async def on_raw_reaction_add(payload):
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                                 value=f"<:tank_nova:817571065207324703> {tank_name}", 
                                             inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1856,9 +1844,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name + " <:healer_nova:817571133066838016>" + healer_name + " <:dps_nova:817571146907385876>" + dps1_name + " <:dps_nova:817571146907385876>" + dps2_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -1964,9 +1950,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2072,9 +2056,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2183,9 +2165,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2337,9 +2317,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name + " <:healer_nova:817571133066838016>" + healer_name + " <:dps_nova:817571146907385876>" + dps1_name + " <:dps_nova:817571146907385876>" + dps2_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2446,9 +2424,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2553,9 +2529,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2664,9 +2638,7 @@ async def on_raw_reaction_add(payload):
                                             value=str(booster_cut), inline=True)
                             embed.add_field(name="**Boosters**<:horde_nova:817556558435188747>",
                                             value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
-                            embed.set_footer(text=f"{now} Run id: {payload.message_id}",
-                                            icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
-                                            "/e950645a963e4b34502c141b90c2463f.png")
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
@@ -2801,10 +2773,6 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(Pending_role)
                             await collection_embed.add_reaction(u"\u2705")
-                            collection_embed_pre = collection_embed.embeds[0].to_dict()
-                            collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                            await collection_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
@@ -2847,10 +2815,6 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
                             await collection_embed.add_reaction(u"\u2705")
-                            collection_embed_pre = collection_embed.embeds[0].to_dict()
-                            collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                            await collection_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
             
@@ -2886,10 +2850,6 @@ async def on_message(message):
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(Pending_role)
                         await collection_embed.add_reaction(u"\u2705")
-                        collection_embed_pre = collection_embed.embeds[0].to_dict()
-                        collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                        await collection_embed.edit(embed=collection_embed_pre)
                 else:
                     await message.delete()
 
@@ -2924,12 +2884,7 @@ async def on_message(message):
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(PendingH_role)
-                        await collection_embed.add_reaction(u"\u2705")
-                        collection_embed_pre = collection_embed.embeds[0].to_dict()
-                        collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
-                        await collection_embed.edit(embed=collection_embed_pre)
-                    
+                        await collection_embed.add_reaction(u"\u2705")               
                 else:
                     await message.delete()
 
