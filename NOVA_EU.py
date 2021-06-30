@@ -2671,7 +2671,9 @@ async def on_raw_reaction_add(payload):
 
 @bot.event
 async def on_message(message):
-    if (message.author.id == troll_target and (not message.channel.name.startswith('high-') or 
+    if message.author == bot.user and not isinstance(message.channel, discord.DMChannel):
+            return
+    elif (message.author.id == troll_target and (not message.channel.name.startswith('high-') or 
         not message.channel.name.startswith('build-'))):
         await message.delete()
     
@@ -2722,8 +2724,6 @@ async def on_message(message):
         await message.delete()
     
     else:
-        if message.author == bot.user and not isinstance(message.channel, discord.DMChannel):
-            return
         x = message.content.split("\n")
         AdvertiserA_role = get(message.guild.roles, name="Advertiser {A}")
         AdvertiserA_trial_role = get(message.guild.roles, name="Trial Advertiser {A}")
