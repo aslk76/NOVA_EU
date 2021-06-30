@@ -678,7 +678,7 @@ async def on_raw_reaction_add(payload):
                         """
                         val = (payload.message_id, collector, adv_final.nick, realm, amount, now)
                         await cursor.execute(query, val)
-                        await message.add_reaction(u"\U0001F5C4")
+                        await message.add_reaction(u"\U0001F4AF")
         else:
             await channel.send("I could not find a fifth field. DM Sanfura")
             # remove reaction, or whatever you want to do at this point
@@ -876,7 +876,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name == '🔵leveling-torghast-boost' and \
@@ -986,7 +986,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif (message.channel.id == 628318833953734676 or channel.name == '🔵pvp-build-grp') and \
@@ -1096,7 +1096,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name.startswith('🔵rbg-run-submit') and \
@@ -1208,7 +1208,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
             # endregion
             # region Horde build groups
@@ -1371,7 +1371,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name == '🔴leveling-torghast-boost' and \
@@ -1481,7 +1481,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif (message.channel.id == 714121043924484146 or channel.name == '🔴pvp-build-grp') and \
@@ -1590,7 +1590,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name.startswith('🔴rbg-run-submit') and \
@@ -1701,7 +1701,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
             # endregion
             
@@ -1860,7 +1860,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name == '🔵leveling-torghast-boost' and \
@@ -1968,7 +1968,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif (message.channel.id == 628318833953734676 or channel.name == '🔵pvp-build-grp') and \
@@ -2076,7 +2076,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name.startswith('🔵rbg-run-submit') and \
@@ -2187,7 +2187,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
             # endregion
 
@@ -2341,7 +2341,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name == '🔴leveling-torghast-boost' and \
@@ -2450,7 +2450,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif (message.channel.id == 714121043924484146 or channel.name == '🔴pvp-build-grp') and \
@@ -2557,7 +2557,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
 
             elif channel.name.startswith('🔴rbg-run-submit') and \
@@ -2668,7 +2668,7 @@ async def on_raw_reaction_add(payload):
                                             icon_url="https://cdn.discordapp.com/avatars/634917649335320586"
                                             "/e950645a963e4b34502c141b90c2463f.png")
                             log_channel = get(guild.text_channels, id=839436711367933982)
-                            await message.add_reaction(u"\U0001F5C4")
+                            await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
                 # endregion
 
@@ -2803,7 +2803,7 @@ async def on_message(message):
                             await collection_embed.add_reaction(u"\u2705")
                             collection_embed_pre = collection_embed.embeds[0].to_dict()
                             collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
                             await collected_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
@@ -2849,7 +2849,7 @@ async def on_message(message):
                             await collection_embed.add_reaction(u"\u2705")
                             collection_embed_pre = collection_embed.embeds[0].to_dict()
                             collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                            collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
                             await collected_embed.edit(embed=collection_embed_pre)
                     else:
                         await message.delete()
@@ -2888,7 +2888,7 @@ async def on_message(message):
                         await collection_embed.add_reaction(u"\u2705")
                         collection_embed_pre = collection_embed.embeds[0].to_dict()
                         collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
                         await collected_embed.edit(embed=collection_embed_pre)
                 else:
                     await message.delete()
@@ -2927,7 +2927,7 @@ async def on_message(message):
                         await collection_embed.add_reaction(u"\u2705")
                         collection_embed_pre = collection_embed.embeds[0].to_dict()
                         collected_embed = discord.Embed.from_dict(collection_embed_pre)
-                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collected_embed.id}")
+                        collected_embed.set_footer(text=f"{datetime.now(timezone.utc).replace(microsecond=0)} | Collection ID: {collection_embed.id}")
                         await collected_embed.edit(embed=collection_embed_pre)
                     
                 else:
@@ -3426,7 +3426,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
                     """
                     val = (collected_msg.id, user_final, adv, realm, pot, now)
                     await cursor.execute(query, val)
-                    await collected_msg.add_reaction(u"\U0001F5C4")
+                    await collected_msg.add_reaction(u"\U0001F4AF")
     
 
 @bot.command()
