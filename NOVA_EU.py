@@ -3967,9 +3967,9 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                         name, realm = user.nick.split("-")
 
                     if amount >= 0:
-                        command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
+                        command_amount = amount * -1
                     else:
-                        command_amount = convert_si_to_number(amount.replace(",", "."))
+                        command_amount = amount
 
                     query = """
                         INSERT INTO balance_ops
@@ -3997,9 +3997,9 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                     name, realm = user.nick.split("-")
 
                 if amount >= 0:
-                    command_amount = convert_si_to_number(amount.replace(",", ".")) * -1
+                    command_amount = amount * -1
                 else:
-                    command_amount = convert_si_to_number(amount.replace(",", "."))
+                    command_amount = amount
 
                 query = """
                     INSERT INTO balance_ops
