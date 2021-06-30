@@ -3955,6 +3955,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
             await confirmation_msg.delete()
         else:
             await confirmation_msg.delete()
+            await msg.delete()
             async with ctx.bot.mplus_pool.acquire() as conn:
                 async with conn.cursor() as cursor:
                     strike_channel = get(ctx.guild.text_channels, name='strike-channel')
