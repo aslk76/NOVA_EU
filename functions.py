@@ -75,21 +75,3 @@ async def get_embedded_fields(message=None, **kwargs):
         return
 
     return message.embeds[0] and message.embeds[0].to_dict()['fields']
-
-
-async def record_usage(ctx):
-    async with ctx.bot.ops_pool.acquire() as conn:
-        async with conn.cursor() as cursor:
-            query = """
-                INSERT INTO commands_log (command_author, command_name, command_args, command_date) 
-                VALUES (%s, %s, %s, %s)
-            """
-            if len(ctx.args[1:]) > 0 and ctx.args[0] is not None:
-                val = (ctx.author.display_name, ctx.command.name, ', '.join(map(str,ctx.args[1:])), ctx.message.created_at.replace(microsecond=0))
-                if len(ctx.kwargs) > 0:
-                    y = list(val)
-                    y[2] += " " + list(ctx.kwargs.values())[0]
-                    val = tuple(y)
-            else:
-                val = (ctx.author.display_name, ctx.command.name, "no arguments passed", ctx.message.created_at.replace(microsecond=0))
-            await cursor.execute(query, val)

@@ -21,7 +21,7 @@ from google.oauth2.service_account import Credentials
 
 
 from constants import *
-from functions import *
+from functions import convert_si_to_number, search_nested_alliance, search_nested_horde, checkPers, get_embedded_fields
 
 def get_creds():
     creds = Credentials.from_service_account_file("/NOVA/AutoBot/novabot-256801-85f98aa21edc.json")
@@ -109,6 +109,23 @@ class rio_conf:
     RAIDERIO_LINK = r"https:\/\/raider\.io\/characters\/eu\/(.+)\/([^?.]+)"
     base: str = "https://raider.io"
     role_threshhold: int = 1300
+
+async def record_usage(ctx):
+    async with ctx.bot.ops_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                INSERT INTO commands_log (command_author, command_name, command_args, command_date) 
+                VALUES (%s, %s, %s, %s)
+            """
+            if len(ctx.args[1:]) > 0 and ctx.args[0] is not None:
+                val = (ctx.author.display_name, ctx.command.name, ', '.join(map(str,ctx.args[1:])), ctx.message.created_at.replace(microsecond=0))
+                if len(ctx.kwargs) > 0:
+                    y = list(val)
+                    y[2] += " " + list(ctx.kwargs.values())[0]
+                    val = tuple(y)
+            else:
+                val = (ctx.author.display_name, ctx.command.name, "no arguments passed", ctx.message.created_at.replace(microsecond=0))
+            await cursor.execute(query, val)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
