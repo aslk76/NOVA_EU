@@ -269,9 +269,10 @@ async def on_command_error(ctx, error):
 async def on_ready():
     global boosters, running
     if running is False:
-        logger.info(f'{bot.user.name} {discord.__version__} has connected to Discord!')
+        logger.info(f'{bot.user.name} with id {bot.user.id} and version {discord.__version__} has connected to Discord!')
         logger.info(GUILD_ID)
-        guild = bot.get_guild(GUILD_ID)
+        # guild = bot.get_guild(GUILD_ID)
+        guild = get(bot.guilds, id=GUILD_ID)
         logger.info(guild)
         bot_log_channel = (get(guild.text_channels, id=817552283209433098) or 
                             get(guild.text_channels, name='bot-logs'))
