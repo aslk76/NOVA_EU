@@ -2722,6 +2722,8 @@ async def on_message(message):
         await message.delete()
     
     else:
+        if message.author == bot.user and not isinstance(message.channel, discord.DMChannel):
+            return
         x = message.content.split("\n")
         AdvertiserA_role = get(message.guild.roles, name="Advertiser {A}")
         AdvertiserA_trial_role = get(message.guild.roles, name="Trial Advertiser {A}")
@@ -2970,9 +2972,6 @@ async def on_message(message):
                 TeamLeader_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
                 message.channel.name.startswith('high-keys-gr')) and not roles_check):
                 await message.delete()
-                    
-        if message.author == bot.user and not isinstance(message.channel, discord.DMChannel):
-            return
         
         if len(message.mentions) > 0 and not isinstance(message.channel, discord.DMChannel):
             if message.mentions[0] == bot.user:
