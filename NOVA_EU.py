@@ -2791,7 +2791,7 @@ async def on_message(message):
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(Pending_role)
-                        else:
+                        """ else:
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2811,7 +2811,7 @@ async def on_message(message):
                             await collectors_tag_msg.clear_reactions()
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
-                            await message.author.add_roles(Pending_role)
+                            await message.author.add_roles(Pending_role) """
                     else:
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
@@ -2848,7 +2848,7 @@ async def on_message(message):
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
-                        else:
+                        """ else:
                             collectors_channel = get(message.guild.text_channels, name='collectors')
                             collectors_role = get(message.guild.roles, name="Collectors")
                             collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2868,7 +2868,7 @@ async def on_message(message):
                             await collectors_tag_msg.clear_reactions()
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
-                            await message.author.add_roles(PendingH_role)
+                            await message.author.add_roles(PendingH_role) """
                     else:
                         await message.delete()
             
@@ -2898,7 +2898,7 @@ async def on_message(message):
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(Pending_role)
-                    else:
+                    """ else:
                         collectors_channel = get(message.guild.text_channels, name='collectors')
                         collectors_role = get(message.guild.roles, name="Collectors")
                         collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2917,7 +2917,7 @@ async def on_message(message):
                         await collectors_tag_msg.clear_reactions()
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
-                        await message.author.add_roles(Pending_role)
+                        await message.author.add_roles(Pending_role) """
                 else:
                     await message.delete()
 
@@ -2947,7 +2947,7 @@ async def on_message(message):
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
                         await message.author.add_roles(Pending_role)
-                    else:
+                    """ else:
                         collectors_channel = get(message.guild.text_channels, name='collectors')
                         collectors_role = get(message.guild.roles, name="Collectors")
                         collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
@@ -2966,7 +2966,7 @@ async def on_message(message):
                         await collectors_tag_msg.clear_reactions()
                         await message.clear_reactions()
                         await message.add_reaction(u"\U0001F513")
-                        await message.author.add_roles(Pending_role)
+                        await message.author.add_roles(Pending_role) """
                 else:
                     await message.delete()
 
