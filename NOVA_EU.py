@@ -2740,10 +2740,8 @@ async def on_message(message):
         roles_to_check = [AdvertiserA_role, AdvertiserA_trial_role, 
                 AdvertiserH_role, AdvertiserH_trial_role, Staff_role, 
                 Management_role, Nova_role, Moderator_role, CommunitySupport_role]
-        if message.author == bot.user:
-            return
-        else:
-            roles_check =  any(item in message.author.roles for item in roles_to_check)
+        msg_user = message.guild.get_member(message.author.id)
+        roles_check =  any(item in msg_user.roles for item in roles_to_check)
 
         if message.channel.name.startswith("post-run") and message.author.bot:
                 await message.add_reaction(u"\U0001F4B0")
@@ -3936,7 +3934,8 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
         )
 
         def check(m):
-            m_roles_check =  any(item in m.author.roles for item in roles_to_check)
+            s_msg_user = m.guild.get_member(m.author.id)
+            m_roles_check =  any(item in s_msg_user.roles for item in roles_to_check)
             return m.content.lower() == "yes" and m.channel == ctx.channel and m_roles_check
 
         try:
