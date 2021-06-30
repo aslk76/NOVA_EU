@@ -856,11 +856,11 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -966,11 +966,11 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("PvP", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1072,17 +1072,17 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_nick.split("-")
 
 
-                        adv_cut = int(pot * 0.10)
-                        booster_cut = int(pot * 0.8)
+                        adv_cut = int(pot * 0.13)
+                        booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("RBG", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1351,11 +1351,11 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Torghast", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1460,11 +1460,11 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("PvP", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1565,17 +1565,17 @@ async def on_raw_reaction_add(payload):
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
 
-                        adv_cut = int(pot * 0.10)
-                        booster_cut = int(pot * 0.8)
+                        adv_cut = int(pot * 0.13)
+                        booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                                 """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("RBG", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1839,11 +1839,13 @@ async def on_raw_reaction_add(payload):
                         booster_cut = int(pot * 0.7)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -1945,11 +1947,13 @@ async def on_raw_reaction_add(payload):
                         booster_cut = int(pot * 0.7)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut) 
-                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("PvP", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2047,17 +2051,20 @@ async def on_raw_reaction_add(payload):
                         #########################################################
                         ##############################################
                         if y[1].startswith('<:house_nova:'):
-                            adv_cut = int(pot * 0.05)
+                            adv_cut = int(pot * 0.07)
                         elif y[1].startswith('<:inhouse_nova:'):
-                            adv_cut = int(pot * 0)
-                        booster_cut = int(pot * 0.8)
+                            adv_cut = int(pot * 0.03)
+                        
+                        booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("RBG", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2314,11 +2321,13 @@ async def on_raw_reaction_add(payload):
                         booster_cut = int(pot * 0.7)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Torghast", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2419,11 +2428,13 @@ async def on_raw_reaction_add(payload):
                         booster_cut = int(pot * 0.7)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("PvP", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
@@ -2521,17 +2532,20 @@ async def on_raw_reaction_add(payload):
                         #########################################################
                         ##############################################
                         if y[1].startswith('<:house_nova:'):
-                            adv_cut = int(pot * 0.05)
+                            adv_cut = int(pot * 0.07)
                         elif y[1].startswith('<:inhouse_nova:'):
-                            adv_cut = int(pot * 0.00)
-                        booster_cut = int(pot * 0.8)
+                            adv_cut = int(pot * 0.03)
+                        
+                        booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
-                            query = """INSERT INTO various (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                            query = """
+                                INSERT INTO various 
+                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
-                                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("RBG", "Horde", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
