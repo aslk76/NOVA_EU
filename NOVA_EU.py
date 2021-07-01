@@ -3740,7 +3740,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
             if realm_final not in realm_name:
                 em = discord.Embed(title="Wrong realm name",
                     description = 
-                        f"This realm name {boost_realm} is not supported"
+                        f"This realm name {realm_final} is not supported"
                         ", you can check correct correct realm names "
                         "[here](https://docs.google.com/spreadsheets/d/1u0l82EmuDLIw4D6QFsFi0LKrto6yZ9M0WwDPdFYfUGk/edit#gid=0)",
                     color=discord.Color.red())
