@@ -3691,7 +3691,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
        Please make sure you copy paste the correct realm name
     """
     await ctx.message.delete()
-    realm_pre = boost_realm
+    realm_pre = str(boost_realm)
     if realm_pre.startswith("Pozzo"):
         realm_final = "Pozzo"
     elif realm_pre == "Dunmodr":
