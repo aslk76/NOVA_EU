@@ -3219,7 +3219,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         for i in raid_names:
             name, realm, amount = i.split("\t")
             raid_vals.append([now, name, realm, amount.replace(",","")])
-        async with ctx.bot.pool.acquire() as conn:
+        async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
@@ -3236,7 +3236,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         for i in raid_names:
             name, realm, amount = i.split("\t")
             raid_vals.append([now, name, realm, amount.replace(",","")])
-        async with ctx.bot.pool.acquire() as conn:
+        async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
@@ -3735,7 +3735,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
     else:
         realm_final = realm_pre
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         if boost_type == "mplus":
             if realm_final not in realm_name:
                 em = discord.Embed(title="Wrong realm name",
@@ -4422,7 +4422,7 @@ async def ExportNegative(ctx):
     """To Export last week negative balance.
     """
     await ctx.message.delete()
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT booster, cur_balance, pre_balance FROM ov_creds 
@@ -4451,7 +4451,7 @@ async def TestExpNeg(ctx):
     """To Export last week negative balance.
     """
     await ctx.message.delete()
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT booster, cur_balance, pre_balance 
