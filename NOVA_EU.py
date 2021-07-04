@@ -3693,56 +3693,57 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
        Please make sure you copy paste the correct realm name
     """
     await ctx.message.delete()
-    # realm_pre = boost_realm
-    # if realm_pre.startswith("Pozzo"):
-    #     realm_final = "Pozzo"
-    # elif realm_pre == "Dunmodr":
-    #     realm_final = "DunModr"
-    # elif realm_pre.startswith("Twisting"):
-    #     realm_final = "TwistingNether"
-    # elif realm_pre.startswith("Tarren"):
-    #     realm_final = "TarrenMill"
-    # elif realm_pre == "Colinaspardas":
-    #     realm_final = "ColinasPardas"
-    # elif realm_pre == "Burninglegion":
-    #     realm_final = "BurningLegion"
-    # elif realm_pre == "Themaelstrom":
-    #     realm_final = "TheMaelstrom"
-    # elif realm_pre == "Defiasbrotherhood":
-    #     realm_final = "Defias"
-    # elif realm_pre == "Shatteredhand":
-    #     realm_final = "Shattered"
-    # elif realm_pre.startswith("Argent"):
-    #     realm_final = "ArgentDawn"
-    # elif realm_pre == "Burningblade":
-    #     realm_final = "BurningBlade"
-    # elif realm_pre.startswith("Aggra"):
-    #     realm_final = "Aggra"
-    # elif realm_pre.startswith("Chamberof"):
-    #     realm_final = "ChamberofAspects"
-    # elif realm_pre.startswith("Emerald"):
-    #     realm_final = "EmeraldDream"
-    # elif realm_pre.startswith("Grim"):
-    #     realm_final = "GrimBatol"
-    # elif realm_pre.startswith("Quel"):
-    #     realm_final = "Quel'Thalas"
-    # elif realm_pre.startswith("Mal'ganis"):
-    #     realm_final = "Mal'Ganis"
-    # elif realm_pre.startswith("Azjol"):
-    #     realm_final = "AzjolNerub"
-    # elif realm_pre.startswith("Los"):
-    #     realm_final = "LosErrantes"
-    # elif realm_pre.startswith("Twilight"):
-    #     realm_final = "Twilight'sHammer"
-    # else:
-    #     realm_final = realm_pre
+    realm_pre = boost_realm.split(" ")[0]
+    realm_faction = boost_realm.split(" ")[1]
+    if realm_pre.startswith("Pozzo"):
+        realm_final = f"Pozzo{realm_faction}"
+    elif realm_pre == "Dunmodr":
+        realm_final = "DunModr{realm_faction}"
+    elif realm_pre.startswith("Twisting"):
+        realm_final = "TwistingNether{realm_faction}"
+    elif realm_pre.startswith("Tarren"):
+        realm_final = "TarrenMill{realm_faction}"
+    elif realm_pre == "Colinaspardas":
+        realm_final = "ColinasPardas{realm_faction}"
+    elif realm_pre == "Burninglegion":
+        realm_final = "BurningLegion{realm_faction}"
+    elif realm_pre == "Themaelstrom":
+        realm_final = "TheMaelstrom{realm_faction}"
+    elif realm_pre == "Defiasbrotherhood":
+        realm_final = "Defias{realm_faction}"
+    elif realm_pre == "Shatteredhand":
+        realm_final = "Shattered{realm_faction}"
+    elif realm_pre.startswith("Argent"):
+        realm_final = "ArgentDawn{realm_faction}"
+    elif realm_pre == "Burningblade":
+        realm_final = "BurningBlade{realm_faction}"
+    elif realm_pre.startswith("Aggra"):
+        realm_final = "Aggra{realm_faction}"
+    elif realm_pre.startswith("Chamberof"):
+        realm_final = "ChamberofAspects{realm_faction}"
+    elif realm_pre.startswith("Emerald"):
+        realm_final = "EmeraldDream{realm_faction}"
+    elif realm_pre.startswith("Grim"):
+        realm_final = "GrimBatol{realm_faction}"
+    elif realm_pre.startswith("Quel"):
+        realm_final = "Quel'Thalas{realm_faction}"
+    elif realm_pre.startswith("Mal'ganis"):
+        realm_final = "Mal'Ganis{realm_faction}"
+    elif realm_pre.startswith("Azjol"):
+        realm_final = "AzjolNerub{realm_faction}"
+    elif realm_pre.startswith("Los"):
+        realm_final = "LosErrantes{realm_faction}"
+    elif realm_pre.startswith("Twilight"):
+        realm_final = "Twilight'sHammer{realm_faction}"
+    else:
+        realm_final = realm_pre
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
     async with ctx.bot.mplus_pool.acquire() as conn:
         if boost_type == "mplus":
-            if boost_realm not in realm_name:
+            if realm_final not in realm_name:
                 em = discord.Embed(title="Wrong realm name",
                     description = 
-                        f"This realm name {boost_realm} is not supported"
+                        f"This realm name {realm_final} is not supported"
                         ", you can check correct correct realm names "
                         "[here](https://docs.google.com/spreadsheets/d/1u0l82EmuDLIw4D6QFsFi0LKrto6yZ9M0WwDPdFYfUGk/edit#gid=0)",
                     color=discord.Color.red())
@@ -3767,12 +3768,12 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                             (previous_realm,) = await cursor.fetchone()
 
                             if previous_realm.lower() == boost_realm.lower():
-                                await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
+                                await ctx.author.send(f"The realm with the name **{realm_final}** is already changed")
                             else:
                                 query  = (f"UPDATE m_plus SET "
                                             f"boost_realm    = %(boost_realm)s "
                                             f"WHERE boost_id = %(boost_id)s")
-                                val = {"boost_realm": boost_realm, "boost_id": boostid}
+                                val = {"boost_realm": realm_final, "boost_id": boostid}
                                 await cursor.execute(query, val)
                                 em = discord.Embed(title="MPlus Realm Changed",
                                     description=
@@ -3789,7 +3790,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
             if realm_final not in realm_name:
                 em = discord.Embed(title="Wrong realm name",
                     description = 
-                        f"This realm name {boost_realm} is not supported"
+                        f"This realm name {realm_final} is not supported"
                         ", you can check correct correct realm names "
                         "[here](https://docs.google.com/spreadsheets/d/1u0l82EmuDLIw4D6QFsFi0LKrto6yZ9M0WwDPdFYfUGk/edit#gid=0)",
                     color=discord.Color.red())
@@ -3813,14 +3814,14 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
                             await cursor.execute(query, val)
                             (previous_realm,) = await cursor.fetchone()
                             if previous_realm.lower() == boost_realm.lower():
-                                await ctx.author.send(f"The realm with the name {boost_realm} is already changed")
+                                await ctx.author.send(f"The realm with the name **{realm_final}** is already changed")
                             else:
                                 query  = (f"UPDATE various SET "
                                             f"boost_realm    = %(boost_realm)s "
                                             f"WHERE boost_id = %(boost_id)s")
-                                val = {"boost_realm": boost_realm, "boost_id": boostid}
+                                val = {"boost_realm": realm_final, "boost_id": boostid}
                                 await cursor.execute(query, val)
-                                em = discord.Embed(title="Various Booster Changed",
+                                em = discord.Embed(title="Various Boost Realm Changed",
                                     description=
                                         f"The Realm for run with ID {boostid} "
                                         f"was edited from **{previous_realm}** to **{realm_final}** "
