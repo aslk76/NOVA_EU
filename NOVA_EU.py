@@ -108,7 +108,9 @@ logger.addHandler(handler)
 class rio_conf:
     RAIDERIO_LINK = r"https:\/\/raider\.io\/characters\/eu\/(.+)\/([^?.]+)"
     base: str = "https://raider.io"
-    role_threshhold: int = 1300
+    role_threshhold: int = 1800
+    highkey_threshhold: int = 2100
+    s2_highkey_threshhold: int = 2500
 
 # region Functions
 async def record_usage(ctx):
@@ -4122,6 +4124,7 @@ async def Crossfaction(ctx, *, rio_link):
             json_str = json.dumps(response.json())
             resp = json.loads(json_str)
             faction = resp["faction"]
+            rio_name = resp["name"]
             score = resp["mythic_plus_scores_by_season"][0]["scores"]["all"]
             if score < rio_conf.role_threshhold:
                 await ctx.send(
@@ -4191,11 +4194,11 @@ async def Crossfaction(ctx, *, rio_link):
                                         VALUES (%s, %s, %s)
                                 """
                                 if ctx.author.nick.endswith("[H]"):
-                                    alliance_name = f"{char}-{realm_final} [{faction_short}]"
+                                    alliance_name = f"{rio_name}-{realm_final} [{faction_short}]"
                                     horde_name = ctx.author.nick
                                 if ctx.author.nick.endswith("[A]"):
                                     alliance_name = ctx.author.nick
-                                    horde_name = f"{char}-{realm_final} [{faction_short}]"
+                                    horde_name = f"{rio_name}-{realm_final} [{faction_short}]"
                                 else:
                                     embed_bot_log = discord.Embed(
                                         title=f"{ctx.bot.user.name} Error Log.",
@@ -4215,7 +4218,7 @@ async def Crossfaction(ctx, *, rio_link):
                                 val = (ctx.author.id, alliance_name, horde_name)
                                 await cursor.execute(query, val)
 
-                                if score >= 1600:
+                                if score >= rio_conf.highkey_threshhold:
                                     if HighKeyBoosterA in ctx.author.roles:
                                         await ctx.author.add_roles(HighKeyBoosterH)
                                     if HighKeyBoosterH in ctx.author.roles:
