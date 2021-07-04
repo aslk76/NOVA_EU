@@ -3221,7 +3221,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         for i in raid_names:
             name, realm, amount = i.split("\t")
             raid_vals.append([now, name, realm, amount.replace(",","")])
-        async with ctx.bot.pool.acquire() as conn:
+        async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
@@ -3238,7 +3238,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         for i in raid_names:
             name, realm, amount = i.split("\t")
             raid_vals.append([now, name, realm, amount.replace(",","")])
-        async with ctx.bot.pool.acquire() as conn:
+        async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
@@ -3693,53 +3693,53 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
        Please make sure you copy paste the correct realm name
     """
     await ctx.message.delete()
-    realm_pre = boost_realm.title()
-    if realm_pre.startswith("Pozzo"):
-        realm_final = "Pozzo"
-    elif realm_pre == "Dunmodr":
-        realm_final = "DunModr"
-    elif realm_pre.startswith("Twisting"):
-        realm_final = "TwistingNether"
-    elif realm_pre.startswith("Tarren"):
-        realm_final = "TarrenMill"
-    elif realm_pre == "Colinaspardas":
-        realm_final = "ColinasPardas"
-    elif realm_pre == "Burninglegion":
-        realm_final = "BurningLegion"
-    elif realm_pre == "Themaelstrom":
-        realm_final = "TheMaelstrom"
-    elif realm_pre == "Defiasbrotherhood":
-        realm_final = "Defias"
-    elif realm_pre == "Shatteredhand":
-        realm_final = "Shattered"
-    elif realm_pre.startswith("Argent"):
-        realm_final = "ArgentDawn"
-    elif realm_pre == "Burningblade":
-        realm_final = "BurningBlade"
-    elif realm_pre.startswith("Aggra"):
-        realm_final = "Aggra"
-    elif realm_pre.startswith("Chamberof"):
-        realm_final = "ChamberofAspects"
-    elif realm_pre.startswith("Emerald"):
-        realm_final = "EmeraldDream"
-    elif realm_pre.startswith("Grim"):
-        realm_final = "GrimBatol"
-    elif realm_pre.startswith("Quel"):
-        realm_final = "Quel'Thalas"
-    elif realm_pre.startswith("Mal'ganis"):
-        realm_final = "Mal'Ganis"
-    elif realm_pre.startswith("Azjol"):
-        realm_final = "AzjolNerub"
-    elif realm_pre.startswith("Los"):
-        realm_final = "LosErrantes"
-    elif realm_pre.startswith("Twilight"):
-        realm_final = "Twilight'sHammer"
-    else:
-        realm_final = realm_pre
+    # realm_pre = boost_realm
+    # if realm_pre.startswith("Pozzo"):
+    #     realm_final = "Pozzo"
+    # elif realm_pre == "Dunmodr":
+    #     realm_final = "DunModr"
+    # elif realm_pre.startswith("Twisting"):
+    #     realm_final = "TwistingNether"
+    # elif realm_pre.startswith("Tarren"):
+    #     realm_final = "TarrenMill"
+    # elif realm_pre == "Colinaspardas":
+    #     realm_final = "ColinasPardas"
+    # elif realm_pre == "Burninglegion":
+    #     realm_final = "BurningLegion"
+    # elif realm_pre == "Themaelstrom":
+    #     realm_final = "TheMaelstrom"
+    # elif realm_pre == "Defiasbrotherhood":
+    #     realm_final = "Defias"
+    # elif realm_pre == "Shatteredhand":
+    #     realm_final = "Shattered"
+    # elif realm_pre.startswith("Argent"):
+    #     realm_final = "ArgentDawn"
+    # elif realm_pre == "Burningblade":
+    #     realm_final = "BurningBlade"
+    # elif realm_pre.startswith("Aggra"):
+    #     realm_final = "Aggra"
+    # elif realm_pre.startswith("Chamberof"):
+    #     realm_final = "ChamberofAspects"
+    # elif realm_pre.startswith("Emerald"):
+    #     realm_final = "EmeraldDream"
+    # elif realm_pre.startswith("Grim"):
+    #     realm_final = "GrimBatol"
+    # elif realm_pre.startswith("Quel"):
+    #     realm_final = "Quel'Thalas"
+    # elif realm_pre.startswith("Mal'ganis"):
+    #     realm_final = "Mal'Ganis"
+    # elif realm_pre.startswith("Azjol"):
+    #     realm_final = "AzjolNerub"
+    # elif realm_pre.startswith("Los"):
+    #     realm_final = "LosErrantes"
+    # elif realm_pre.startswith("Twilight"):
+    #     realm_final = "Twilight'sHammer"
+    # else:
+    #     realm_final = realm_pre
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         if boost_type == "mplus":
-            if realm_final not in realm_name:
+            if boost_realm not in realm_name:
                 em = discord.Embed(title="Wrong realm name",
                     description = 
                         f"This realm name {boost_realm} is not supported"
@@ -4425,7 +4425,7 @@ async def ExportNegative(ctx):
     """To Export last week negative balance.
     """
     await ctx.message.delete()
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT booster, cur_balance, pre_balance FROM ov_creds 
@@ -4454,7 +4454,7 @@ async def TestExpNeg(ctx):
     """To Export last week negative balance.
     """
     await ctx.message.delete()
-    async with ctx.bot.pool.acquire() as conn:
+    async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
                 SELECT booster, cur_balance, pre_balance 
