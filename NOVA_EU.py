@@ -3974,6 +3974,42 @@ async def AddBalance(ctx, user: discord.Member, amount, *, reason):
             await ctx.author.send(embed=em)
 
 
+@bot.command(aliases=['AddBalS', 'ABS','AddBalSpec'])
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Moderator', 'NOVA')
+async def AddBalanceSpecial(ctx, user, amount, *, reason):
+    """To add balance to anyone.
+       example: !AddBalanceSpecial "Sanfura-TarrenMill [H]" 100K being awesome
+       Please make sure you copy paste the correct realm name
+    """
+    await ctx.message.delete()
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        track_channel = get(ctx.guild.text_channels, id=840733014622601226)
+        now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+        
+        if "-" not in user:
+            raise ValueError(f"Nickname format not correct for {user}")
+        name, realm = user.split("-")
+
+        async with conn.cursor() as cursor:
+            command_add = convert_si_to_number(amount.replace(",", "."))
+            query = """
+                INSERT INTO balance_ops 
+                    (operation_id, date, name, realm, operation, command, reason, amount, author) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            val = (ctx.message.id, now, name, realm, 'Add', 'AddBalance', reason, command_add, ctx.message.author.display_name)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Balance Added",
+                                description=
+                                    f"**{user}** got added **{command_add:,d}** gold because "
+                                    f"**{reason}** by {ctx.message.author.mention}."
+                                    f"Add ID: {ctx.message.id}",
+                                color=discord.Color.orange())
+            await track_channel.send(embed=em)
+            await ctx.author.send(embed=em)
+
+
 @bot.command()
 @commands.after_invoke(record_usage)
 @commands.has_any_role('Staff', 'Management')
