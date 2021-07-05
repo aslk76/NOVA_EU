@@ -317,7 +317,7 @@ async def AddDoubleAgent(ctx, discord_id :int, alliance_name, horde_name):
 
 @tasks.loop(minutes=10)
 async def SuspensionCheck_loop():
-    guild = bot.get_guild(GUILD_ID)
+    guild = get(bot.guilds, id=815104630433775616)
     suspensionA_channel = get(guild.text_channels, name='suspension')
     suspensionH_channel = get(guild.text_channels, name='suspension-status')
     HighKeyBoosterA_role = get(guild.roles, name='High Key Booster [A]')
@@ -326,13 +326,13 @@ async def SuspensionCheck_loop():
     MBoosterH_role = get(guild.roles, name='M+ Booster [H]')
     SuspendedA_role = get(guild.roles, name='Suspended')
     SuspendedH_role = get(guild.roles, name='Suspended {H}')
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     async with bot.ops_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()        
             for x in myresult:
-                if (x[4] < 
-                    datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)):
+                if x[4] < now:
                     member_fromDB = guild.get_member(x[0])
                     if x[1] == "High Key Booster [A]":
                         await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
