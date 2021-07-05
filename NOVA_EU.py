@@ -51,7 +51,7 @@ troll_target3 = 0
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-GUILD_ID: int = os.getenv('NOVA_ID')
+# GUILD_ID: int = os.getenv('NOVA_ID')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
 DB_USER = os.getenv('DB_USER')
@@ -215,7 +215,7 @@ async def on_error(event, *args, **kwargs):
     content = f'Ignoring exception in {event}\n{s}'
     logger.error(content)
     logger.error(f"========On {event} error END=========")
-    guild = bot.get_guild(GUILD_ID)
+    guild = get(bot.guilds, id=815104630433775616)
     bot_log_channel = get(guild.text_channels, name='bot-logs')
     embed_bot_log = discord.Embed(
         title=f"{bot.user.name} Error Log.", 
