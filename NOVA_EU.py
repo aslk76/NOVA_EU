@@ -331,7 +331,7 @@ async def SuspensionCheck_loop():
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()        
             for x in myresult:
-                if (datetime.strptime(x[4], '%Y-%m-%d %H:%M:%S.%f') < 
+                if (x[4] < 
                     datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)):
                     member_fromDB = guild.get_member(x[0])
                     if x[1] == "High Key Booster [A]":
@@ -492,7 +492,7 @@ async def SuspensionCheck(ctx):
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()
             for x in myresult:
-                if datetime.strptime(x[4], '%Y-%m-%d %H:%M:%S') < now:
+                if x[4] < now:
                     member_fromDB = ctx.guild.get_member(x[0])
                     if x[1] == "High Key Booster [A]":
                         await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
@@ -2687,7 +2687,7 @@ async def on_message(message):
     
     elif isinstance(message.channel, discord.DMChannel):
         if not message.author.bot:
-            guild = get(bot.guilds, id=GUILD_ID)
+            guild = get(bot.guilds, id=815104630433775616)
             bot_dms__channel = get(guild.text_channels, name='bot-dms-test')
             await bot_dms__channel.send(f"{message.created_at} -- {message.author.name} sent -- `{message.content}`")
             if len(message.attachments) >= 1:
