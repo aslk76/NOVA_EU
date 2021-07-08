@@ -3506,7 +3506,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
     await ctx.message.delete()
     amount = convert_si_to_number(amount.replace(",", "."))
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
-    async with ctx.bot.mplus_pool.acquire() as conn:
+    async with bot.mplus_pool.acquire() as conn:
         if boost_type == "mplus":
             if booster not in ['adv','tank','healer','dps1','dps2']:
                 await ctx.author.send("Check your input regarding the role."
