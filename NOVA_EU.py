@@ -258,6 +258,7 @@ async def on_command_error(ctx, error):
     logger.error(f"========on {ctx.command.name} START=======")
     logger.error(f"traceback: {traceback.print_exception(type(error), error, error.__traceback__)}")
     logger.error(f"error: {error}")
+    logger.error(f"line: {traceback.TracebackException.lineno}")
     logger.error(f"========on {ctx.command.name} END=========")
     bot_log_channel = get(ctx.guild.text_channels, name='bot-logs')
     embed_bot_log = discord.Embed(
