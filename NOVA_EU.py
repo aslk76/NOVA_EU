@@ -4010,7 +4010,48 @@ async def AddBalanceSpecial(ctx, user, amount, *, reason):
             await ctx.author.send(embed=em)
 
 
-@bot.command()
+@bot.command(aliases=['DedBalS', 'DeductSpec','DBS'])
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Moderator', 'NOVA')
+async def DeductBalanceSpecial(ctx, user, amount: str, *, reason: str):
+    """To deduct balance from anyone.
+       example: !DeductBalanceSpecial "Sanfura-TarrenMill [H]" 100K in house boost payment
+    """
+    await ctx.message.delete()
+    balance_channel = get(ctx.guild.text_channels, id=840733014622601226)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        
+        if "-" not in user:
+            raise ValueError(f"Nickname format not correct for {user}")
+        name, realm = user.split("-")
+
+        async with conn.cursor() as cursor:
+            if not amount.startswith('-'):
+                command_deduct = convert_si_to_number(amount.replace(",", ".")) * -1
+            else:
+                command_deduct = convert_si_to_number(amount.replace(",", "."))
+
+            query = """
+                INSERT INTO balance_ops 
+                    (operation_id, date, name, realm, operation, command, reason, amount, author) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+
+            val = (ctx.message.id, now, name, realm, 'Deduction', 'RemoveBalance', 
+                reason, command_deduct, ctx.message.author.display_name)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Balance Deducted",
+                                description=
+                                    f"**{user}** got deducted **{command_deduct:,d}** gold because "
+                                    f"**{reason}** by {ctx.message.author.mention}."
+                                    f"Deduct ID: {ctx.message.id}",
+                                color=discord.Color.orange())
+            await balance_channel.send(embed=em)
+            await ctx.author.send(embed=em)
+
+
+@bot.command(aliases=['Ded', 'Deduct'])
 @commands.after_invoke(record_usage)
 @commands.has_any_role('Staff', 'Management')
 async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
