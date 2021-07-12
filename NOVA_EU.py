@@ -256,7 +256,10 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=em, delete_after=5)
     error = getattr(error, 'original', error)
     logger.error(f"========on {ctx.command.name} START=======")
-    logger.error(f"traceback: {traceback.print_exception(type(error), error, error.__traceback__)}")
+    # logger.error(f"traceback: {traceback.print_exception(type(error), error, error.__traceback__)}")
+    tt = traceback.format_exception(type(error), error, error.__traceback__)
+    logger.error(tt[0])
+    logger.error(tt[1:])
     logger.error(f"error: {error}")
     logger.error(f"========on {ctx.command.name} END=========")
     bot_log_channel = get(ctx.guild.text_channels, name='bot-logs')
@@ -494,6 +497,7 @@ async def SuspensionCheck(ctx):
             for x in myresult:
                 if x[4] < now:
                     member_fromDB = ctx.guild.get_member(x[0])
+                    logger.info(f"Checking member: {member_fromDB.display_name}")
                     if x[1] == "High Key Booster [A]":
                         await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
                         await member_fromDB.remove_roles(SuspendedA_role)
@@ -3901,7 +3905,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                     await cursor.execute(query, val)
                     if command_amount != 0:
                         await strike_channel.send(
-                            f"{user.mention}, {reason}. {abs(command_amount):,d}"
+                            f"{user.mention}, ```{reason}```. {abs(command_amount):,d}"
                             f" will be deducted from your balance. Strike ID: {ctx.message.id}")
                     else:
                         await strike_channel.send(
@@ -3931,7 +3935,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                 await cursor.execute(query, val)
                 if command_amount != 0:
                     await strike_channel.send(
-                        f"{user.mention}, {reason}. {abs(command_amount):,d}"
+                        f"{user.mention}, ```{reason}```. {abs(command_amount):,d}"
                         f" will be deducted from your balance. Strike ID: {ctx.message.id}")
                 else:
                     await strike_channel.send(
