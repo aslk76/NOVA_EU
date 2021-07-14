@@ -2897,6 +2897,7 @@ async def on_message(message):
         if len(x) == 1:
             if ((not x[0].lower().startswith('dps') and not x[0].lower().startswith('tank') and 
                 not x[0].lower().startswith('heal') and not (x[0].lower().startswith('team take') and 
+                TeamLeader_role in message.author.roles) and not (x[0].lower().startswith('guild take') and
                 TeamLeader_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
                 message.channel.name.startswith('high-keys-gr')) and not roles_check):
                 await message.delete()
