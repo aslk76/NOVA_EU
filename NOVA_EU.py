@@ -2623,7 +2623,7 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
