@@ -3319,7 +3319,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
                         UPDATE various SET
                             boost_pot  = %(amount)s,
                             adv_cut    = @adv_cut * %(amount)s,
-                            tank_cut   = %(amount)s * 0.175
+                            tank_cut   = %(amount)s * (tank_cut/boost_pot)
 
                         WHERE boost_id = %(boost_id)s
                     """
