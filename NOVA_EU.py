@@ -4376,7 +4376,7 @@ async def balance_command(ctx, *, target_booster=None):
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
     if (ctx.message.channel.id != 815104636251275312 and 
-        (Moderator_role not in ctx.author.roles or Management_role not in ctx.author.roles)):
+        ((Moderator_role not in ctx.author.roles) or (Management_role not in ctx.author.roles))):
         return await ctx.message.channel.send(
             f"Head to {balance_check_channel.mention} to issue the command", 
             delete_after=5)
