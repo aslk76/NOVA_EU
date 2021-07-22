@@ -2901,6 +2901,8 @@ async def on_message(message):
                 TeamLeader_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
                 message.channel.name.startswith('high-keys-gr')) and not roles_check):
                 await message.delete()
+            elif 'no key' in x[0].lower() and '-key-request' in message.channel.name and not roles_check:
+                await message.delete()
         
         if len(message.mentions) > 0 and not isinstance(message.channel, discord.DMChannel):
             if message.mentions[0] == bot.user:
