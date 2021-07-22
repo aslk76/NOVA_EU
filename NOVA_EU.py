@@ -4363,6 +4363,7 @@ async def balance_command(ctx, *, target_booster=None):
     await ctx.message.delete()
     Moderator_role = get(ctx.guild.roles, name="Moderator")
     Management_role = get(ctx.guild.roles, name="Management")
+    Staff_role = get(ctx.guild.roles, name="Staff")
     if target_booster is None:
         name, realm = await checkPers(ctx.author.id)
         if name is None:
@@ -4370,7 +4371,7 @@ async def balance_command(ctx, *, target_booster=None):
 
         balance_name = f"{name}-{realm}"
     else:
-        if Moderator_role in ctx.author.roles or Management_role in ctx.author.roles:
+        if Moderator_role in ctx.author.roles or Management_role in ctx.author.roles or Staff_role in ctx.author.roles:
             balance_name = target_booster
             ctx.command.reset_cooldown(ctx)
         else:
@@ -4378,7 +4379,7 @@ async def balance_command(ctx, *, target_booster=None):
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
     if (ctx.message.channel.id != 815104636251275312 and 
-        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles)):
+        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.authour.roles)):
         return await ctx.message.channel.send(
             f"Head to {balance_check_channel.mention} to issue the command", 
             delete_after=5)
