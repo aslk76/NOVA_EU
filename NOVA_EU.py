@@ -2623,7 +2623,7 @@ async def on_raw_reaction_add(payload):
                         async with conn.cursor() as cursor:
                             query = """
                                 INSERT INTO various 
-                                    (boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
@@ -2719,6 +2719,7 @@ async def on_message(message):
         Nova_role = get(message.guild.roles, name="NOVA")
         Moderator_role = get(message.guild.roles, name="Moderator")
         TeamLeader_role = get(message.guild.roles, name="Team Leader")
+        MPlusGuild_role = get(message.guild.roles, name="M+ Guild Team")
         roles_to_check = [AdvertiserA_role, AdvertiserA_trial_role, 
                 AdvertiserH_role, AdvertiserH_trial_role, Staff_role, 
                 Management_role, Nova_role, Moderator_role, CommunitySupport_role]
@@ -2898,7 +2899,7 @@ async def on_message(message):
             if ((not x[0].lower().startswith('dps') and not x[0].lower().startswith('tank') and 
                 not x[0].lower().startswith('heal') and not (x[0].lower().startswith('team take') and 
                 TeamLeader_role in message.author.roles) and not (x[0].lower().startswith('guild take') and
-                TeamLeader_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
+                MPlusGuild_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
                 message.channel.name.startswith('high-keys-gr')) and not roles_check):
                 await message.delete()
             elif 'no key' in x[0].lower() and '-key-request' in message.channel.name and not roles_check:
@@ -3320,7 +3321,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
                         UPDATE various SET
                             boost_pot  = %(amount)s,
                             adv_cut    = @adv_cut * %(amount)s,
-                            tank_cut   = %(amount)s * 0.175
+                            tank_cut   = %(amount)s * (tank_cut/boost_pot)
 
                         WHERE boost_id = %(boost_id)s
                     """
@@ -4377,7 +4378,7 @@ async def balance_command(ctx, *, target_booster=None):
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
     if (ctx.message.channel.id != 815104636251275312 and 
-        (Moderator_role not in ctx.author.roles or Management_role not in ctx.author.roles)):
+        ((Moderator_role not in ctx.author.roles) or (Management_role not in ctx.author.roles))):
         return await ctx.message.channel.send(
             f"Head to {balance_check_channel.mention} to issue the command", 
             delete_after=5)
