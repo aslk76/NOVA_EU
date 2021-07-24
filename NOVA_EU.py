@@ -3914,7 +3914,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
                     else:
                         await strike_channel.send(
                             f"{user.mention}, ```{reason}```. Strike ID: {ctx.message.id}")
-    elif amount <= 74999:
+    elif amount <= 74999 or roles_check:
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 strike_channel = get(ctx.guild.text_channels, name='strike-channel')
