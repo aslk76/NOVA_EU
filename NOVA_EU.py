@@ -4359,6 +4359,9 @@ async def Crossfaction(ctx, *, rio_link):
 @bot.command(aliases=['b', 'bal'])
 async def balance_command(ctx, *, target_booster=None):
     """To Check booster balance.
+        Example: !b Abuyogui-Sanguino [H]
+        !balance_command Abufel-Sanguino [H]
+        !bal Abushit-Sanguino [H]
     """
     await ctx.message.delete()
     Moderator_role = get(ctx.guild.roles, name="Moderator")
