@@ -3056,7 +3056,7 @@ async def Realms(ctx, realm=None, names=None):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'NOVA')
+@commands.has_any_role('Moderator', 'developer', 'NOVA')
 async def CheckLog(ctx, tgt_user):
     """To check audit log entries for given member
     example : !CheckLog "ASLK76#2188"
@@ -3088,7 +3088,7 @@ async def Decline(ctx, user: discord.Member):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management')
 async def echo(ctx, channel: discord.TextChannel, *, msg):
     """To send a message in a channel from the bot
     example : !echo #staff Hello, this is your bot speaking
@@ -3212,7 +3212,7 @@ async def setTroll3(ctx, target: int):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management')
 async def ImportRaids(ctx, pastebin_url, date_of_import=None):
     """To manually import raids from the sheet to DB
     example : nm!ImportRaids https://pastebin.com/raw/JfHxJrAG
@@ -3262,7 +3262,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
 # region code from MPlus bot
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management')
 async def EditPot(ctx, boostid :int , boost_type, amount):
     """To edit run pots
        The command structure is `!EditPot <boostid> <boost_type> <amount>` - <boost_type> is `mplus` for M+ or `various` for the rest.
@@ -3340,7 +3340,7 @@ async def EditPot(ctx, boostid :int , boost_type, amount):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Collectors', 'Staff')
+@commands.has_any_role('Moderator', 'Collectors', 'staff active')
 async def Collected(ctx, pot, adv, realm, *, desc):
     """To enter manual collections
        example: !Collected 100K "Advertiser-Kazzak [H]" "Draenor [H]" description of the collection
@@ -3396,7 +3396,7 @@ async def Collected(ctx, pot, adv, realm, *, desc):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def RemoveRun(ctx, boostid :int, boost_type):
     """To remove boost run
        The command structure is `!RemoveRun <boostid> <boost_type>` 
@@ -3463,7 +3463,7 @@ async def RemoveRun(ctx, boostid :int, boost_type):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def RemoveCollection(ctx, collectionid :int):
     """To remove Collection
        The command structure is `!RemoveCollection <collectionid>`
@@ -3500,7 +3500,7 @@ async def RemoveCollection(ctx, collectionid :int):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management')
 async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
     """To edit M+ adv/boosters cut
        
@@ -3590,7 +3590,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, realm):
     """To edit M+ adv/boosters name
        
@@ -3690,7 +3690,7 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
     """To edit name for run payment realm
        
@@ -3948,7 +3948,7 @@ async def Strike(ctx, user: discord.Member, amount, *, reason):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Staff', 'Management')
+@commands.has_any_role('developer', 'Management', 'NOVA')
 async def AddBalance(ctx, user: discord.Member, amount, *, reason):
     """To add balance to anyone.
        example: !AddBalance @ASLK76#2188 100K being awesome
@@ -4061,7 +4061,7 @@ async def DeductBalanceSpecial(ctx, user, amount: str, *, reason: str):
 
 @bot.command(aliases=['Ded', 'Deduct'])
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Staff', 'Management')
+@commands.has_any_role('staff active', 'Management', 'NOVA')
 async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
     """To deduct balance from anyone.
        example: !DeductBalance @ASLK76#2188 100K in house boost payment
@@ -4458,7 +4458,7 @@ async def ExpCurCreds(ctx):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def ExpPreCreds(ctx):
     """To Export previous week booster credits.
     """
@@ -4487,7 +4487,7 @@ async def ExpPreCreds(ctx):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def ExportStrikes(ctx):
     """To Export last week strikes.
     """
@@ -4511,7 +4511,7 @@ async def ExportStrikes(ctx):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def ExportNegative(ctx):
     """To Export last week negative balance.
     """
@@ -4540,7 +4540,7 @@ async def ExportNegative(ctx):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def TestExpNeg(ctx):
     """To Export last week negative balance.
     """
