@@ -670,9 +670,12 @@ async def on_raw_reaction_add(payload):
                     adv_id_pre = embed_fields[0]["value"].partition("@!")[2]
                     adv_id = int(adv_id_pre.partition(">")[0])
                     adv_final = get(guild.members, id=adv_id)
-                    if ":" in embed_fields[1]["value"]:
-                        realm = embed_fields[1]["value"].partition(":>")[2].strip()
-                        amount = embed_fields[2]["value"].partition(":>")[2].strip()
+                    if "> " in embed_fields[1]["value"]:
+                        realm = embed_fields[1]["value"].partition("> ")[2].strip()
+                        amount = embed_fields[2]["value"].partition("> ")[2].strip()
+                    elif ":" in embed_fields[1]["value"]:
+                        realm = embed_fields[1]["value"].partition(">")[2].strip()
+                        amount = embed_fields[2]["value"].partition(">")[2].strip()
                     else:
                         realm = embed_fields[1]["value"].partition(">")[2].strip()
                         amount = embed_fields[2]["value"].partition(">")[2].strip()
