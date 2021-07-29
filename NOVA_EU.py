@@ -4662,6 +4662,38 @@ async def Collections(ctx):
                                     value=rows[0][1], inline=False)
             await ctx.author.send(embed=collections_embed)
 
+@commands.after_invoke(record_usage)
+@commands.has_any_role('staff active', 'Management', 'NOVA')
+async def Compensation(ctx, amount: str, *, reason: str):
+    """To make a compensation.
+       example: !Compensation 100K rerun for loot not traded
+    """
+    await ctx.message.delete()
+    compensation_channel = get(ctx.guild.text_channels, id=870317722796433449)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            if not amount.startswith('-'):
+                command_compensation = convert_si_to_number(amount.replace(",", ".")) * -1
+            else:
+                command_compensation = convert_si_to_number(amount.replace(",", "."))
+
+            query = """
+                INSERT INTO compensations 
+                    (compensation_id, compensation_date, amount, reason, author) 
+                    VALUES (%s, %s, %s, %s, %s)
+            """
+
+            val = (ctx.message.id, now, command_compensation, reason, ctx.message.author.display_name)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Compensation added",
+                                description=
+                                    f"A compensation has been created for **{command_compensation:,d}** gold because "
+                                    f"**{reason}** by {ctx.message.author.mention}."
+                                    f"Compensation ID: {ctx.message.id}",
+                                color=discord.Color.orange())
+            await compensation_channel.send(embed=em)
+            await ctx.author.send(embed=em)
 
 # endregion
 
