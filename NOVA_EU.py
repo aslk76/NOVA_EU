@@ -4661,7 +4661,8 @@ async def Collections(ctx):
             collections_embed.add_field(name="Previous Week",
                                     value=rows[0][1], inline=False)
             await ctx.author.send(embed=collections_embed)
-
+            
+@bot.command()
 @commands.after_invoke(record_usage)
 @commands.has_any_role('staff active', 'Management', 'NOVA')
 async def Compensation(ctx, amount: str, *, reason: str):
