@@ -674,8 +674,8 @@ async def on_raw_reaction_add(payload):
                         realm = embed_fields[1]["value"].partition("> ")[2].strip()
                         amount = embed_fields[2]["value"].partition("> ")[2].strip()
                     elif ":" in embed_fields[1]["value"]:
-                        realm = embed_fields[1]["value"].partition(">")[2].strip()
-                        amount = embed_fields[2]["value"].partition(">")[2].strip()
+                        realm = embed_fields[1]["value"].partition(":")[2].strip()
+                        amount = embed_fields[2]["value"].partition(":")[2].strip()
                     else:
                         realm = embed_fields[1]["value"].partition(">")[2].strip()
                         amount = embed_fields[2]["value"].partition(">")[2].strip()
@@ -2948,7 +2948,7 @@ async def on_message_delete(message):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Bot Whisperer', 'Management')
+@commands.has_any_role('developer', 'Management')
 async def Stats(ctx, role: discord.Role = None, names=None):
     await ctx.message.delete()
     if role is None:
@@ -3077,7 +3077,7 @@ async def CheckLog(ctx, tgt_user):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Bot Whisperer', 'Management')
+@commands.has_any_role('staff active', 'Management')
 async def Decline(ctx, user: discord.Member):
     """To send decline message in DM to any applicant
     example : !Decline @ASLK76#2188
