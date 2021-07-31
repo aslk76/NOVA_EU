@@ -4715,11 +4715,13 @@ async def AddHotshot(ctx, faction, user: discord.Member):
         name, realm = await checkPers(user.id)
         if name is None:
             if "-" not in user.nick:
-                raise ValueError(f"Nickname format not correct for {user.display_name}")
+                await ctx.send(f"Nickname format not correct for {user.display_name}", delete_after=10)
+                return
             name, realm = user.nick.split("-")
 
         if not faction.lower() == "alliance" and not faction.lower() == "horde":
-            raise ValueError(f"The faction does not exists.")
+            await ctx.send(f"The faction does not exists", delete_after=10)
+            return
 
         if faction.lower() == "alliance":
             user.add_roles(HotshotA_role)
@@ -4759,7 +4761,8 @@ async def RemoveHotshot(ctx, user: discord.Member):
         name, realm = await checkPers(user.id)
         if name is None:
             if "-" not in user.nick:
-                raise ValueError(f"Nickname format not correct for {user.display_name}")
+                await ctx.send(f"Nickname format not correct for {user.display_name}", delete_after=10)
+                return
             name, realm = user.nick.split("-")
 
         if HotshotA_role in user.roles:
@@ -4768,7 +4771,8 @@ async def RemoveHotshot(ctx, user: discord.Member):
             user.remove_roles(HotshotH_role)
         
         if not HotshotA_role in user.roles and not HotshotH_role in user.roles:
-            raise ValueError(f"The user {user.display_name} is not a hotshot advertiser.")
+            await ctx.send(f"The user {user.display_name} is not a hotshot advertiser.", delete_after=10)
+            return
         
         async with conn.cursor() as cursor:
             query = """
