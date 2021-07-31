@@ -4699,6 +4699,93 @@ async def Compensation(ctx, amount: str, *, reason: str):
             await compensation_channel.send(embed=em)
             await ctx.author.send(embed=em)
 
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('developer', 'Management', 'NOVA')
+async def AddHotshot(ctx, faction, user: discord.Member):
+    """To promote someone to Hotshot
+        !AddHotshot horde @Cicrye#4262
+    """
+    await ctx.message.delete()
+    HotshotA_role = get(ctx.guild.roles, name="Hotshot Advertiser [A]")
+    HotshotH_role = get(ctx.guild.roles, name="Hotshot Advertiser [H]")
+    log_channel = get(ctx.guild.text_channels, id=870317722796433449)   
+
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        name, realm = await checkPers(user.id)
+        if name is None:
+            if "-" not in user.nick:
+                raise ValueError(f"Nickname format not correct for {user.display_name}")
+            name, realm = user.nick.split("-")
+
+        if not faction.lower() == "alliance" or not faction.lower() == "horde":
+            raise ValueError(f"The faction does not exists.")
+
+        if faction.lower() == "alliance":
+            user.add_roles(HotshotA_role)
+        elif faction.lower() == "horde":
+            user.add_roles(HotshotH_role)
+        
+        async with conn.cursor() as cursor:
+            query = """
+                INSERT INTO hotshots 
+                    (discord_id, faction, name, realm) 
+                    VALUES (%s, %s, %s, %s)
+            """
+
+            val = (user.id, faction.lower(), name, realm)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Hotshot added",
+                                description=
+                                    f"A hotshot for **{faction.lower()}** has been added: {user.mention}"
+                                    f"by {ctx.message.author.mention}.",
+                                color=discord.Color.orange())
+            await log_channel.send(embed=em)
+            await ctx.author.send(embed=em)
+
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('developer', 'Management', 'NOVA')
+async def RemoveHotshot(ctx, user: discord.Member):
+    """To demote someone from Hotshot
+        !RemoveHotshot @Cicrye#4262
+    """
+    await ctx.message.delete()
+    HotshotA_role = get(ctx.guild.roles, name="Hotshot Advertiser [A]")
+    HotshotH_role = get(ctx.guild.roles, name="Hotshot Advertiser [H]")
+    log_channel = get(ctx.guild.text_channels, id=870317722796433449)   
+
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        name, realm = await checkPers(user.id)
+        if name is None:
+            if "-" not in user.nick:
+                raise ValueError(f"Nickname format not correct for {user.display_name}")
+            name, realm = user.nick.split("-")
+
+        if HotshotA_role in user.roles:
+            user.remove_roles(HotshotA_role)
+        if HotshotH_role in user.roles:
+            user.remove_roles(HotshotH_role)
+        
+        if not HotshotA_role in user.roles or not HotshotH_role in user.roles:
+            raise ValueError(f"The user {user.display_name} is not a hotshot advertiser.")
+        
+        async with conn.cursor() as cursor:
+            query = """
+                DELETE FROM hotshots 
+                    WHERE discord_id = %s
+            """
+
+            val = (user.id)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Hotshot removed",
+                                description=
+                                    f"A hotshot has been removed: {user.mention}"
+                                    f"by {ctx.message.author.mention}.",
+                                color=discord.Color.orange())
+            await log_channel.send(embed=em)
+            await ctx.author.send(embed=em)
+
 # endregion
 
 async def start_bot():
