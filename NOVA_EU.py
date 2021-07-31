@@ -4709,7 +4709,7 @@ async def AddHotshot(ctx, faction, user: discord.Member):
     await ctx.message.delete()
     HotshotA_role = get(ctx.guild.roles, name="Hotshot Advertiser [A]")
     HotshotH_role = get(ctx.guild.roles, name="Hotshot Advertiser [H]")
-    log_channel = get(ctx.guild.text_channels, id=870317722796433449)   
+    log_channel = get(ctx.guild.text_channels, id=840733014622601226)   
 
     async with ctx.bot.mplus_pool.acquire() as conn:
         name, realm = await checkPers(user.id)
@@ -4755,7 +4755,7 @@ async def RemoveHotshot(ctx, user: discord.Member):
     await ctx.message.delete()
     HotshotA_role = get(ctx.guild.roles, name="Hotshot Advertiser [A]")
     HotshotH_role = get(ctx.guild.roles, name="Hotshot Advertiser [H]")
-    log_channel = get(ctx.guild.text_channels, id=870317722796433449)   
+    log_channel = get(ctx.guild.text_channels, id=840733014622601226)   
 
     async with ctx.bot.mplus_pool.acquire() as conn:
         name, realm = await checkPers(user.id)
