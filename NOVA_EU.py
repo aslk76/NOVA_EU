@@ -4724,9 +4724,9 @@ async def AddHotshot(ctx, faction, user: discord.Member):
             return
 
         if faction.lower() == "alliance":
-            user.add_roles(HotshotA_role)
+            await user.add_roles(HotshotA_role)
         elif faction.lower() == "horde":
-            user.add_roles(HotshotH_role)
+            await user.add_roles(HotshotH_role)
         
         async with conn.cursor() as cursor:
             query = """
@@ -4766,9 +4766,9 @@ async def RemoveHotshot(ctx, user: discord.Member):
             name, realm = user.nick.split("-")
 
         if HotshotA_role in user.roles:
-            user.remove_roles(HotshotA_role)
+            await user.remove_roles(HotshotA_role)
         if HotshotH_role in user.roles:
-            user.remove_roles(HotshotH_role)
+            await user.remove_roles(HotshotH_role)
         
         if not HotshotA_role in user.roles and not HotshotH_role in user.roles:
             await ctx.send(f"The user {user.display_name} is not a hotshot advertiser.", delete_after=10)
