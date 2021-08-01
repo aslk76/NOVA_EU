@@ -335,7 +335,6 @@ async def SuspensionCheck_loop():
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()        
             for x in myresult:
-                await bot_log_channel.send(embed=embed_bot_log)
                 if x[4] < now:
                     member_fromDB = guild.get_member(x[0])
                     if x[1] == "High Key Booster [A]":
