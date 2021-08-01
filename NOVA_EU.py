@@ -3267,6 +3267,50 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                     f"{cursor.rowcount} Records inserted successfully into raid_balance table",
                     delete_after=10)
 
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Moderator', 'developer', 'Management')
+async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
+    """To manually import raids from the sheet to DB
+    example : nm!ImportRaidsCollecting https://pastebin.com/raw/JfHxJrAG
+    example to import with specific date : nm!ImportRaidsCollecting https://pastebin.com/raw/JfHxJrAG 2021-05-05
+    """
+    await ctx.message.delete()
+    raid_vals = []
+    response = requests.get(pastebin_url)
+    response.encoding = "utf-8"
+    body = response.content.decode("utf-8")
+    raid_names = body.replace("\r","").split("\n")
+    if date_of_import is None:
+        now = datetime.date(datetime.now(timezone.utc))
+        for i in raid_names:
+            name, realm, paidin, amount = i.split("\t")
+            raid_vals.append([now, name, realm, paidin,amount.replace(",","")])
+        async with ctx.bot.mplus_pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                query = """
+                    INSERT INTO `raid_collecting` (`import_date`,`name`, `realm`, `server`,`amount`)
+                        VALUES (%s, %s, %s, %s, %s)
+                """
+                await cursor.executemany(query, raid_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into raid_collecting table",
+                    delete_after=10)
+    else:
+        now = datetime.strptime(date_of_import, '%Y-%m-%d')
+        for i in raid_names:
+            name, realm, amount = i.split("\t")
+            raid_vals.append([now, name, realm, amount.replace(",","")])
+        async with ctx.bot.mplus_pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                query = """
+                    INSERT INTO `raid_collecting` (`import_date`,`name`, `realm`, `server`,`amount`)
+                        VALUES (%s, %s, %s, %s, %s)
+                """
+                await cursor.executemany(query, raid_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into raid_collecting table",
+                    delete_after=10)
 # region code from MPlus bot
 @bot.command()
 @commands.after_invoke(record_usage)
