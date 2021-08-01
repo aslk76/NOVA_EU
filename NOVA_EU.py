@@ -335,27 +335,32 @@ async def SuspensionCheck_loop():
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()        
             for x in myresult:
-                if x[4] < now:
-                    member_fromDB = guild.get_member(x[0])
-                    if x[1] == "High Key Booster [A]":
-                        await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
-                        await member_fromDB.remove_roles(SuspendedA_role)
-                        await suspensionA_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
-                    elif x[1] == "High Key Booster [H]":
-                        await member_fromDB.add_roles(HighKeyBoosterH_role, MBoosterH_role)
-                        await member_fromDB.remove_roles(SuspendedH_role)
-                        await suspensionH_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
-                    elif x[1] == "--" and x[2] == "M+ Booster [A]":
-                        await member_fromDB.add_roles(MBoosterA_role)
-                        await member_fromDB.remove_roles(SuspendedA_role)
-                        await suspensionA_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
-                    elif x[1] == "--" and x[2] == "M+ Booster [H]":
-                        await member_fromDB.add_roles(MBoosterH_role)
-                        await member_fromDB.remove_roles(SuspendedH_role)
-                        await suspensionH_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
+                if guild.get_member(x[0]) is None:
                     query = "DELETE FROM suspension WHERE username = %s"
                     val = (x[0],)
                     await cursor.execute(query, val)
+                else:
+                    if x[4] < now:
+                        member_fromDB = guild.get_member(x[0])
+                        if x[1] == "High Key Booster [A]":
+                            await member_fromDB.add_roles(HighKeyBoosterA_role, MBoosterA_role)
+                            await member_fromDB.remove_roles(SuspendedA_role)
+                            await suspensionA_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
+                        elif x[1] == "High Key Booster [H]":
+                            await member_fromDB.add_roles(HighKeyBoosterH_role, MBoosterH_role)
+                            await member_fromDB.remove_roles(SuspendedH_role)
+                            await suspensionH_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
+                        elif x[1] == "--" and x[2] == "M+ Booster [A]":
+                            await member_fromDB.add_roles(MBoosterA_role)
+                            await member_fromDB.remove_roles(SuspendedA_role)
+                            await suspensionA_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
+                        elif x[1] == "--" and x[2] == "M+ Booster [H]":
+                            await member_fromDB.add_roles(MBoosterH_role)
+                            await member_fromDB.remove_roles(SuspendedH_role)
+                            await suspensionH_channel.send(f"{member_fromDB.mention} Suspension has been lifted.")
+                        query = "DELETE FROM suspension WHERE username = %s"
+                        val = (x[0],)
+                        await cursor.execute(query, val)
 
 
 @bot.command()
