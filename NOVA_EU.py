@@ -3284,13 +3284,13 @@ async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
     if date_of_import is None:
         now = datetime.date(datetime.now(timezone.utc))
         for i in raid_names:
-            name, realm, paidin, amount = i.split("\t")
-            raid_vals.append([now, name, realm, paidin,amount.replace(",","")])
+            name, paidin, amount = i.split("\t")
+            raid_vals.append([now, name, paidin, amount.replace(",","")])
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
-                    INSERT INTO `raid_collecting` (`import_date`,`name`, `realm`, `server`,`amount`)
-                        VALUES (%s, %s, %s, %s, %s)
+                    INSERT INTO `raid_collecting` (`import_date`,`name`, `paidin`,`amount`)
+                        VALUES (%s, %s, %s, %s)
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
@@ -3299,13 +3299,13 @@ async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
     else:
         now = datetime.strptime(date_of_import, '%Y-%m-%d')
         for i in raid_names:
-            name, realm, amount = i.split("\t")
-            raid_vals.append([now, name, realm, amount.replace(",","")])
+            name, paidin, amount = i.split("\t")
+            raid_vals.append([now, name, paidin, amount.replace(",","")])
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
-                    INSERT INTO `raid_collecting` (`import_date`,`name`, `realm`, `server`,`amount`)
-                        VALUES (%s, %s, %s, %s, %s)
+                    INSERT INTO `raid_collecting` (`import_date`,`name`, `paidin`,`amount`)
+                        VALUES (%s, %s, %s, %s)
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
