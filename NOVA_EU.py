@@ -335,14 +335,6 @@ async def SuspensionCheck_loop():
             await cursor.execute("SELECT * FROM suspension ORDER BY duration desc")
             myresult = await cursor.fetchall()        
             for x in myresult:
-                bot_log_channel = (get(guild.text_channels, id=817552283209433098) or 
-                            get(guild.text_channels, name='bot-logs'))
-                embed_bot_log = discord.Embed(
-                    title="Info Log.", 
-                    description=
-                        f'{x[4]} --- {now}',
-                    color=0x5d4991)
-                embed_bot_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None))
                 await bot_log_channel.send(embed=embed_bot_log)
                 if x[4] < now:
                     member_fromDB = guild.get_member(x[0])
