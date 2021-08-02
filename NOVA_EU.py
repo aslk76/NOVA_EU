@@ -438,6 +438,8 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.add_roles(Suspended)
                     await user.remove_roles(HighKeyBoosterA, MBoosterA)
                     durationA_hours = duration / 60
+                    if durationA_hours < 1:
+                        durationA_hours = duration
                     await suspension_channelA.send(
                         f"{user.mention} has been Suspended for {durationA_hours:.0f} Hours, {reason}")
                 elif HighKeyBoosterH in user.roles:
@@ -450,6 +452,8 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.add_roles(SuspendedH)
                     await user.remove_roles(HighKeyBoosterH, MBoosterH)
                     durationH_hours = duration / 60
+                    if durationH_hours < 1:
+                        durationH_hours = duration
                     await suspension_channelH.send(
                         f"{user.mention} has been Suspended for {durationH_hours:.0f} Hours, {reason}")
             else:
@@ -463,6 +467,8 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.add_roles(Suspended)
                     await user.remove_roles(MBoosterA)
                     durationA_hours = duration / 60
+                    if durationA_hours < 1:
+                        durationA_hours = duration
                     await suspension_channelA.send(
                         f"{user.mention} has been Suspended for {durationA_hours:.0f} Hours, {reason}")
                 elif MBoosterH in user.roles:
@@ -475,6 +481,8 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.add_roles(SuspendedH)
                     await user.remove_roles(MBoosterH)
                     durationH_hours = duration / 60
+                    if durationH_hours < 1:
+                        durationH_hours = duration
                     await suspension_channelH.send(
                         f"{user.mention} has been Suspended for {durationH_hours:.0f} Hours, {reason}")
 
