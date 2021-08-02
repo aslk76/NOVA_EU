@@ -439,9 +439,11 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.remove_roles(HighKeyBoosterA, MBoosterA)
                     durationA_hours = duration / 60
                     if durationA_hours < 1:
-                        durationA_hours = duration
-                    await suspension_channelA.send(
-                        f"{user.mention} has been Suspended for {durationA_hours:.0f} Hours, {reason}")
+                        await suspension_channelA.send(
+                            f"{user.mention} has been Suspended for {duration:.0f} minutes., {reason}")
+                    else:
+                        await suspension_channelA.send(
+                            f"{user.mention} has been Suspended for {durationA_hours:.0f} hours., {reason}")
                 elif HighKeyBoosterH in user.roles:
                     query = """
                         INSERT INTO suspension (username, role1, role2, role3, duration) 
@@ -453,9 +455,11 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.remove_roles(HighKeyBoosterH, MBoosterH)
                     durationH_hours = duration / 60
                     if durationH_hours < 1:
-                        durationH_hours = duration
-                    await suspension_channelH.send(
-                        f"{user.mention} has been Suspended for {durationH_hours:.0f} Hours, {reason}")
+                        await suspension_channelH.send(
+                            f"{user.mention} has been Suspended for {duration:.0f} minutes., {reason}")
+                    else:
+                        await suspension_channelH.send(
+                            f"{user.mention} has been Suspended for {durationH_hours:.0f} hours., {reason}")
             else:
                 if MBoosterA in user.roles:
                     query = """
@@ -468,9 +472,11 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.remove_roles(MBoosterA)
                     durationA_hours = duration / 60
                     if durationA_hours < 1:
-                        durationA_hours = duration
-                    await suspension_channelA.send(
-                        f"{user.mention} has been Suspended for {durationA_hours:.0f} Hours, {reason}")
+                        await suspension_channelA.send(
+                            f"{user.mention} has been Suspended for {duration:.0f} minutes., {reason}")
+                    else:
+                        await suspension_channelA.send(
+                            f"{user.mention} has been Suspended for {durationA_hours:.0f} hours., {reason}")
                 elif MBoosterH in user.roles:
                     query = """
                         INSERT INTO suspension (username, role2, role3, duration) 
@@ -482,9 +488,11 @@ async def Suspend(ctx, user: discord.Member, duration: float, *, reason: str):
                     await user.remove_roles(MBoosterH)
                     durationH_hours = duration / 60
                     if durationH_hours < 1:
-                        durationH_hours = duration
-                    await suspension_channelH.send(
-                        f"{user.mention} has been Suspended for {durationH_hours:.0f} Hours, {reason}")
+                        await suspension_channelH.send(
+                            f"{user.mention} has been Suspended for {duration:.0f} minutes., {reason}")
+                    else:
+                        await suspension_channelH.send(
+                            f"{user.mention} has been Suspended for {durationH_hours:.0f} hours., {reason}")
 
 
 @bot.command()
