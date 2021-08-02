@@ -161,7 +161,7 @@ async def search_nested_alliance(mylist, val):
         for j in range(len(mylist[i])):
             # print i,j
             if mylist[i][j] == val:
-                return mylist[i][0]
+                return mylist[i][1]
     return None
 
 
@@ -170,7 +170,7 @@ async def search_nested_horde(mylist, val):
         for j in range(len(mylist[i])):
             # print i,j
             if mylist[i][j] == val:
-                return mylist[i][1]
+                return mylist[i][2]
     return None
 
 
