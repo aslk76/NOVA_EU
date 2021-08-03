@@ -4732,7 +4732,7 @@ async def Collections(ctx):
             
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('staff active', 'Management', 'NOVA')
+@commands.has_any_role('Bot Whisperer', 'Management', 'NOVA')
 async def Compensation(ctx, amount: str, *, reason: str):
     """To make a compensation.
        example: !Compensation 100K rerun for loot not traded
