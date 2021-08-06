@@ -161,7 +161,7 @@ async def search_nested_alliance(mylist, val):
         for j in range(len(mylist[i])):
             # print i,j
             if mylist[i][j] == val:
-                return mylist[i][0]
+                return mylist[i][1]
     return None
 
 
@@ -170,7 +170,7 @@ async def search_nested_horde(mylist, val):
         for j in range(len(mylist[i])):
             # print i,j
             if mylist[i][j] == val:
-                return mylist[i][1]
+                return mylist[i][2]
     return None
 
 
@@ -2717,7 +2717,7 @@ async def on_message(message):
         if not message.author.bot:
             guild = get(bot.guilds, id=815104630433775616)
             bot_dms__channel = get(guild.text_channels, name='bot-dms-test')
-            await bot_dms__channel.send(f"{message.created_at} -- {message.author.name} sent -- `{message.content}`")
+            await bot_dms__channel.send(f"{message.created_at} -- {message.author.display_name} sent -- `{message.content}`")
             if len(message.attachments) >= 1:
                 await bot_dms__channel.send(message.attachments)
                 await bot_dms__channel.send(message.attachments[0].url)
