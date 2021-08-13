@@ -3330,7 +3330,7 @@ async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
 # region code from MPlus bot
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'developer', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management', 'staff active')
 async def EditPot(ctx, boostid :int , boost_type, amount):
     """To edit run pots
        The command structure is `!EditPot <boostid> <boost_type> <amount>` - <boost_type> is `mplus` for M+ or `various` for the rest.
@@ -3568,7 +3568,7 @@ async def RemoveCollection(ctx, collectionid :int):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'developer', 'Management')
+@commands.has_any_role('Moderator', 'developer', 'Management', 'staff active')
 async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
     """To edit M+ adv/boosters cut
        
@@ -3658,7 +3658,7 @@ async def EditRunCut(ctx, boostid :int, boost_type, booster, amount):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'staff active', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management', 'staff active')
 async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, realm):
     """To edit M+ adv/boosters name
        
@@ -3758,7 +3758,7 @@ async def EditRunBooster(ctx, boostid :int, boost_type, booster_role, name, *, r
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'staff active', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management', 'staff active')
 async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
     """To edit name for run payment realm
        
@@ -4497,7 +4497,7 @@ async def balance_command(ctx, *, target_booster=None):
 
 @bot.command()
 @commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'Staff', 'Management')
+@commands.has_any_role('Moderator', 'staff active', 'Management')
 async def ExpCurCreds(ctx):
     """To Export current booster credits.
     """
