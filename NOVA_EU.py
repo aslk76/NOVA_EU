@@ -108,8 +108,8 @@ logger.addHandler(handler)
 class rio_conf:
     RAIDERIO_LINK = r"https:\/\/raider\.io\/characters\/eu\/(.+)\/([^?.]+)"
     base: str = "https://raider.io"
-    role_threshhold: int = 1800
-    highkey_threshhold: int = 2100
+    role_threshhold: int = 2100
+    highkey_threshhold: int = 2200
     s2_highkey_threshhold: int = 2500
 
 # region Functions
