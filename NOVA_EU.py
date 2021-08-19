@@ -4758,8 +4758,10 @@ async def PreviousCollections(ctx):
             collections_embed = discord.Embed(title="Collections",
                                             description="Info!",
                                             color=0xffd700)
-            collections_embed.add_field(name="Previous Week",
-                                    value=rows, inline=False)
+            collections_embed.add_field(name="Previous Week",inline=False)
+            string_row = ""
+            for row in rows:
+                string_row +=f"{row[0]}: {row[1]}\n"
             await ctx.author.send(embed=collections_embed)
 
 @bot.command()
@@ -4784,8 +4786,10 @@ async def CurrentCollections(ctx):
             collections_embed = discord.Embed(title="Collections",
                                             description="Info!",
                                             color=0xffd700)
-            collections_embed.add_field(name="Previous Week",
-                                    value=rows, inline=False)
+            collections_embed.add_field(name="Current Week",inline=False)
+            string_row = ""
+            for row in rows:
+                string_row +=f"{row[0]}: {row[1]}\n"
             await ctx.author.send(embed=collections_embed)
             
 @bot.command()
