@@ -4759,9 +4759,8 @@ async def PreviousCollections(ctx):
                                             description="Info!",
                                             color=0xffd700)
             collections_embed.add_field(name="Previous Week",inline=False)
-            string_row = ""
             for row in rows:
-                string_row +=f"{row[0]}: {row[1]}\n"
+                collections_embed.add_field(name=f"{row[0]}", value=f"{row[1]}")
             await ctx.author.send(embed=collections_embed)
 
 @bot.command()
@@ -4787,9 +4786,8 @@ async def CurrentCollections(ctx):
                                             description="Info!",
                                             color=0xffd700)
             collections_embed.add_field(name="Current Week",inline=False)
-            string_row = ""
             for row in rows:
-                string_row +=f"{row[0]}: {row[1]}\n"
+                collections_embed.add_field(name=f"{row[0]}", value=f"{row[1]}")
             await ctx.author.send(embed=collections_embed)
             
 @bot.command()
