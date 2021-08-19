@@ -4735,6 +4735,58 @@ async def Collections(ctx):
             collections_embed.add_field(name="Previous Week",
                                     value=rows[0][1], inline=False)
             await ctx.author.send(embed=collections_embed)
+
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('developer', 'Management')
+async def PreviousCollections(ctx):
+    """To check last week collections.
+    """
+    await ctx.message.delete()
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                SELECT collector, COUNT(collection_id) FROM collectors WHERE ((`collectors`.`deleted_at` IS NULL) 
+                AND (`collectors`.`date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` 
+                WHERE (`variables`.`id` = 1)) 
+                AND (SELECT `variables`.`pre2` FROM `variables` 
+                WHERE (`variables`.`id` = 1)))) 
+                GROUP BY collector
+            """
+            await cursor.execute(query)
+            rows = await cursor.fetchall()
+            collections_embed = discord.Embed(title="Collections",
+                                            description="Info!",
+                                            color=0xffd700)
+            collections_embed.add_field(name="Previous Week",
+                                    value=rows, inline=False)
+            await ctx.author.send(embed=collections_embed)
+
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('developer', 'Management')
+async def CurrentCollections(ctx):
+    """To check current week collections.
+    """
+    await ctx.message.delete()
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                SELECT collector, COUNT(collection_id) FROM collectors WHERE ((`collectors`.`deleted_at` IS NULL) 
+                AND (`collectors`.`date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` 
+                WHERE (`variables`.`id` = 1)) 
+                AND (SELECT `variables`.`cur2` FROM `variables` 
+                WHERE (`variables`.`id` = 1)))) 
+                GROUP BY collector
+            """
+            await cursor.execute(query)
+            rows = await cursor.fetchall()
+            collections_embed = discord.Embed(title="Collections",
+                                            description="Info!",
+                                            color=0xffd700)
+            collections_embed.add_field(name="Previous Week",
+                                    value=rows, inline=False)
+            await ctx.author.send(embed=collections_embed)
             
 @bot.command()
 @commands.after_invoke(record_usage)
