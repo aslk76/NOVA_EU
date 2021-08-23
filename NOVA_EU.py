@@ -4373,7 +4373,7 @@ async def Crossfaction(ctx, *, rio_link):
                                     await bot_log_channel.send(embed=embed_bot_log)
                                     await ctx.send(
                                         "An error occurred, please DM "
-                                        f"{get(ctx.guild.members, id=186433880872583169).mention}")
+                                        f"{get(ctx.guild.members, id=186433880872583169).mention}", delete_after=10)
                                     return
                                 val = (ctx.author.id, alliance_name, horde_name)
                                 await cursor.execute(query, val)
