@@ -2814,8 +2814,7 @@ async def on_message(message):
                         await message.delete()
                 elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or message.channel.name.startswith('high-tier-build-grp') or
                     (message.channel.id == 815104637697916959 or message.channel.name == "🔴leveling-torghast-boost") or 
-                    (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit") or
-                    (message.channel.name.startswith('high-tier-build-grp')):
+                    (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit")):
                     if roles_check and PendingH_role not in message.author.roles:
                         await message.channel.send("3", delete_after=1)
                         await asyncio.sleep(1)
