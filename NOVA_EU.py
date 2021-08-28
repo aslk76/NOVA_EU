@@ -610,7 +610,7 @@ async def on_raw_reaction_add(payload):
                     Moderator_role, CommunitySupport_role]
     roles_check =  any(item in user.roles for item in roles_to_check)
     # region alliance channels
-    if ((channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or 
+    if ((channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or channel.name.startswith('high-tier-build-group') or 
         (channel.id == 815104637391863857 or channel.name == "🔵leveling-torghast-boost") or 
         (channel.id == 815104639368298545 or channel.name == "🔵rbg-run-submit") or 
         (channel.id == 815104639082823699 or channel.name == "🔵pvp-build-grp")) and 
@@ -621,7 +621,7 @@ async def on_raw_reaction_add(payload):
     # endregion
 
     # region horde channels
-    if ((channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or
+    if ((channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or channel.name.startswith('high-tier-build-grp') or
         (channel.id == 815104637697916959 or channel.name == "🔴leveling-torghast-boost") or 
         (channel.id == 815104639661375488 or channel.name == "🔴rbg-run-submit") or 
         (channel.id == 815104639368298536 or channel.name == "🔴pvp-build-grp")) and 
@@ -735,11 +735,11 @@ async def on_raw_reaction_add(payload):
     
     elif (message.author.id != user.id and not user.bot and 
         (
-            channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or 
+            channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or channel.name.startswith('high-tier-build-group') or
             (channel.id == 815104637391863857 or channel.name == "🔵leveling-torghast-boost") or 
             (channel.id == 815104639368298545 or channel.name == "🔵rbg-run-submit") or 
             (channel.id == 815104639082823699 or channel.name == "🔵pvp-build-grp") or 
-            channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or
+            channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or channel.name.startswith('high-tier-build-grp') or
             (channel.id == 815104637697916959 or channel.name == "🔴leveling-torghast-boost") or 
             (channel.id == 815104639661375488 or channel.name == "🔴rbg-run-submit") or 
             (channel.id == 815104639368298536 or channel.name == "🔴pvp-build-grp")
@@ -751,7 +751,7 @@ async def on_raw_reaction_add(payload):
         y = message.content.split("\n")
         async with bot.mplus_pool.acquire() as conn:
             # region Alliance build groups
-            if (channel.name.startswith('build-group') or channel.name.startswith('high-keys-group')) and \
+            if (channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or channel.name.startswith('high-tier-build-group')) and \
                 (not y[1].startswith('<:house_nova:') and not y[1].startswith('<:inhouse_nova:')) and \
                     Pending_role not in user.roles:
                 if not y[3].strip():
@@ -1241,7 +1241,7 @@ async def on_raw_reaction_add(payload):
                             await log_channel.send(embed=embed)
             # endregion
             # region Horde build groups
-            elif (channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp')) and \
+            elif (channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or channel.name.startswith('high-tier-build-grp')) and \
                 (not y[1].startswith('<:house_nova:') and not y[1].startswith('<:inhouse_nova:')) and \
                     PendingH_role not in user.roles:
                 if not y[3].strip():
@@ -1731,7 +1731,7 @@ async def on_raw_reaction_add(payload):
             
             # ########### INHOUSE AND CLIENTS ############
             # region Alliance build groups
-            if (channel.name.startswith('build-group') or channel.name.startswith('high-keys-group')) and \
+            if (channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or channel.name.startswith('high-tier-build-group')) and \
                 (y[1].startswith('<:house_nova:') or y[1].startswith('<:inhouse_nova:')) and \
                     Pending_role not in user.roles:
                 if not y[4].strip():
@@ -2208,7 +2208,7 @@ async def on_raw_reaction_add(payload):
             # endregion
 
             # region Horde build groups
-            elif (channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp')) and \
+            elif (channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or channel.name.startswith('high-tier-build-grp')) and \
                 (y[1].startswith('<:house_nova:') or y[1].startswith('<:inhouse_nova:')) and \
                     PendingH_role not in user.roles:
                 if not y[4].strip():
@@ -2770,7 +2770,7 @@ async def on_message(message):
         if len(x) > 1:
             if (x[1].startswith('<:keystone_nova:') or x[1].startswith(u"\U0001F53C") 
                 or x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:')):
-                if (message.channel.name.startswith('build-group') or message.channel.name.startswith('high-keys-group') or 
+                if (message.channel.name.startswith('build-group') or message.channel.name.startswith('high-keys-group') or message.channel.name.startswith('high-tier-build-group') or
                     (message.channel.id == 815104637391863857 or message.channel.name == "🔵leveling-torghast-boost") or 
                     (message.channel.id == 815104639368298545 or message.channel.name == "🔵rbg-run-submit")):
                     if roles_check and Pending_role not in message.author.roles:
@@ -2812,9 +2812,10 @@ async def on_message(message):
                             await collection_embed.add_reaction(u"\u2705")
                     else:
                         await message.delete()
-                elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
+                elif (message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or message.channel.name.startswith('high-tier-build-grp') or
                     (message.channel.id == 815104637697916959 or message.channel.name == "🔴leveling-torghast-boost") or 
-                    (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit")):
+                    (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit") or
+                    (message.channel.name.startswith('high-tier-build-grp')):
                     if roles_check and PendingH_role not in message.author.roles:
                         await message.channel.send("3", delete_after=1)
                         await asyncio.sleep(1)
@@ -2930,7 +2931,7 @@ async def on_message(message):
                 not x[0].lower().startswith('heal') and not (x[0].lower().startswith('team take') and 
                 TeamLeader_role in message.author.roles) and not (x[0].lower().startswith('guild take') and
                 MPlusGuild_role in message.author.roles)) and (message.channel.name.startswith('build-gr') or 
-                message.channel.name.startswith('high-keys-gr')) and not roles_check):
+                message.channel.name.startswith('high-keys-gr') or message.channel.name.startswith('high-tier-build-gr')) and not roles_check):
                 await message.delete()
             elif 'no key' in x[0].lower() and '-key-request' in message.channel.name and not roles_check:
                 await message.delete()
@@ -2957,7 +2958,7 @@ async def on_message_delete(message):
     unlock_emoji = [reaction for reaction in message.reactions if reaction.emoji == u"\U0001F513"]
     if (len(unlock_emoji) == 1 and 
         (
-            message.channel.name.startswith('build-group') or message.channel.name.startswith('high-keys-group') or 
+            message.channel.name.startswith('build-group') or message.channel.name.startswith('high-keys-group') or message.channel.name.startswith('high-tier-build-group') or
             (message.channel.id == 815104637391863857 or message.channel.name == "🔵leveling-torghast-boost") or 
             (message.channel.id == 815104639368298545 or message.channel.name == "🔵rbg-run-submit") or 
             (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp")
@@ -2965,7 +2966,7 @@ async def on_message_delete(message):
         await message.author.remove_roles(Pending_role)
     if (len(unlock_emoji) == 1 and 
         (
-            message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or
+            message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or message.channel.name.startswith('high-tier-build-grp') or
             (message.channel.id == 815104637697916959 or message.channel.name == "🔴leveling-torghast-boost") or 
             (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit") or 
             (message.channel.id == 815104639368298536 or message.channel.name == "🔴pvp-build-grp")
