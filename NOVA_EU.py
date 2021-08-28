@@ -109,8 +109,8 @@ class rio_conf:
     RAIDERIO_LINK = r"https:\/\/raider\.io\/characters\/eu\/(.+)\/([^?.]+)"
     base: str = "https://raider.io"
     role_threshhold: int = 2100
-    highkey_threshhold: int = 2200
-    s2_highkey_threshhold: int = 2500
+    highkey_threshhold: int = 2300
+    hightier_threshhold: int = 2500
 
 # region Functions
 async def record_usage(ctx):
