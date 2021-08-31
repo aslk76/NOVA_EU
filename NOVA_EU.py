@@ -3269,8 +3269,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
-                    f"{cursor.rowcount} Records inserted successfully into raid_balance table",
-                    delete_after=10)
+                    f"{cursor.rowcount} Records inserted successfully into raid_balance table")
     else:
         now = datetime.strptime(date_of_import, '%Y-%m-%d')
         for i in raid_names:
@@ -3286,8 +3285,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
-                    f"{cursor.rowcount} Records inserted successfully into raid_balance table",
-                    delete_after=10)
+                    f"{cursor.rowcount} Records inserted successfully into raid_balance table")
 
 @bot.command()
 @commands.after_invoke(record_usage)
