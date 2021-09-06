@@ -613,7 +613,8 @@ async def on_raw_reaction_add(payload):
     if ((channel.name.startswith('build-group') or channel.name.startswith('high-keys-group') or channel.name.startswith('high-tier-build-group') or 
         (channel.id == 815104637391863857 or channel.name == "🔵leveling-torghast-boost") or 
         (channel.id == 815104639368298545 or channel.name == "🔵rbg-run-submit") or 
-        (channel.id == 815104639082823699 or channel.name == "🔵pvp-build-grp")) and 
+        (channel.id == 815104639082823699 or channel.name == "🔵pvp-build-grp") or
+        (channel.id == 884355048707096596 or channel.name == "mount-post-run")) and 
         reactionPL.name == u"\U0001F513" and not user.bot and roles_check):
         await message.clear_reactions()
         await message.add_reaction(u"\u2705")
@@ -624,7 +625,8 @@ async def on_raw_reaction_add(payload):
     if ((channel.name.startswith('build-grp') or channel.name.startswith('high-keys-grp') or channel.name.startswith('high-tier-build-grp') or
         (channel.id == 815104637697916959 or channel.name == "🔴leveling-torghast-boost") or 
         (channel.id == 815104639661375488 or channel.name == "🔴rbg-run-submit") or 
-        (channel.id == 815104639368298536 or channel.name == "🔴pvp-build-grp")) and 
+        (channel.id == 815104639368298536 or channel.name == "🔴pvp-build-grp")  or
+        (channel.id == 884355048707096596 or channel.name == "mount-post-run")) and 
         reactionPL.name == u"\U0001F513" and not user.bot and roles_check):
         await message.clear_reactions()
         await message.add_reaction(u"\u2705")
