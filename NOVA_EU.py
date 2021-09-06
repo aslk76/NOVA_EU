@@ -2230,7 +2230,7 @@ async def on_raw_reaction_add(payload):
                                     adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
                                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                             """
-                            val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                            val = ("Mounts", faction, payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
                                 tank_realm, booster_cut)
                             await cursor.execute(query, val)
 
