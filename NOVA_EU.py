@@ -1074,7 +1074,7 @@ async def on_raw_reaction_add(payload):
                     else:
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
-                        if y[2].partition(">")[0].strip().contains("alliance"):
+                        if "alliance" in y[2].partition(">")[0].strip():
                             faction = "Alliance"
                         else:
                             faction = "Horde"
@@ -2174,7 +2174,7 @@ async def on_raw_reaction_add(payload):
                             "Nova Team. Thank you!", embed=embed_dm)
                         await message.remove_reaction(u"\u2705", user)
                     else:
-                        if y[2].partition(">")[0].strip().contains("alliance"):
+                        if "alliance" in y[2].partition(">")[0].strip():
                             faction = "Alliance"
                         else:
                             faction = "Horde"
