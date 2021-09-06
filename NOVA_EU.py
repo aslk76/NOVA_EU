@@ -3111,41 +3111,44 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
                             await collection_embed.add_reaction(u"\u2705")
-                    elif (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run"):
-                        if roles_check and (Pending_role or PendingH_role) not in message.author.roles:
-                            await message.add_reaction(u"\u2705")
-                            if AdvertiserA_trial_role or AdvertiserH_trial_role in message.author.roles:
-                                if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
-                                    realm_field = x[3]
-                                    amount_field = x[4]
-                                else:
-                                    realm_field = x[2]
-                                    amount_field = x[3]
-                                collectors_channel = get(message.guild.text_channels, name='collectors')
-                                collectors_role = get(message.guild.roles, name="Collectors")
-                                collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
-                                embed_collection_log = discord.Embed(
-                                    title="Gold Collection", description="Run has been posted", color=0x5d4991)
-                                embed_collection_log.add_field(
-                                    name="Author", value=message.author.mention, inline=True)
-                                embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
-                                embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
-                                embed_collection_log.add_field(
-                                    name="Channel", value=message.channel.name, inline=False)
-                                embed_collection_log.add_field(
-                                    name="Link", value=message.jump_url, inline=True)
-                                embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
-                                collection_embed = await collectors_channel.send(embed=embed_collection_log)
-                                await collectors_tag_msg.clear_reactions()
-                                await collectors_tag_msg.clear_reactions()
-                                await message.clear_reactions()
-                                await message.add_reaction(u"\U0001F513")
-                                await message.author.add_roles(Pending_role)
-                                await collection_embed.add_reaction(u"\u2705")
-                        else:
-                            await message.delete()
                     else:
                         await message.delete()
+
+                elif (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run"):
+                    if roles_check and (Pending_role or PendingH_role) not in message.author.roles:
+                        await message.add_reaction(u"\u2705")
+                        if AdvertiserA_trial_role or AdvertiserH_trial_role in message.author.roles:
+                            if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
+                                realm_field = x[3]
+                                amount_field = x[4]
+                            else:
+                                realm_field = x[2]
+                                amount_field = x[3]
+                            collectors_channel = get(message.guild.text_channels, name='collectors')
+                            collectors_role = get(message.guild.roles, name="Collectors")
+                            collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
+                            embed_collection_log = discord.Embed(
+                                title="Gold Collection", description="Run has been posted", color=0x5d4991)
+                            embed_collection_log.add_field(
+                                name="Author", value=message.author.mention, inline=True)
+                            embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                            embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
+                            embed_collection_log.add_field(
+                                name="Channel", value=message.channel.name, inline=False)
+                            embed_collection_log.add_field(
+                                name="Link", value=message.jump_url, inline=True)
+                            embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
+                            collection_embed = await collectors_channel.send(embed=embed_collection_log)
+                            await collectors_tag_msg.clear_reactions()
+                            await collectors_tag_msg.clear_reactions()
+                            await message.clear_reactions()
+                            await message.add_reaction(u"\U0001F513")
+                            await message.author.add_roles(Pending_role)
+                            await collection_embed.add_reaction(u"\u2705")
+                    else:
+                        await message.delete()
+                else:
+                    await message.delete()
             
             elif ((x[0].startswith('Type of Boost:') or x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:')) and 
                     (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp")):
