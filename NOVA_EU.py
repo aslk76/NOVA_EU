@@ -3117,7 +3117,7 @@ async def on_message(message):
                 elif (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run"):
                     if roles_check and (Pending_role or PendingH_role) not in message.author.roles:
                         await message.add_reaction(u"\u2705")
-                        if AdvertiserA_trial_role or AdvertiserH_trial_role in message.author.roles:
+                        if AdvertiserA_trial_role in message.author.roles or AdvertiserH_trial_role in message.author.roles:
                             if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
                                 realm_field = x[3]
                                 amount_field = x[4]
@@ -3144,6 +3144,7 @@ async def on_message(message):
                             await message.clear_reactions()
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(Pending_role)
+                            await message.author.add_roles(PendingH_role)
                             await collection_embed.add_reaction(u"\u2705")
                     else:
                         await message.delete()
