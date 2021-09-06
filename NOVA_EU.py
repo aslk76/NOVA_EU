@@ -4354,7 +4354,7 @@ async def Crossfaction(ctx, *, rio_link):
                                 if ctx.author.nick.endswith("[H]"):
                                     alliance_name = f"{rio_name}-{realm_final} [{faction_short}]"
                                     horde_name = ctx.author.nick
-                                if ctx.author.nick.endswith("[A]"):
+                                elif ctx.author.nick.endswith("[A]"):
                                     alliance_name = ctx.author.nick
                                     horde_name = f"{rio_name}-{realm_final} [{faction_short}]"
                                 else:
