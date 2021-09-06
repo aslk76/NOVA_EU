@@ -1021,7 +1021,142 @@ async def on_raw_reaction_add(payload):
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
+            ##MOUNT POST RUN NORMAL
+            elif channel.name == 'mount-post-run' and \
+                (not y[1].startswith('<:house_nova:') and not y[1].startswith('<:inhouse_nova:')) and \
+                    Pending_role not in user.roles:
+                if not y[3].strip():
+                    embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                            color=0x5d4991)
+                    embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
+                    await user.send(
+                        f"Hi **{user.name}**, your input for **__boost pot__** is either "
+                        "incomplete or you might have some error in it, please double check "
+                        "the pot. If you are sure you didn't do anything wrong, please contact "
+                        "Nova Team. Thank you!", 
+                        embed=embed_dm)
+                    await message.remove_reaction(u"\u2705", user)
+                else:
+                    pot = convert_si_to_number(y[3].partition(">")[2].replace(",", "."))
+                    paid_in = y[2].partition(">")[2].strip()
+                    if pot < 999:
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        await user.send(
+                            f"Hi **{user.name}**, pot cannot be below 1K gold", 
+                            embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    elif not paid_in or not y[4].strip():
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        await user.send(
+                            f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, "
+                            "please double check. If you are sure you didn't do anything wrong, please contact "
+                            "Nova Team. Thank you!", 
+                            embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    elif paid_in not in realm_name:
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        await user.send(
+                            f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
+                            "some error in it, please double check. If you are sure it's not wrong, please contact "
+                            "Nova Team. Thank you!", 
+                            embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    else:
+                        adv = message.author
+                        adv_name, adv_realm = await checkPers(adv.id)
+                        if y[2].partition(">")[0].strip().contains("alliance"):
+                            faction = "Alliance"
+                        else:
+                            faction = "Horde"
 
+                        if adv_name is None and faction == "Alliance":
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
+                        elif adv_name is None and faction == "Horde":
+                            adv_result = await search_nested_horde(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
+
+                        tank_id_pre = y[4].partition("@")[2]
+                        if tank_id_pre.startswith("!"):
+                            tank_id_pre = tank_id_pre.partition("!")[2]
+                        tank_id = int(tank_id_pre.partition(">")[0])
+                        tank_user = get(guild.members, id=tank_id)
+                        tank_nick = tank_user.nick
+                        tank_name, tank_realm = await checkPers(tank_id)
+                        if tank_name is None and faction == "Alliance":
+                            tank_result = await search_nested_alliance(boosters, tank_nick)
+                            if tank_result is not None:
+                                tank_name, tank_realm = tank_result.split("-")
+                            else:
+                                tank_name, tank_realm = tank_nick.split("-")
+                        elif tank_name is None and faction == "Horde":
+                            tank_result = await search_nested_horde(boosters, tank_nick)
+                            if tank_result is not None:
+                                tank_name, tank_realm = tank_result.split("-")
+                            else:
+                                tank_name, tank_realm = tank_nick.split("-")
+
+                        if faction == "Alliance":        
+                            if Hotshot_A not in message.author.roles:
+                                adv_cut = int(pot * 0.17)
+                            elif Hotshot_A in message.author.roles:
+                                adv_cut = int(pot * 0.21)
+                            booster_cut = int(pot * 0.70)
+
+                        elif faction == "Horde":
+                            if Hotshot_H not in message.author.roles:
+                                adv_cut = int(pot * 0.17)
+                            elif Hotshot_H in message.author.roles:
+                                adv_cut = int(pot * 0.21)
+                            booster_cut = int(pot * 0.70)
+
+                        async with conn.cursor() as cursor:
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                """
+                            val = ("Mounts", faction, payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                                tank_realm, booster_cut)
+                            await cursor.execute(query, val)
+
+                            embed = discord.Embed(title="This run was successfully added to DB.", description="",
+                                                color=0x5d4991)
+                            embed.add_field(name="**Server**", value=paid_in, inline=True)
+                            embed.add_field(name="**POT**",
+                                            value=f"{y[3].partition('>')[2].replace(',', '.')} <:goldss:817570131193888828>", 
+                                            inline=True)
+                            embed.add_field(name="**Advertiser**", 
+                                            value=f"{adv_name}-{adv_realm}", 
+                                            inline=False)
+                            embed.add_field(name="**Advertiser Cut:**",
+                                            value=str(adv_cut), inline=True)
+                            embed.add_field(name="**Boosters Cut:**",
+                                            value=str(booster_cut), inline=True)
+                            embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
+                                            value=f"<:tank_nova:817571065207324703> {tank_name}", 
+                                            inline=False)
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
+                            log_channel = get(guild.text_channels, id=839436711367933982)
+                            await message.add_reaction(u"\U0001F4AF")
+                            await log_channel.send(embed=embed)
             elif (message.channel.id == 628318833953734676 or channel.name == '🔵pvp-build-grp') and \
                 (not y[0].startswith('<:house_nova:') and not y[0].startswith('<:inhouse_nova:')) and \
                     Pending_role not in user.roles:
@@ -1990,6 +2125,130 @@ async def on_raw_reaction_add(payload):
                             log_channel = get(guild.text_channels, id=839436711367933982)
                             await message.add_reaction(u"\U0001F4AF")
                             await log_channel.send(embed=embed)
+            ##MOUNT POST RUN INHOUSE AND CLIENT
+            elif channel.name == 'mount-post-run' and \
+                (y[1].startswith('<:house_nova:') or y[1].startswith('<:inhouse_nova:')) and \
+                    Pending_role not in user.roles:
+                if not y[4].strip():
+                    embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                            color=0x5d4991)
+                    embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                    embed_dm.set_footer(text=f"Timestamp: {now}")
+                    
+                    await user.send(
+                        f"Hi **{user.name}**, your input for **__boost pot__** is either incomplete or you might have some error on "
+                        "it, please double check the pot. If you are sure you "
+                        "didn't do anything wrong, please contact Nova Team. Thank you!", embed=embed_dm)
+                    await message.remove_reaction(u"\u2705", user)
+                else:
+                    pot = convert_si_to_number(y[4].partition(">")[2].replace(",", "."))
+                    paid_in = y[3].partition(">")[2].strip()
+                    if pot < 999:
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        
+                        await user.send(
+                            f"Hi **{user.name}**, pot cannot be below 1K gold", embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    elif not paid_in or not y[5].strip():
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        
+                        await user.send(
+                            f"Hi **{user.name}**, your input is missing **__Payment Realm and/or Booster__**, please double check."
+                            "If you are sure you didn't do anything wrong, please contact Nova Team. Thank you!", embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    elif paid_in not in realm_name:
+                        embed_dm = discord.Embed(title="Refer to this run.", description=message.content,
+                                                color=0x5d4991)
+                        embed_dm.add_field(name="Link", value=message.jump_url, inline=True)
+                        embed_dm.set_footer(text=f"Timestamp: {now}")
+                        
+                        await user.send(
+                            f"Hi **{user.name}**, **__`{paid_in}`__** you used is either incomplete or you might have "
+                            "some error in it, please double check. If you are sure it's not wrong, please contact "
+                            "Nova Team. Thank you!", embed=embed_dm)
+                        await message.remove_reaction(u"\u2705", user)
+                    else:
+                        if y[2].partition(">")[0].strip().contains("alliance"):
+                            faction = "Alliance"
+                        else:
+                            faction = "Horde"
+
+                        adv = message.author
+                        adv_name, adv_realm = await checkPers(adv.id)
+                        
+                        if adv_name is None and faction == "Alliance":
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
+                        elif adv_name is None and faction == "Horde":
+                            adv_result = await search_nested_horde(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
+                        ###########################################################
+                        tank_id_pre = y[5].partition("@")[2]
+                        if tank_id_pre.startswith("!"):
+                            tank_id_pre = tank_id_pre.partition("!")[2]
+                        tank_id = int(tank_id_pre.partition(">")[0])
+                        tank_user = get(guild.members, id=tank_id)
+                        tank_nick = tank_user.nick
+                        tank_name, tank_realm = await checkPers(tank_id)
+                        if tank_name is None and faction == "Alliance":
+                            tank_result = await search_nested_alliance(boosters, tank_nick)
+                            if tank_result is not None:
+                                tank_name, tank_realm = tank_result.split("-")
+                            else:
+                                tank_name, tank_realm = tank_nick.split("-")
+                        elif tank_name is None and faction == "Horde":
+                            tank_result = await search_nested_horde(boosters, tank_nick)
+                            if tank_result is not None:
+                                tank_name, tank_realm = tank_result.split("-")
+                            else:
+                                tank_name, tank_realm = tank_nick.split("-")
+                        #########################################################
+                        if y[1].startswith('<:house_nova:'):
+                            adv_cut = int(pot * 0.10)
+                        elif y[1].startswith('<:inhouse_nova:'):
+                            adv_cut = int(pot * 0.07)
+                        booster_cut = int(pot * 0.7)
+
+                        async with conn.cursor() as cursor:
+                            query = """
+                                INSERT INTO various 
+                                    (boost_type, boost_faction, boost_id, boost_date, boost_pot, boost_realm,
+                                    adv_name, adv_realm, adv_cut, tank_name, tank_realm, tank_cut)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            """
+                            val = ("Torghast", "Alliance", payload.message_id, now, pot, paid_in, adv_name, adv_realm, adv_cut, tank_name,
+                                tank_realm, booster_cut)
+                            await cursor.execute(query, val)
+
+                            embed = discord.Embed(title="This run was successfully added to DB.", description="",
+                                                color=0x5d4991)
+                            embed.add_field(name="**Server**", value=paid_in, inline=True)
+                            embed.add_field(name="**POT**",
+                                            value=y[4].partition(">")[2] + "<:goldss:817570131193888828>", inline=True)
+                            embed.add_field(name="**Advertiser**", value=adv_name +
+                                            "-" + adv_realm, inline=False)
+                            embed.add_field(name="**Advertiser Cut:**",
+                                            value=str(adv_cut), inline=True)
+                            embed.add_field(name="**Boosters Cut:**",
+                                            value=str(booster_cut), inline=True)
+                            embed.add_field(name="**Boosters**<:alliance_nova:817570759194968064>",
+                                            value="<:tank_nova:817571065207324703>" + tank_name, inline=False)
+                            embed.set_footer(text=f"{now} Run id: {payload.message_id}")
+                            log_channel = get(guild.text_channels, id=839436711367933982)
+                            await message.add_reaction(u"\U0001F4AF")
+                            await log_channel.send(embed=embed)
 
             elif (message.channel.id == 628318833953734676 or channel.name == '🔵pvp-build-grp') and \
                 (y[0].startswith('<:house_nova:') or y[0].startswith('<:inhouse_nova:')) and \
@@ -2852,6 +3111,39 @@ async def on_message(message):
                             await message.add_reaction(u"\U0001F513")
                             await message.author.add_roles(PendingH_role)
                             await collection_embed.add_reaction(u"\u2705")
+                    elif (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run"):
+                        if roles_check and (Pending_role or PendingH_role) not in message.author.roles:
+                            await message.add_reaction(u"\u2705")
+                            if AdvertiserA_trial_role or AdvertiserH_trial_role in message.author.roles:
+                                if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
+                                    realm_field = x[3]
+                                    amount_field = x[4]
+                                else:
+                                    realm_field = x[2]
+                                    amount_field = x[3]
+                                collectors_channel = get(message.guild.text_channels, name='collectors')
+                                collectors_role = get(message.guild.roles, name="Collectors")
+                                collectors_tag_msg = await collectors_channel.send(collectors_role.mention)
+                                embed_collection_log = discord.Embed(
+                                    title="Gold Collection", description="Run has been posted", color=0x5d4991)
+                                embed_collection_log.add_field(
+                                    name="Author", value=message.author.mention, inline=True)
+                                embed_collection_log.add_field(name="Realm: ", value=realm_field, inline=True)
+                                embed_collection_log.add_field(name="Amount: ", value=amount_field, inline=True)
+                                embed_collection_log.add_field(
+                                    name="Channel", value=message.channel.name, inline=False)
+                                embed_collection_log.add_field(
+                                    name="Link", value=message.jump_url, inline=True)
+                                embed_collection_log.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
+                                collection_embed = await collectors_channel.send(embed=embed_collection_log)
+                                await collectors_tag_msg.clear_reactions()
+                                await collectors_tag_msg.clear_reactions()
+                                await message.clear_reactions()
+                                await message.add_reaction(u"\U0001F513")
+                                await message.author.add_roles(Pending_role)
+                                await collection_embed.add_reaction(u"\u2705")
+                        else:
+                            await message.delete()
                     else:
                         await message.delete()
             
@@ -2960,7 +3252,8 @@ async def on_message_delete(message):
             message.channel.name.startswith('build-group') or message.channel.name.startswith('high-keys-group') or message.channel.name.startswith('high-tier-build-group') or
             (message.channel.id == 815104637391863857 or message.channel.name == "🔵leveling-torghast-boost") or 
             (message.channel.id == 815104639368298545 or message.channel.name == "🔵rbg-run-submit") or 
-            (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp")
+            (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp") or
+            (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run")
         )):
         await message.author.remove_roles(Pending_role)
     if (len(unlock_emoji) == 1 and 
@@ -2968,7 +3261,8 @@ async def on_message_delete(message):
             message.channel.name.startswith('build-grp') or message.channel.name.startswith('high-keys-grp') or message.channel.name.startswith('high-tier-build-grp') or
             (message.channel.id == 815104637697916959 or message.channel.name == "🔴leveling-torghast-boost") or 
             (message.channel.id == 815104639661375488 or message.channel.name == "🔴rbg-run-submit") or 
-            (message.channel.id == 815104639368298536 or message.channel.name == "🔴pvp-build-grp")
+            (message.channel.id == 815104639368298536 or message.channel.name == "🔴pvp-build-grp") or
+            (message.channel.id == 884355048707096596 or message.channel.name == "mount-post-run")
         )):
         await message.author.remove_roles(PendingH_role)
 
