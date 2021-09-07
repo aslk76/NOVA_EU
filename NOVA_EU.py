@@ -3150,8 +3150,6 @@ async def on_message(message):
                             await collection_embed.add_reaction(u"\u2705")
                     else:
                         await message.delete()
-                else:
-                    await message.delete()
             
             elif ((x[0].startswith('Type of Boost:') or x[0].startswith('<:inhouse_nova:') or x[0].startswith('<:house_nova:')) and 
                     (message.channel.id == 815104639082823699 or message.channel.name == "🔵pvp-build-grp")):
