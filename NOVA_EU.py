@@ -5307,7 +5307,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 query = """
                     SELECT COALESCE(count(`gambling_log`.id),0), COALESCE(count(case when `gambling_log`.pot > 0 then 1 end),0) as winnings, COALESCE(count(case when `gambling_log`.pot < 0 then 1 end),0) as losings
                     from `nova_casino`.`gambling_log`
-                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
+                    where name = %s and `gambling_log`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
                 """
                 val = (balance_name,)
                 await cursor.execute(query, val)
@@ -5320,7 +5320,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 query = """
                     SELECT COALESCE(count(`gambling_log`.id),0), COALESCE(count(case when `gambling_log`.pot > 0 then 1 end),0) as winnings, COALESCE(count(case when `gambling_log`.pot < 0 then 1 end),0) as losings
                     from `nova_casino`.`gambling_log`
-                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
+                    where name = %s and `gambling_log`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
                 """
                 val = (balance_name,)
                 await cursor.execute(query, val)
@@ -5331,7 +5331,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     pre_casino_count = pre_win_count = pre_los_count = 0
 
                 query = """
-                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    SELECT COALESCE(SUM(`gambling_log`.pot),0), COALESCE(COUNT(CASE WHEN `gambling_log`.pot > 0 THEN `gambling_log`.pot END),0) AS winnings, COALESCE(COUNT(CASE WHEN `gambling_log`.pot < 0 THEN `gambling_log`.pot END),0) AS losings
                     from `nova_casino`.`gambling_log`
                     where name = %s 
                 """
@@ -5344,9 +5344,9 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     tot_casino = tot_win = tot_los = 0
                 
                 query = """
-                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    SELECT COALESCE(SUM(`gambling_log`.pot),0), COALESCE(COUNT(CASE WHEN `gambling_log`.pot > 0 THEN `gambling_log`.pot END),0) AS winnings, COALESCE(COUNT(CASE WHEN `gambling_log`.pot < 0 THEN `gambling_log`.pot END),0) AS losings
                     from `nova_casino`.`gambling_log`
-                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
+                    where name = %s and `gambling_log`.`gambling_log`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
                 """
                 val = (balance_name,)
                 await cursor.execute(query, val)
@@ -5358,9 +5358,9 @@ async def detailed_balance_command(ctx, *, target_booster=None):
 
 
                 query = """
-                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    SELECT COALESCE(SUM(`gambling_log`.pot),0), COALESCE(COUNT(CASE WHEN `gambling_log`.pot > 0 THEN `gambling_log`.pot END),0) AS winnings, COALESCE(COUNT(CASE WHEN `gambling_log`.pot < 0 THEN `gambling_log`.pot END),0) AS losings
                     from `nova_casino`.`gambling_log`
-                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
+                    where name = %s and `gambling_log`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
                 """
                 val = (balance_name,)
                 await cursor.execute(query, val)
