@@ -4912,7 +4912,7 @@ async def balance_command(ctx, *, target_booster=None):
                         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL) total_collections
                         FROM m_plus;
                     """
-                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
+                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
                     await cursor.execute(query, val)
                     total_result_count = await cursor.fetchall()
                     if total_result_count:
@@ -4932,7 +4932,7 @@ async def balance_command(ctx, *, target_booster=None):
                         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
                         FROM m_plus;
                     """
-                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
+                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
                     await cursor.execute(query, val)
                     current_result_count = await cursor.fetchall()
                     if current_result_count:
@@ -4952,7 +4952,7 @@ async def balance_command(ctx, *, target_booster=None):
                         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections 
                         FROM m_plus;
                     """
-                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
+                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
                     await cursor.execute(query, val)
                     previous_result_count = await cursor.fetchall()
                     if previous_result_count:
