@@ -5382,24 +5382,24 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 casino_amount_embed = discord.Embed(title="Casino Amount Info!",
                                             description=f"{balance_name}",
                                             color=0xffd700)
-                casino_amount_embed.add_field(name="Total Amount",
-                                        value=total_casino_amount, inline=True)
-                casino_amount_embed.add_field(name="Total Winnings",
-                                        value=total_winnings_amount, inline=True)
-                casino_amount_embed.add_field(name="Total Losings",
-                                        value=total_losings_amount, inline=True)
                 casino_amount_embed.add_field(name="Current Amount",
                                         value=current_casino_amount, inline=True)
-                casino_amount_embed.add_field(name="Current Winnings",
-                                        value=current_winnings_amount, inline=True)
-                casino_amount_embed.add_field(name="Current Losings",
-                                        value=current_losings_amount, inline=True)
                 casino_amount_embed.add_field(name="Previous Amount",
                                         value=previous_casino_amount, inline=True)
+                casino_amount_embed.add_field(name="Total Amount",
+                                        value=total_casino_amount, inline=True)
+                casino_amount_embed.add_field(name="Current Winnings",
+                                        value=current_winnings_amount, inline=True)
                 casino_amount_embed.add_field(name="Previous Winnings",
                                         value=previous_winnings_amount, inline=True)
+                casino_amount_embed.add_field(name="Total Winnings",
+                                        value=total_winnings_amount, inline=True)
+                casino_amount_embed.add_field(name="Current Losings",
+                                        value=current_losings_amount, inline=True)        
                 casino_amount_embed.add_field(name="Previous Losings",
-                                        value=previous_losings_amount, inline=True)
+                                        value=previous_losings_amount, inline=True)ç
+                casino_amount_embed.add_field(name="Total Losings",
+                                        value=total_losings_amount, inline=True)
                 await ctx.author.send(embed=casino_amount_embed)
 
                 total_casino_count = f"🏧  {tot_casino_count:,}"
@@ -5414,24 +5414,24 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 casino_embed = discord.Embed(title="Casino Bets Info!",
                                             description=f"{balance_name}",
                                             color=0xffd700)
+                casino_embed.add_field(name="Current Bets",
+                                        value=current_casino_count, inline=True)
+                casino_embed.add_field(name="Previous Bets",
+                                        value=previous_casino_count, inline=True)
                 casino_embed.add_field(name="Total Bets",
-                                        value=total_casino_count, inline=False)
+                                        value=total_casino_count, inline=True)
+                casino_embed.add_field(name="Current Wins",
+                                        value=current_winnings_count, inline=True)
+                casino_embed.add_field(name="Previous Wins",
+                                        value=previous_winnings_count, inline=True)
                 casino_embed.add_field(name="Total Winnings",
-                                        value=total_winnings_count, inline=False)
+                                        value=total_winnings_count, inline=True)
+                casino_embed.add_field(name="Current Loses",
+                                        value=current_losings_count, inline=True)
+                casino_embed.add_field(name="Previous Loses",
+                                        value=previous_losings_count, inline=True)
                 casino_embed.add_field(name="Total Losings",
-                                        value=total_losings_count, inline=False)
-                casino_embed.add_field(name="Current Bets",
-                                        value=current_casino_count, inline=False)
-                casino_embed.add_field(name="Current Wins",
-                                        value=current_winnings_count, inline=False)
-                casino_embed.add_field(name="Current Loses",
-                                        value=current_losings_count, inline=False)
-                casino_embed.add_field(name="Current Bets",
-                                        value=previous_casino_count, inline=False)
-                casino_embed.add_field(name="Current Wins",
-                                        value=previous_winnings_count, inline=False)
-                casino_embed.add_field(name="Current Loses",
-                                        value=previous_losings_count, inline=False)
+                                        value=total_losings_count, inline=True)
                 await ctx.author.send(embed=casino_embed)
             await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
                             delete_after=3)   
