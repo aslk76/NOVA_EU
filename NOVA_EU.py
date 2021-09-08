@@ -4114,7 +4114,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
     elif realm_pre.startswith("Twilight"):
         realm_final = "Twilight'sHammer{realm_faction}"
     else:
-        realm_final = realm_pre
+        realm_final = realm_pre + " " + realm_faction
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
     async with ctx.bot.mplus_pool.acquire() as conn:
         if boost_type == "mplus":
