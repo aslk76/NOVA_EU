@@ -4783,11 +4783,11 @@ async def balance_command(ctx, *, target_booster=None):
                                                 description=f"{balance_name}",
                                                 color=0xffd700)
                 balance_embed.add_field(name="Current Balance",
-                                        value=current_balance, inline=True)
+                                        value=current_balance, inline=False)
                 balance_embed.add_field(name="Previous Balance",
-                                        value=previous_balance, inline=True)
+                                        value=previous_balance, inline=False)
                 balance_embed.add_field(name="Total Balance",
-                                        value=total_balance, inline=True)
+                                        value=total_balance, inline=False)
                 await ctx.author.send(embed=balance_embed)
                 # if ctx.author.id == 186433880872583169:
 
