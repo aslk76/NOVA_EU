@@ -4802,7 +4802,7 @@ async def balance_command(ctx, *, target_booster=None):
                         (SELECT SUM(amount) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s) total_raids,
                         (SELECT SUM(amount) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s) total_balance_ops FROM m_plus;
                     """
-                    val = (balance_name,)
+                    val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
                     await cursor.execute(query, val)
                     total_result = await cursor.fetchall()
                     if balance_result:
