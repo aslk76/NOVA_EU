@@ -4778,8 +4778,7 @@ async def balance_command(ctx, *, target_booster=None):
                 previous_balance = f"🏧  {pre_bal:,}"
                 total_balance = f"🏧  {tot_bal:,}"
 
-                await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
-                                delete_after=3)
+                
                 balance_embed = discord.Embed(title="Balance Info!",
                                                 description=f"{balance_name}",
                                                 color=0xffd700)
@@ -4790,7 +4789,36 @@ async def balance_command(ctx, *, target_booster=None):
                 balance_embed.add_field(name="Total Balance",
                                         value=total_balance, inline=False)
                 await ctx.author.send(embed=balance_embed)
-    
+                if ctx.author.id == "186433880872583169":
+                    query = """
+                        SELECT count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end) as losings
+                        from `nova_casino`.`gambling_log`
+                        where booster = %s
+                    """
+                    val = (balance_name,)
+                    await cursor.execute(query, val)
+                    casino_result = await cursor.fetchall()
+                    if casino_result:
+                        tot_casino, tot_win, tot_los = casino_result[0]
+                    else:
+                        tot_casino = tot_win = tot_los = 0
+
+                    total_casino = f"🏧  {tot_casino:,}"
+                    total_winnings = f"🏧  {tot_win:,}"
+                    total_losings = f"🏧  {tot_los:,}"
+                    casino_embed = discord.Embed(title="Casino Info!",
+                                                description=f"{balance_name}",
+                                                color=0xffd700)
+                    casino_embed.add_field(name="Total Bets",
+                                            value=total_casino, inline=False)
+                    casino_embed.add_field(name="Total Winnings",
+                                            value=total_winnings, inline=False)
+                    casino_embed.add_field(name="Total Losings",
+                                            value=total_losings, inline=False)
+                    await ctx.author.send(embed=casino_embed)
+
+                    await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
+                                delete_after=3)
     except discord.errors.Forbidden:
         await ctx.send(
             f"{ctx.message.author.mention} cannot send you a DM, please allow DM's from server members", 
