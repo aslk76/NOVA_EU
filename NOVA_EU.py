@@ -5397,7 +5397,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 casino_amount_embed.add_field(name="Current Losings",
                                         value=current_losings_amount, inline=True)        
                 casino_amount_embed.add_field(name="Previous Losings",
-                                        value=previous_losings_amount, inline=True)ç
+                                        value=previous_losings_amount, inline=True)
                 casino_amount_embed.add_field(name="Total Losings",
                                         value=total_losings_amount, inline=True)
                 await ctx.author.send(embed=casino_amount_embed)
