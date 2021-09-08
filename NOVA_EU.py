@@ -5099,7 +5099,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut ELSE 0 END) FROM various) total_various, 
                     (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_raids,
-                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL) total_collections FROM m_plus;
                 """
                 val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
@@ -5119,7 +5119,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE 0 END) FROM various) total_various, 
                     (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND import_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_raids,
-                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
                     FROM m_plus;
                 """
@@ -5140,7 +5140,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE 0 END) FROM various) total_various, 
                     (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND import_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_raids,
-                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
                     FROM m_plus;
                 """
@@ -5191,11 +5191,11 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                                         value=previous_raids, inline=True)
                 balance_embed.add_field(name="Total Raids Balance",
                                         value=total_raids, inline=True)
-                balance_embed.add_field(name="Current Balance Operations Balance",
+                balance_embed.add_field(name="Current Casino/Lottery/Strikes Balance",
                                         value=current_balance_ops, inline=True)
-                balance_embed.add_field(name="Previous Balance Operations Balance",
+                balance_embed.add_field(name="Previous Casino/Lottery/Strikes Balance",
                                         value=previous_balance_ops, inline=True)
-                balance_embed.add_field(name="Total Balance Operations Balance",
+                balance_embed.add_field(name="Total Casino/Lottery/Strikes Balance",
                                         value=total_balance_ops, inline=True)
                 await ctx.author.send(embed=balance_embed)
 
@@ -5207,7 +5207,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL THEN dps2_cut ELSE NULL END) AS total_mplus, 
                     (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut ELSE NULL END) FROM various) total_various, 
-                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL) total_collections
                     FROM m_plus;
                 """
@@ -5227,7 +5227,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE NULL END) AS total_mplus, 
                     (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE NULL END) FROM various) total_various, 
-                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
                     FROM m_plus;
                 """
@@ -5247,7 +5247,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                     WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE NULL END) AS total_mplus, 
                     (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
                     WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE NULL END) FROM various) total_various, 
-                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
+                    (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND command <> "Casino" AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
                     (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections 
                     FROM m_plus;
                 """
@@ -5290,6 +5290,149 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 count_embed.add_field(name="Total Balance Operations Count",
                                         value=total_balance_ops_count, inline=True)
                 await ctx.author.send(embed=count_embed)
+
+                query = """
+                    SELECT COALESCE(count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                casino_result_count = await cursor.fetchall()
+                if casino_result_count:
+                    tot_casino_count, tot_win_count, tot_los_count = casino_result_count[0]
+                else:
+                    tot_casino_count = tot_win_count = tot_los_count = 0
+
+                query = """
+                    SELECT COALESCE(count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                cur_casino_result_count = await cursor.fetchall()
+                if cur_casino_result_count:
+                    cur_casino_count, cur_win_count, cur_los_count = cur_casino_result_count[0]
+                else:
+                    cur_casino_count = cur_win_count = cur_los_count = 0
+
+                query = """
+                    SELECT COALESCE(count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                pre_casino_result_count = await cursor.fetchall()
+                if pre_casino_result_count:
+                    pre_casino_count, pre_win_count, pre_los_count = pre_casino_result_count[0]
+                else:
+                    pre_casino_count = pre_win_count = pre_los_count = 0
+
+                query = """
+                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                casino_result = await cursor.fetchall()
+                if casino_result:
+                    tot_casino, tot_win, tot_los = casino_result[0]
+                else:
+                    tot_casino = tot_win = tot_los = 0
+                
+                query = """
+                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                cur_casino_result = await cursor.fetchall()
+                if cur_casino_result:
+                    cur_casino, cur_win, cur_los = cur_casino_result[0]
+                else:
+                    cur_casino = cur_win = cur_los = 0
+
+
+                query = """
+                    SELECT COALESCE(sum(`gambling_log`.amount),0), COALESCE(count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end),0) as winnings, COALESCE(count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end),0) as losings
+                    from `nova_casino`.`gambling_log`
+                    where name = %s and `nova_casino`.`date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))
+                """
+                val = (balance_name,)
+                await cursor.execute(query, val)
+                pre_casino_result = await cursor.fetchall()
+                if pre_casino_result:
+                    pre_casino, pre_win, pre_los = pre_casino_result[0]
+                else:
+                    pre_casino = pre_win = pre_los = 0
+
+                total_casino_amount = f"🏧  {tot_casino:,}"
+                total_winnings_amount = f"🏧  {tot_win:,}"
+                total_losings_amount = f"🏧  {tot_los:,}"
+                current_casino_amount = f"🏧  {cur_casino:,}"
+                current_winnings_amount = f"🏧  {cur_win:,}"
+                current_losings_amount = f"🏧  {cur_los:,}"
+                previous_casino_amount = f"🏧  {pre_casino:,}"
+                previous_winnings_amount = f"🏧  {pre_win:,}"
+                previous_losings_amount = f"🏧  {pre_los:,}"
+                casino_amount_embed = discord.Embed(title="Casino Amount Info!",
+                                            description=f"{balance_name}",
+                                            color=0xffd700)
+                casino_amount_embed.add_field(name="Total Amount",
+                                        value=total_casino_amount, inline=True)
+                casino_amount_embed.add_field(name="Total Winnings",
+                                        value=total_winnings_amount, inline=True)
+                casino_amount_embed.add_field(name="Total Losings",
+                                        value=total_losings_amount, inline=True)
+                casino_amount_embed.add_field(name="Current Amount",
+                                        value=current_casino_amount, inline=True)
+                casino_amount_embed.add_field(name="Current Winnings",
+                                        value=current_winnings_amount, inline=True)
+                casino_amount_embed.add_field(name="Current Losings",
+                                        value=current_losings_amount, inline=True)
+                casino_amount_embed.add_field(name="Previous Amount",
+                                        value=previous_casino_amount, inline=True)
+                casino_amount_embed.add_field(name="Previous Winnings",
+                                        value=previous_winnings_amount, inline=True)
+                casino_amount_embed.add_field(name="Previous Losings",
+                                        value=previous_losings_amount, inline=True)
+                await ctx.author.send(embed=casino_amount_embed)
+
+                total_casino_count = f"🏧  {tot_casino_count:,}"
+                total_winnings_count = f"🏧  {tot_win_count:,}"
+                total_losings_count = f"🏧  {tot_los_count:,}"
+                current_casino_count = f"🏧  {cur_casino_count:,}"
+                current_winnings_count = f"🏧  {cur_win_count:,}"
+                current_losings_count = f"🏧  {cur_los_count:,}"
+                previous_casino_count = f"🏧  {pre_casino_count:,}"
+                previous_winnings_count = f"🏧  {pre_win_count:,}"
+                previous_losings_count = f"🏧  {pre_los_count:,}"
+                casino_embed = discord.Embed(title="Casino Bets Info!",
+                                            description=f"{balance_name}",
+                                            color=0xffd700)
+                casino_embed.add_field(name="Total Bets",
+                                        value=total_casino_count, inline=False)
+                casino_embed.add_field(name="Total Winnings",
+                                        value=total_winnings_count, inline=False)
+                casino_embed.add_field(name="Total Losings",
+                                        value=total_losings_count, inline=False)
+                casino_embed.add_field(name="Current Bets",
+                                        value=current_casino_count, inline=False)
+                casino_embed.add_field(name="Current Wins",
+                                        value=current_winnings_count, inline=False)
+                casino_embed.add_field(name="Current Loses",
+                                        value=current_losings_count, inline=False)
+                casino_embed.add_field(name="Current Bets",
+                                        value=previous_casino_count, inline=False)
+                casino_embed.add_field(name="Current Wins",
+                                        value=previous_winnings_count, inline=False)
+                casino_embed.add_field(name="Current Loses",
+                                        value=previous_losings_count, inline=False)
+                await ctx.author.send(embed=casino_embed)
             await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
                             delete_after=3)   
     except discord.errors.Forbidden:
