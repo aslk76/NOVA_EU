@@ -5039,7 +5039,7 @@ async def balance_command(ctx, *, target_booster=None):
             delete_after=5)
 
 @bot.command(aliases=['db', 'dbal'])
-@commands.has_any_role('Bot Whisperer', 'Management')
+@commands.has_any_role('Bot Whisperer', 'Community Support', 'staff active', 'Management')
 async def detailed_balance_command(ctx, *, target_booster=None):
     """To Check booster balance with details.
         Example: !db Abuyogui-Sanguino [H]
@@ -5064,11 +5064,11 @@ async def detailed_balance_command(ctx, *, target_booster=None):
             return await ctx.send("You don't have permissions to check other members balance")
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
-    if (ctx.message.channel.id != 815104636251275312 and 
-        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles)):
-        return await ctx.message.channel.send(
-            f"Head to {balance_check_channel.mention} to issue the command", 
-            delete_after=5)
+    # if (ctx.message.channel.id != 815104636251275312 and 
+    #     (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles)):
+    #     return await ctx.message.channel.send(
+    #         f"Head to {balance_check_channel.mention} to issue the command", 
+    #         delete_after=5)
     if not (balance_name.endswith("[A]") or balance_name.endswith("[H]")):
         return await ctx.send("Invalid name format")
     try:
