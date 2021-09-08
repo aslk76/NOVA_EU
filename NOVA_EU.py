@@ -4793,7 +4793,7 @@ async def balance_command(ctx, *, target_booster=None):
                     query = """
                         SELECT count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end) as losings
                         from `nova_casino`.`gambling_log`
-                        where booster = %s
+                        where name = %s
                     """
                     val = (balance_name,)
                     await cursor.execute(query, val)
