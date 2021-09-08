@@ -5191,11 +5191,11 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                                         value=previous_raids, inline=True)
                 balance_embed.add_field(name="Total Raids Balance",
                                         value=total_raids, inline=True)
-                balance_embed.add_field(name="Current Lottery/Strikes Balance",
+                balance_embed.add_field(name="Current Lottery/Strikes/Deducts/Adds Balance",
                                         value=current_balance_ops, inline=True)
-                balance_embed.add_field(name="Previous Lottery/Strikes Balance",
+                balance_embed.add_field(name="Previous Lottery/Strikes/Deducts/Adds Balance",
                                         value=previous_balance_ops, inline=True)
-                balance_embed.add_field(name="Total Lottery/Strikes Balance",
+                balance_embed.add_field(name="Total Lottery/Strikes/Deducts/Adds Balance",
                                         value=total_balance_ops, inline=True)
                 await ctx.author.send(embed=balance_embed)
 
@@ -5283,11 +5283,11 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                                         value=previous_various_count, inline=True)
                 count_embed.add_field(name="Total Various Count",
                                         value=total_various_count, inline=True)
-                count_embed.add_field(name="Current Lottery/Strikes Count",
+                count_embed.add_field(name="Current Lottery/Strikes/Deducts/Adds Count",
                                         value=current_balance_ops_count, inline=True)
-                count_embed.add_field(name="Previous Lottery/Strikes Count",
+                count_embed.add_field(name="Previous Lottery/Strikes/Deducts/Adds Count",
                                         value=previous_balance_ops_count, inline=True)
-                count_embed.add_field(name="Total Lottery/Strikes Count",
+                count_embed.add_field(name="Total Lottery/Strikes/Deducts/Adds Count",
                                         value=total_balance_ops_count, inline=True)
                 await ctx.author.send(embed=count_embed)
 
