@@ -5346,7 +5346,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
                 query = """
                     SELECT COALESCE(SUM(`gambling_log`.pot),0), COALESCE(COUNT(CASE WHEN `gambling_log`.pot > 0 THEN `gambling_log`.pot END),0) AS winnings, COALESCE(COUNT(CASE WHEN `gambling_log`.pot < 0 THEN `gambling_log`.pot END),0) AS losings
                     from `nova_casino`.`gambling_log`
-                    where name = %s and `gambling_log`.`gambling_log`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
+                    where name = %s and `gambling_log`.`date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))
                 """
                 val = (balance_name,)
                 await cursor.execute(query, val)
