@@ -4789,7 +4789,7 @@ async def balance_command(ctx, *, target_booster=None):
                 balance_embed.add_field(name="Total Balance",
                                         value=total_balance, inline=False)
                 await ctx.author.send(embed=balance_embed)
-                if ctx.author.id == "186433880872583169":
+                if ctx.author.id == 186433880872583169:
                     query = """
                         SELECT count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end) as losings
                         from `nova_casino`.`gambling_log`
@@ -4817,8 +4817,8 @@ async def balance_command(ctx, *, target_booster=None):
                                             value=total_losings, inline=False)
                     await ctx.author.send(embed=casino_embed)
 
-                    await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
-                                delete_after=3)
+                await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
+                                delete_after=3)   
     except discord.errors.Forbidden:
         await ctx.send(
             f"{ctx.message.author.mention} cannot send you a DM, please allow DM's from server members", 
