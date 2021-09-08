@@ -2990,7 +2990,7 @@ async def on_message(message):
                 await bot_dms__channel.send(message.attachments[0].url)
     
     elif ((message.channel.id == 815104636251275312 or message.channel.name == "balance-check") and 
-        (not message.content.lower() == "!b" and  not message.content.lower() == "!b_crossfaction") and 
+        (not message.content.lower() == "!b" and  not message.content.lower() == "!b_crossfaction" and not message.content.lower() == "!db") and 
         not message.author.bot and (get(message.guild.roles, name="NOVA") not in message.author.roles or 
         get(message.guild.roles, name="Moderator") not in message.author.roles)):
         await message.channel.send("Wrong balance check command", delete_after=3)
@@ -4737,6 +4737,8 @@ async def balance_command(ctx, *, target_booster=None):
     Moderator_role = get(ctx.guild.roles, name="Moderator")
     Management_role = get(ctx.guild.roles, name="Management")
     Staff_role = get(ctx.guild.roles, name="Staff")
+    CS_role = get(ctx.guild.roles, name="Community Support")
+
     if target_booster is None:
         name, realm = await checkPers(ctx.author.id)
         if name is None:
@@ -4752,7 +4754,7 @@ async def balance_command(ctx, *, target_booster=None):
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
     if (ctx.message.channel.id != 815104636251275312 and 
-        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles)):
+        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles and CS_role not in ctx.author.roles)):
         return await ctx.message.channel.send(
             f"Head to {balance_check_channel.mention} to issue the command", 
             delete_after=5)
@@ -4789,248 +4791,6 @@ async def balance_command(ctx, *, target_booster=None):
                 balance_embed.add_field(name="Total Balance",
                                         value=total_balance, inline=False)
                 await ctx.author.send(embed=balance_embed)
-                # if ctx.author.id == 186433880872583169:
-
-                #     query = """
-                #         SELECT SUM(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL THEN dps2_cut ELSE 0 END) AS total_mplus, 
-                #         (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut ELSE 0 END) FROM various) total_various, 
-                #         (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_raids,
-                #         (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL) total_collections FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     total_result = await cursor.fetchall()
-                #     if total_result:
-                #         tot_mplus, tot_various, tot_raids, tot_balance_ops, tot_collections = total_result[0]
-                #     else:
-                #         tot_mplus = tot_various = tot_raids = tot_balance_ops = tot_collections = 0
-
-                #     query = """
-                #         SELECT SUM(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE 0 END) AS total_mplus, 
-                #         (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE 0 END) FROM various) total_various, 
-                #         (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND import_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_raids,
-                #         (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
-                #         FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     current_result = await cursor.fetchall()
-                #     if current_result:
-                #         cur_mplus, cur_various, cur_raids, cur_balance_ops, cur_collections = current_result[0]
-                #     else:
-                #         cur_mplus = cur_various = cur_raids = cur_balance_ops = cur_collections = 0
-
-                #     query = """
-                #         SELECT SUM(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE 0 END) AS total_mplus, 
-                #         (SELECT SUM(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE 0 END) FROM various) total_various, 
-                #         (SELECT COALESCE(SUM(amount),0) FROM raid_balance WHERE CONCAT(`name`, '-', realm) = %s AND import_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_raids,
-                #         (SELECT COALESCE(SUM(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0)*5000 FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
-                #         FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     previous_result = await cursor.fetchall()
-                #     if previous_result:
-                #         pre_mplus, pre_various, pre_raids, pre_balance_ops, pre_collections = previous_result[0]
-                #     else:
-                #         pre_mplus = pre_various = pre_raids = pre_balance_ops = pre_collections = 0
-                #     total_mplus = f"🏧  {tot_mplus:,}"
-                #     total_various = f"🏧  {tot_various:,}"
-                #     total_raids = f"🏧  {tot_raids:,}"
-                #     total_balance_ops = f"🏧  {tot_balance_ops+tot_collections:,}"
-                #     current_mplus = f"🏧  {cur_mplus:,}"
-                #     current_various = f"🏧  {cur_various:,}"
-                #     current_raids = f"🏧  {cur_raids:,}"
-                #     current_balance_ops = f"🏧  {cur_balance_ops+cur_collections:,}"
-                #     previous_mplus = f"🏧  {pre_mplus:,}"
-                #     previous_various = f"🏧  {pre_various:,}"
-                #     previous_raids = f"🏧  {pre_raids:,}"
-                #     previous_balance_ops = f"🏧  {pre_balance_ops+pre_collections:,}"
-
-                #     balance_embed = discord.Embed(title="Balance Info!",
-                #                                 description=f"{balance_name}",
-                #                                 color=0xffd700)
-                #     balance_embed.add_field(name="Current Balance",
-                #                             value=current_balance, inline=True)
-                #     balance_embed.add_field(name="Previous Balance",
-                #                             value=previous_balance, inline=True)
-                #     balance_embed.add_field(name="Total Balance",
-                #                             value=total_balance, inline=True)
-                #     balance_embed.add_field(name="Current MPlus Balance",
-                #                             value=current_mplus, inline=True)
-                #     balance_embed.add_field(name="Previous MPlus Balance",
-                #                             value=previous_mplus, inline=True)
-                #     balance_embed.add_field(name="Total MPlus Balance",
-                #                             value=total_mplus, inline=True)
-                #     balance_embed.add_field(name="Current Various Balance",
-                #                             value=current_various, inline=True)
-                #     balance_embed.add_field(name="Previous Various Balance",
-                #                             value=previous_various, inline=True)
-                #     balance_embed.add_field(name="Total Various Balance",
-                #                             value=total_various, inline=True)
-                #     balance_embed.add_field(name="Current Raids Balance",
-                #                             value=current_raids, inline=True)
-                #     balance_embed.add_field(name="Previous Raids Balance",
-                #                             value=previous_raids, inline=True)
-                #     balance_embed.add_field(name="Total Raids Balance",
-                #                             value=total_raids, inline=True)
-                #     balance_embed.add_field(name="Current Balance Operations Balance",
-                #                             value=current_balance_ops, inline=True)
-                #     balance_embed.add_field(name="Previous Balance Operations Balance",
-                #                             value=previous_balance_ops, inline=True)
-                #     balance_embed.add_field(name="Total Balance Operations Balance",
-                #                             value=total_balance_ops, inline=True)
-                #     await ctx.author.send(embed=balance_embed)
-
-                #     query = """
-                #         SELECT COUNT(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL THEN dps2_cut ELSE NULL END) AS total_mplus, 
-                #         (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut ELSE NULL END) FROM various) total_various, 
-                #         (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL) total_collections
-                #         FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     total_result_count = await cursor.fetchall()
-                #     if total_result_count:
-                #         tot_mplus_count, tot_various_count, tot_balance_ops_count, tot_collections_count = total_result_count[0]
-                #     else:
-                #         tot_mplus_count = tot_various_count = tot_balance_ops_count = tot_collections_count = 0
-
-                #     query = """
-                #         SELECT COUNT(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1))THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE NULL END) AS total_mplus, 
-                #         (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE NULL END) FROM various) total_various, 
-                #         (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`cur1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`cur2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections
-                #         FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     current_result_count = await cursor.fetchall()
-                #     if current_result_count:
-                #         cur_mplus_count, cur_various_count, cur_balance_ops_count, cur_collections_count = current_result_count[0]
-                #     else:
-                #         cur_mplus_count = cur_various_count = cur_balance_ops_count = cur_collections_count = 0
-
-                #     query = """
-                #         SELECT COUNT(CASE WHEN CONCAT(`m_plus`.adv_name, '-', `m_plus`.adv_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.adv_cut 
-                #         WHEN CONCAT(`m_plus`.tank_name, '-', `m_plus`.tank_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `m_plus`.tank_cut 
-                #         WHEN CONCAT(healer_name, '-', healer_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN healer_cut
-                #         WHEN CONCAT(dps1_name, '-', dps1_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1))THEN dps1_cut
-                #         WHEN CONCAT(dps2_name, '-', dps2_realm) = %s AND `m_plus`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN dps2_cut ELSE NULL END) AS total_mplus, 
-                #         (SELECT COUNT(CASE WHEN CONCAT(`various`.adv_name, '-', `various`.adv_realm) = %s AND `various`.deleted_at IS NULL AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) THEN `various`.adv_cut 
-                #         WHEN CONCAT(`various`.tank_name, '-', `various`.tank_realm) = %s AND `various`.deleted_at IS NULL THEN `various`.tank_cut AND boost_date BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) ELSE NULL END) FROM various) total_various, 
-                #         (SELECT COALESCE(COUNT(amount),0) FROM balance_ops WHERE CONCAT(`name`, '-', realm) = %s  AND `date` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_balance_ops,
-                #         (SELECT COALESCE(COUNT(amount),0) FROM collectors WHERE collector = %s AND deleted_at IS NULL AND `date_collected` BETWEEN (SELECT `variables`.`pre1` FROM `variables` WHERE (`variables`.`id` = 1)) AND (SELECT `variables`.`pre2` FROM `variables` WHERE (`variables`.`id` = 1)) AND deleted_at IS NULL) total_collections 
-                #         FROM m_plus;
-                #     """
-                #     val = (balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,balance_name,)
-                #     await cursor.execute(query, val)
-                #     previous_result_count = await cursor.fetchall()
-                #     if previous_result_count:
-                #         pre_mplus_count, pre_various_count, pre_balance_ops_count, pre_collections_count = previous_result_count[0]
-                #     else:
-                #         pre_mplus_count = pre_various_count = pre_balance_ops_count = pre_collections_count = 0
-                #     total_mplus_count = f"🏧  {tot_mplus_count:,}"
-                #     total_various_count = f"🏧  {tot_various_count:,}"
-                #     total_balance_ops_count = f"🏧  {tot_balance_ops_count+tot_collections_count:,}"
-                #     current_mplus_count = f"🏧  {cur_mplus_count:,}"
-                #     current_various_count = f"🏧  {cur_various_count:,}"
-                #     current_balance_ops_count = f"🏧  {cur_balance_ops_count+cur_collections_count:,}"
-                #     previous_mplus_count = f"🏧  {pre_mplus_count:,}"
-                #     previous_various_count = f"🏧  {pre_various_count:,}"
-                #     previous_balance_ops_count = f"🏧  {pre_balance_ops_count+pre_collections_count:,}"
-
-                #     count_embed = discord.Embed(title="Runs Count Info!",
-                #                                 description=f"{balance_name}",
-                #                                 color=0xffd700)
-                #     count_embed.add_field(name="Current MPlus Count",
-                #                             value=current_mplus_count, inline=True)
-                #     count_embed.add_field(name="Previous MPlus Count",
-                #                             value=previous_mplus_count, inline=True)
-                #     count_embed.add_field(name="Total MPlus Count",
-                #                             value=total_mplus_count, inline=True)
-                #     count_embed.add_field(name="Current Various Count",
-                #                             value=current_various_count, inline=True)
-                #     count_embed.add_field(name="Previous Various Count",
-                #                             value=previous_various_count, inline=True)
-                #     count_embed.add_field(name="Total Various Count",
-                #                             value=total_various_count, inline=True)
-                #     count_embed.add_field(name="Current Balance Operations Count",
-                #                             value=current_balance_ops_count, inline=True)
-                #     count_embed.add_field(name="Previous Balance Operations Count",
-                #                             value=previous_balance_ops_count, inline=True)
-                #     count_embed.add_field(name="Total Balance Operations Count",
-                #                             value=total_balance_ops_count, inline=True)
-                #     await ctx.author.send(embed=count_embed)
-                    # query = """
-                    #     SELECT count(`gambling_log`.id), count(case when `gambling_log`.pot > 0 then 1 end) as winnings, count(case when `gambling_log`.pot < 0 then 1 end) as losings
-                    #     from `nova_casino`.`gambling_log`
-                    #     where name = %s
-                    # """
-                    # val = (balance_name,)
-                    # await cursor.execute(query, val)
-                    # casino_result_count = await cursor.fetchall()
-                    # if casino_result_count:
-                    #     tot_casino_count, tot_win_count, tot_los_count = casino_result_count[0]
-                    # else:
-                    #     tot_casino_count = tot_win_count = tot_los_count = 0
-
-                    # query = """
-                    #     SELECT sum(`gambling_log`.amount), count(case when `gambling_log`.amount > 0 then `gambling_log`.amount end) as winnings, count(case when `gambling_log`.amount < 0 then `gambling_log`.amount end) as losings
-                    #     from `nova_casino`.`gambling_log`
-                    #     where name = %s
-                    # """
-                    # val = (balance_name,)
-                    # await cursor.execute(query, val)
-                    # casino_result = await cursor.fetchall()
-                    # if casino_result:
-                    #     tot_casino, tot_win, tot_los = casino_result[0]
-                    # else:
-                    #     tot_casino = tot_win = tot_los = 0
-
-                    # total_casino_count = f"🏧  {tot_casino_count:,}"
-                    # total_winnings_count = f"🏧  {tot_win_count:,}"
-                    # total_losings_count = f"🏧  {tot_los_count:,}"
-                    # casino_embed = discord.Embed(title="Casino Info!",
-                    #                             description=f"{balance_name}",
-                    #                             color=0xffd700)
-                    # casino_embed.add_field(name="Total Bets",
-                    #                         value=total_casino, inline=False)
-                    # casino_embed.add_field(name="Total Winnings",
-                    #                         value=total_winnings, inline=False)
-                    # casino_embed.add_field(name="Total Losings",
-                    #                         value=total_losings, inline=False)
-                    # await ctx.author.send(embed=casino_embed)
-
                 await ctx.send(f"{ctx.message.author.mention} balance has been sent in a DM", 
                                 delete_after=3)   
     except discord.errors.Forbidden:
@@ -5039,7 +4799,6 @@ async def balance_command(ctx, *, target_booster=None):
             delete_after=5)
 
 @bot.command(aliases=['db', 'dbal'])
-@commands.has_any_role('Bot Whisperer', 'Community Support', 'staff active', 'Management')
 async def detailed_balance_command(ctx, *, target_booster=None):
     """To Check booster balance with details.
         Example: !db Abuyogui-Sanguino [H]
@@ -5050,6 +4809,7 @@ async def detailed_balance_command(ctx, *, target_booster=None):
     Moderator_role = get(ctx.guild.roles, name="Moderator")
     Management_role = get(ctx.guild.roles, name="Management")
     Staff_role = get(ctx.guild.roles, name="Staff")
+    CS_role = get(ctx.guild.roles, name="Community Support")
     if target_booster is None:
         name, realm = await checkPers(ctx.author.id)
         if name is None:
@@ -5064,11 +4824,11 @@ async def detailed_balance_command(ctx, *, target_booster=None):
             return await ctx.send("You don't have permissions to check other members balance")
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
-    # if (ctx.message.channel.id != 815104636251275312 and 
-    #     (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles)):
-    #     return await ctx.message.channel.send(
-    #         f"Head to {balance_check_channel.mention} to issue the command", 
-    #         delete_after=5)
+    if (ctx.message.channel.id != 815104636251275312 and 
+        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles and CS_role not in ctx.author.roles)):
+        return await ctx.message.channel.send(
+            f"Head to {balance_check_channel.mention} to issue the command", 
+            delete_after=5)
     if not (balance_name.endswith("[A]") or balance_name.endswith("[H]")):
         return await ctx.send("Invalid name format")
     try:
