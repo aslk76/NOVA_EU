@@ -3447,7 +3447,8 @@ async def balance_command_crossfaction(ctx, *, target_booster=None):
             return await ctx.send("You don't have permissions to check other members balance")
 
     balance_check_channel = get(ctx.guild.text_channels, id=815104636251275312)
-    if ctx.message.channel.id != 815104636251275312:
+    if (ctx.message.channel.id != 815104636251275312 and 
+        (Moderator_role not in ctx.author.roles and Management_role not in ctx.author.roles and Staff_role not in ctx.author.roles and CS_role not in ctx.author.roles)):
         return await ctx.message.channel.send(
             f"Head to {balance_check_channel.mention} to issue the command", 
             delete_after=5)
@@ -3470,7 +3471,7 @@ async def balance_command_crossfaction(ctx, *, target_booster=None):
                 await cursor.execute(query, val)
                 balance_result = await cursor.fetchall()
                 if len(balance_result) > 0 :
-                    cur_bal, pre_bal, tot_bal = balance_result
+                    cur_bal, pre_bal, tot_bal = balance_result[0]
                 else:
                     cur_bal = pre_bal = tot_bal = 0
 
