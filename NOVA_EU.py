@@ -1232,7 +1232,11 @@ async def on_raw_reaction_add(payload):
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
                         
-                        adv_cut = int(pot * 0.17)
+                        if Hotshot_A not in message.author.roles:
+                            adv_cut = int(pot * 0.17)
+                        elif Hotshot_A in message.author.roles:
+                            adv_cut = int(pot * 0.21)
+
                         booster_cut = int(pot * 0.70)
 
                         async with conn.cursor() as cursor:
@@ -1342,7 +1346,7 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_nick.split("-")
 
 
-                        adv_cut = int(pot * 0.13)
+                        adv_cut = int(pot * 0.10)
                         booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
@@ -1721,7 +1725,10 @@ async def on_raw_reaction_add(payload):
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
 
-                        adv_cut = int(pot * 0.17)
+                        if Hotshot_H not in message.author.roles:
+                            adv_cut = int(pot * 0.17)
+                        elif Hotshot_H in message.author.roles:
+                            adv_cut = int(pot * 0.21)
                         booster_cut = int(pot * 0.70)
 
                         async with conn.cursor() as cursor:
@@ -1830,7 +1837,7 @@ async def on_raw_reaction_add(payload):
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
 
-                        adv_cut = int(pot * 0.13)
+                        adv_cut = int(pot * 0.10)
                         booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
@@ -3558,7 +3565,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         now = datetime.date(datetime.now(timezone.utc))
         for i in raid_names:
             name, realm, amount = i.split("\t")
-            raid_vals.append([now, name, realm, amount.replace(",","")])
+            raid_vals.append([now.rstrip(), name.rstrip(), realm.rstrip(), amount.replace(",","").rstrip()])
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
