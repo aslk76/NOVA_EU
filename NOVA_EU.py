@@ -3565,7 +3565,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         now = datetime.date(datetime.now(timezone.utc))
         for i in raid_names:
             name, realm, amount = i.split("\t")
-            raid_vals.append([now.rstrip(), name.rstrip(), realm.rstrip(), amount.replace(",","").rstrip()])
+            raid_vals.append([now, name.rstrip(), realm.rstrip(), amount.replace(",","").rstrip()])
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
