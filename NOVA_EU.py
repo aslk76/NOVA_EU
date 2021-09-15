@@ -4478,6 +4478,45 @@ async def DeductBalance(ctx, user: discord.Member, amount: str, *, reason: str):
             await balance_channel.send(embed=em)
             await ctx.author.send(embed=em)
 
+@bot.command(aliases=['DedPrev', 'DeductPrevious'])
+@commands.after_invoke(record_usage)
+@commands.has_any_role('staff active', 'Management', 'NOVA')
+async def DeductBalancePrevious(ctx, user: discord.Member, amount: str, *, reason: str):
+    """To deduct balance from anyone in previous.
+       example: !DeductBalancePrevious @ASLK76#2188 100K in house boost payment
+    """
+    await ctx.message.delete()
+    balance_channel = get(ctx.guild.text_channels, id=840733014622601226)
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        name, realm = await checkPers(user.id)
+        if name is None:
+            if "-" not in user.nick:
+                raise ValueError(f"Nickname format not correct for {user.display_name}")
+            name, realm = user.nick.split("-")
+
+        async with conn.cursor() as cursor:
+            if not amount.startswith('-'):
+                command_deduct = convert_si_to_number(amount.replace(",", ".")) * -1
+            else:
+                command_deduct = convert_si_to_number(amount.replace(",", "."))
+
+            query = """
+                INSERT INTO balance_ops 
+                    (operation_id, date, name, realm, operation, command, reason, amount, author) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+
+            val = (ctx.message.id, now - timedelta(days=7), name, realm, 'Deduction', 'RemoveBalance', reason, command_deduct, ctx.message.author.display_name)
+            await cursor.execute(query, val)
+            em = discord.Embed(title="Balance Deducted",
+                                description=
+                                    f"{user.mention} got deducted **{command_deduct:,d}** gold because "
+                                    f"**{reason}** by {ctx.message.author.mention}."
+                                    f"Deduct ID: {ctx.message.id}",
+                                color=discord.Color.orange())
+            await balance_channel.send(embed=em)
+            await ctx.author.send(embed=em)
 
 @bot.command()
 @commands.after_invoke(record_usage)
