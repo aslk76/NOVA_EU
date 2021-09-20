@@ -4018,7 +4018,7 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
        
        -<boost_type> is `mplus` for M+ or `various` for the rest.
 
-       example: nm!EditRunRealm 839463136980631552 mplus TarrenMill [H]
+       example: !EditRunRealm 839463136980631552 mplus TarrenMill [H]
        
        Please make sure you copy paste the correct realm name
     """
@@ -4026,45 +4026,45 @@ async def EditRunRealm(ctx, boostid :int, boost_type, *, boost_realm):
     realm_pre = boost_realm.split(" ")[0]
     realm_faction = boost_realm.split(" ")[1]
     if realm_pre.startswith("Pozzo"):
-        realm_final = f"Pozzo{realm_faction}"
+        realm_final = f"Pozzo {realm_faction}"
     elif realm_pre == "Dunmodr":
-        realm_final = "DunModr{realm_faction}"
+        realm_final = f"DunModr {realm_faction}"
     elif realm_pre.startswith("Twisting"):
-        realm_final = "TwistingNether{realm_faction}"
+        realm_final = f"TwistingNether {realm_faction}"
     elif realm_pre.startswith("Tarren"):
-        realm_final = "TarrenMill{realm_faction}"
+        realm_final = f"TarrenMill {realm_faction}"
     elif realm_pre == "Colinaspardas":
-        realm_final = "ColinasPardas{realm_faction}"
+        realm_final = f"ColinasPardas {realm_faction}"
     elif realm_pre == "Burninglegion":
-        realm_final = "BurningLegion{realm_faction}"
+        realm_final = f"BurningLegion {realm_faction}"
     elif realm_pre == "Themaelstrom":
-        realm_final = "TheMaelstrom{realm_faction}"
+        realm_final = f"TheMaelstrom {realm_faction}"
     elif realm_pre == "Defiasbrotherhood":
-        realm_final = "Defias{realm_faction}"
+        realm_final = f"Defias {realm_faction}"
     elif realm_pre == "Shatteredhand":
-        realm_final = "Shattered{realm_faction}"
+        realm_final = f"Shattered {realm_faction}"
     elif realm_pre.startswith("Argent"):
-        realm_final = "ArgentDawn{realm_faction}"
+        realm_final = f"ArgentDawn {realm_faction}"
     elif realm_pre == "Burningblade":
-        realm_final = "BurningBlade{realm_faction}"
+        realm_final = f"BurningBlade {realm_faction}"
     elif realm_pre.startswith("Aggra"):
-        realm_final = "Aggra{realm_faction}"
+        realm_final = f"Aggra {realm_faction}"
     elif realm_pre.startswith("Chamberof"):
-        realm_final = "ChamberofAspects{realm_faction}"
+        realm_final = f"ChamberofAspects {realm_faction}"
     elif realm_pre.startswith("Emerald"):
-        realm_final = "EmeraldDream{realm_faction}"
+        realm_final = f"EmeraldDream {realm_faction}"
     elif realm_pre.startswith("Grim"):
-        realm_final = "GrimBatol{realm_faction}"
+        realm_final = f"GrimBatol {realm_faction}"
     elif realm_pre.startswith("Quel"):
-        realm_final = "Quel'Thalas{realm_faction}"
+        realm_final = f"Quel'Thalas {realm_faction}"
     elif realm_pre.startswith("Mal'ganis"):
-        realm_final = "Mal'Ganis{realm_faction}"
+        realm_final = f"Mal'Ganis {realm_faction}"
     elif realm_pre.startswith("Azjol"):
-        realm_final = "AzjolNerub{realm_faction}"
+        realm_final = f"AzjolNerub {realm_faction}"
     elif realm_pre.startswith("Los"):
-        realm_final = "LosErrantes{realm_faction}"
+        realm_final = f"LosErrantes {realm_faction}"
     elif realm_pre.startswith("Twilight"):
-        realm_final = "Twilight'sHammer{realm_faction}"
+        realm_final = f"Twilight'sHammer {realm_faction}"
     else:
         realm_final = realm_pre + " " + realm_faction
     track_channel = get(ctx.guild.text_channels, id=840733014622601226)
