@@ -4512,10 +4512,9 @@ async def SwapNegative(ctx):
             negativeBoosters = cursor.fetchall()
             for x in negativeBoosters:
                 em = discord.Embed(title="Test",
-                                    description=x[0],
+                                    description=x,
                                     color=discord.Color.orange())
                 await ctx.channel.send(embed=em)
-                return
 
 @bot.command()
 @commands.after_invoke(record_usage)
