@@ -4511,6 +4511,7 @@ async def SwapNegative(ctx):
             """
             await cursor.execute(query)
             negativeBoosters = await cursor.fetchall()
+            negativeBoostersCount = cursor.rowcount
             for x in negativeBoosters:
                 async with conn.cursor() as cursor:
                     val = [
@@ -4523,7 +4524,7 @@ async def SwapNegative(ctx):
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     await cursor.executemany(query, val)
-            await ctx.send(f"{ctx.author.mention}, swapped "+ len(negativeBoosters) +" negative balances from boosters to current.")
+            await ctx.send(f"{ctx.author.mention}, swapped {negativeBoostersCount} negative balances from boosters to current.")
                 
 @bot.command()
 @commands.after_invoke(record_usage)
