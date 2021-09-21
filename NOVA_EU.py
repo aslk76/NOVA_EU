@@ -4510,7 +4510,7 @@ async def SwapNegative(ctx):
                 SELECT booster, pre_balance from ov_creds where pre_balance < 0
             """
             await cursor.execute(query)
-            negativeBoosters = cursor.fetchall()
+            negativeBoosters = await cursor.fetchall()
             for x in negativeBoosters:
                 async with conn.cursor() as cursor:
                     await ctx.send(x)
