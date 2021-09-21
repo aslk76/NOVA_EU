@@ -4500,7 +4500,7 @@ async def DeductBalancePrevious(ctx, user: discord.Member, amount: str, *, reaso
 @commands.after_invoke(record_usage)
 @commands.has_any_role('developer', 'Management', 'NOVA')
 async def SwapNegative(ctx):
-    """Do a beautiful swipswap to the balance of people that is in debt with Saadi
+    """Do a beautiful swipswap of the balance of people that is in debt with Saadi
     """
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
