@@ -4506,14 +4506,16 @@ async def SwapNegative(ctx):
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
-                SELECT * from ov_creds where pre_balance < 0
+                SELECT booster, pre_balance from ov_creds where pre_balance < 0
             """
             await cursor.execute(query)
             negativeBoosters = cursor.fetchall()
-            em = discord.Embed(title="Test",
-                                description=negativeBoosters,
-                                color=discord.Color.orange())
-            await ctx.channel.send(embed=em)
+            for x in negativeBoosters:
+                em = discord.Embed(title="Test",
+                                    description=x[0],
+                                    color=discord.Color.orange())
+                await ctx.channel.send(embed=em)
+                return
 
 @bot.command()
 @commands.after_invoke(record_usage)
