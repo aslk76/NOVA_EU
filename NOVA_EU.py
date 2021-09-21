@@ -4513,6 +4513,7 @@ async def SwapNegative(ctx):
             negativeBoosters = cursor.fetchall()
             for x in negativeBoosters:
                 async with conn.cursor() as cursor:
+                    await ctx.send(x)
                     val = [
                             (ctx.message.id, now - timedelta(days=7),x[0].split("-")[0], x[0].split("-")[1], 'Add', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU'),
                             (ctx.message.id, now,x[0].split("-")[0], x[0].split("-")[1], 'Deduct', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU')
