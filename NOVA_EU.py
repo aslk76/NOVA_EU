@@ -4496,7 +4496,7 @@ async def DeductBalancePrevious(ctx, user: discord.Member, amount: str, *, reaso
             await balance_channel.send(embed=em)
             await ctx.author.send(embed=em)
 
-
+@bot.command
 @commands.after_invoke(record_usage)
 @commands.has_any_role('developer', 'Management', 'NOVA')
 async def SwapNegative(ctx):
