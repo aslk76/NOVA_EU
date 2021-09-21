@@ -4497,12 +4497,10 @@ async def DeductBalancePrevious(ctx, user: discord.Member, amount: str, *, reaso
             await ctx.author.send(embed=em)
 
 
-@bot.command(aliases=['DedPrev', 'DeductPrevious'])
 @commands.after_invoke(record_usage)
-@commands.has_any_role('staff active', 'Management', 'NOVA')
+@commands.has_any_role('developer', 'Management', 'NOVA')
 async def SwapNegative(ctx):
-    """To deduct balance from anyone in previous.
-    example: !DeductBalancePrevious @ASLK76#2188 100K in house boost payment
+    """Do a beautiful swipswap to the balance of people that is in debt with Saadi
     """
     await ctx.message.delete()
     async with ctx.bot.mplus_pool.acquire() as conn:
