@@ -4503,6 +4503,7 @@ async def SwapNegative(ctx):
     """Do a beautiful swipswap of the balance of people that is in debt with Saadi
     """
     await ctx.message.delete()
+    now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
@@ -4511,8 +4512,17 @@ async def SwapNegative(ctx):
             await cursor.execute(query)
             negativeBoosters = cursor.fetchall()
             for x in negativeBoosters:
-                await ctx.channel.send(x)
-
+                val = [
+                        (ctx.message.id, now - timedelta(days=7),x[0].split("-")[0], x[0].split("-")[1], 'Add', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU'),
+                        (ctx.message.id, now,x[0].split("-")[0], x[0].split("-")[1], 'Deduct', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU')
+                ]
+                query = """
+                    INSERT INTO balance_ops 
+                    (operation_id, date, name, realm, operation, command, reason, amount, author) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                await cursor.executemany(query, val)
+                
 @bot.command()
 @commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer')
