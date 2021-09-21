@@ -4522,6 +4522,7 @@ async def SwapNegative(ctx):
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
                 await cursor.executemany(query, val)
+            await ctx.send("SwapNegativer success")
                 
 @bot.command()
 @commands.after_invoke(record_usage)
