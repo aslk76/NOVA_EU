@@ -4496,6 +4496,27 @@ async def DeductBalancePrevious(ctx, user: discord.Member, amount: str, *, reaso
             await balance_channel.send(embed=em)
             await ctx.author.send(embed=em)
 
+
+@bot.command(aliases=['DedPrev', 'DeductPrevious'])
+@commands.after_invoke(record_usage)
+@commands.has_any_role('staff active', 'Management', 'NOVA')
+async def SwapNegative(ctx):
+    """To deduct balance from anyone in previous.
+    example: !DeductBalancePrevious @ASLK76#2188 100K in house boost payment
+    """
+    await ctx.message.delete()
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                SELECT * from ov_creds where pre_balance < 0
+            """
+            await cursor.execute(query)
+            negativeBoosters = cursor.fetchall()
+            em = discord.Embed(title="Test",
+                                description=negativeBoosters,
+                                color=discord.Color.orange())
+            await ctx.channel.send(embed=em)
+
 @bot.command()
 @commands.after_invoke(record_usage)
 @commands.has_any_role('Bot Whisperer')
