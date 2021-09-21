@@ -4792,7 +4792,7 @@ async def balance_command(ctx, *, target_booster=None):
     await ctx.message.delete()
     Moderator_role = get(ctx.guild.roles, name="Moderator")
     Management_role = get(ctx.guild.roles, name="Management")
-    Staff_role = get(ctx.guild.roles, name="Staff")
+    Staff_role = get(ctx.guild.roles, name="staff active")
     CS_role = get(ctx.guild.roles, name="Community Support")
 
     if target_booster is None:
