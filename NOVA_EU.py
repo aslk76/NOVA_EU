@@ -4512,18 +4512,18 @@ async def SwapNegative(ctx):
             await cursor.execute(query)
             negativeBoosters = await cursor.fetchall()
             negativeBoostersCount = cursor.rowcount
-            for x in negativeBoosters:
-                async with conn.cursor() as cursor:
-                    val = [
-                            (ctx.message.id, now - timedelta(days=7),x[0].split("-")[0], x[0].split("-")[1], 'Add', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU'),
-                            (ctx.message.id, now,x[0].split("-")[0], x[0].split("-")[1], 'Deduct', 'SwapNegative', 'Swap Negative Balance', x[1], 'NOVA_EU')
-                    ]
-                    query = """
+            val = []
+            for x in negativeBoosters:         
+                val += [
+                        (ctx.message.id, now - timedelta(days=7),x[0].split("-")[0], x[0].split("-")[1], 'Add', 'SwapNegative', 'Swap Negative Balance', abs(x[1]), 'NOVA_EU'),
+                        (ctx.message.id, now,x[0].split("-")[0], x[0].split("-")[1], 'Deduct', 'SwapNegative', 'Swap Negative Balance', x[1], 'NOVA_EU')
+                ]
+            query = """
                         INSERT INTO balance_ops 
                         (operation_id, date, name, realm, operation, command, reason, amount, author) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
-                    await cursor.executemany(query, val)
+            await cursor.executemany(query, val)
             await ctx.send(f"{ctx.author.mention}, swapped {negativeBoostersCount} negative balances from boosters to current.")
                 
 @bot.command()
