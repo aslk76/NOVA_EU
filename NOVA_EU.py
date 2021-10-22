@@ -3386,7 +3386,7 @@ async def balance_command_crossfaction(ctx, *, target_booster=None):
             balance_name = await search_nested_horde(boosters, ctx.message.author.nick)       
         elif balance_name.endswith("[H]"):
             balance_name = await search_nested_alliance(boosters, ctx.message.author.nick)
-
+        await ctx.send(f"{balance_name}")
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
