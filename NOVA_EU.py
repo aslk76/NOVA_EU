@@ -3358,15 +3358,15 @@ async def balance_command_crossfaction(ctx, *, target_booster=None):
     """To check balance of booster cross faction name
     """
     await ctx.message.delete()
+    Moderator_role = get(ctx.guild.roles, name="Moderator")
+    Management_role = get(ctx.guild.roles, name="Management")
     if target_booster is None:
         name, realm = await checkPers(ctx.author.id)
         if name is None:
             name, realm = ctx.author.nick.split("-")
 
         balance_name = f"{name}-{realm}"
-    else:
-        Moderator_role = get(ctx.guild.roles, name="Moderator")
-        Management_role = get(ctx.guild.roles, name="Management")
+    else: 
         if Moderator_role in ctx.author.roles or Management_role in ctx.author.roles:
             balance_name = target_booster
             ctx.command.reset_cooldown(ctx)
