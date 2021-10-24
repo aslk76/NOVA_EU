@@ -814,16 +814,19 @@ async def on_raw_reaction_add(payload):
                         tank_id = int(tank_id_pre.partition(">")[0])
                         tank_user = get(guild.members, id=tank_id)
                         tank_nick = tank_user.nick
-                        await message.channel.send(f"Original Tank: {tank_nick}")
+                        if (channel.name.startswith('high-keys-group-testing')):
+                            await message.channel.send(f"Original Tank: {tank_nick}")
                         tank_name, tank_realm = await checkPers(tank_id)
                         if tank_name is None:
                             tank_result = await search_nested_alliance(boosters, tank_nick)
-                            await message.channel.send(f"Nested Tank: {tank_result}")
+                            if (channel.name.startswith('high-keys-group-testing')):
+                                await message.channel.send(f"Nested Tank: {tank_result}")
                             if tank_result is not None:
                                 tank_name, tank_realm = tank_result.split("-")
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
-                        await message.channel.send(f"After Parses Tank: {tank_name}")
+                        if (channel.name.startswith('high-keys-group-testing')):
+                            await message.channel.send(f"After Parses Tank: {tank_name}")
                         healer_id_pre = y[5].partition("@")[2]
                         if healer_id_pre.startswith("!"):
                             healer_id_pre = healer_id_pre.partition("!")[2]
