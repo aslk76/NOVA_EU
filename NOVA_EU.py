@@ -823,7 +823,7 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_result.split("-")
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
-                        await message.channel.send(f"After Parses Tank: {tank_nick}")
+                        await message.channel.send(f"After Parses Tank: {tank_name}")
                         healer_id_pre = y[5].partition("@")[2]
                         if healer_id_pre.startswith("!"):
                             healer_id_pre = healer_id_pre.partition("!")[2]
