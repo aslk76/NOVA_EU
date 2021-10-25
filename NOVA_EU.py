@@ -2938,12 +2938,13 @@ async def on_message(message):
             await message.delete()  
             pot = convert_si_to_number(amount_field.partition(">")[2].replace(",", "."))
             embed_run = discord.Embed(
-                title="Type of boost", value=run_description, color=0x5d4991)
+                title=run_description, value=run_description, color=0x5d4991)
             embed_run.add_field(
                 name="Advertiser", value=message.author.mention, inline=True)
             embed_run.add_field(name="Realm", value=realm_field, inline=True)
-            embed_run.add_field(name="Amount", value=pot, inline=True)
+            embed_run.add_field(name="Amount", value=pot, inline=False)
             embed_run.add_field(name="Booster cut", value = int(pot*0.175), inline=True)
+            embed_run.add_field(name="Allowed roles", value = x[0], inline=True)
             embed_run.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
             collection_embed = await message.channel.send(embed=embed_run)
             await message.channel.send("3", delete_after=1)
@@ -2953,6 +2954,7 @@ async def on_message(message):
             await message.channel.send("1", delete_after=1)
             await asyncio.sleep(1)
             await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
+            await message.add_reaction(u"\u817571065207324703")
             await message.add_reaction(u"\u2705")
     else:
         x = message.content.split("\n")
