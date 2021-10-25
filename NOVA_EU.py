@@ -2922,7 +2922,38 @@ async def on_message(message):
         get(message.guild.roles, name="Moderator") not in message.author.roles)):
         await message.channel.send("Wrong balance check command", delete_after=3)
         await message.delete()
-    
+    elif (message.channel.id == 902123262715260978):
+        x = message.content.split("\n")
+        if len(x) > 1:
+            if (x[1].startswith('<:keystone_nova:') or x[1].startswith(u"\U0001F53C") 
+            or x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:')):
+                if x[1].startswith('<:inhouse_nova:') or x[1].startswith('<:house_nova:'):
+                    realm_field = x[3]
+                    amount_field = x[4]
+                    run_description = x[2]
+                else:
+                    realm_field = x[2]
+                    amount_field = x[3]
+                    run_description = x[1]
+            await message.delete()  
+            pot = convert_si_to_number(amount_field.partition(">")[2].replace(",", "."))
+            embed_run = discord.Embed(
+                title="Type of boost", value=run_description, color=0x5d4991)
+            embed_run.add_field(
+                name="Advertiser", value=message.author.mention, inline=True)
+            embed_run.add_field(name="Realm", value=realm_field, inline=True)
+            embed_run.add_field(name="Amount", value=pot, inline=True)
+            embed_run.add_field(name="Booster cut", value = int(pot*0.175), inline=True)
+            embed_run.set_footer(text=datetime.now(timezone.utc).replace(microsecond=0))
+            collection_embed = await message.channel.send(embed=embed_run)
+            await message.channel.send("3", delete_after=1)
+            await asyncio.sleep(1)
+            await message.channel.send("2", delete_after=1)
+            await asyncio.sleep(1)
+            await message.channel.send("1", delete_after=1)
+            await asyncio.sleep(1)
+            await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
+            await message.add_reaction(u"\u2705")
     else:
         x = message.content.split("\n")
         AdvertiserA_role = get(message.guild.roles, name="Advertiser {A}")
