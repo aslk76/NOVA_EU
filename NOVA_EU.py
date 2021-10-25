@@ -2937,6 +2937,9 @@ async def on_message(message):
                     run_description = x[1]
             await message.delete()  
             pot = convert_si_to_number(amount_field.partition(">")[2].replace(",", "."))
+            tank_emoji = get(bot.get_all_emojis(), name='tank_nova')
+            heal_emoji = get(bot.get_all_emojis(), name='heal_nova')
+            dps_emoji = get(bot.get_all_emojis(), name='dps_nova')
             embed_run = discord.Embed(
                 title=run_description, value=run_description, color=0x5d4991)
             embed_run.add_field(
@@ -2953,8 +2956,10 @@ async def on_message(message):
             await asyncio.sleep(1)
             await message.channel.send("1", delete_after=1)
             await asyncio.sleep(1)
-            await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
-            await message.add_reaction(u"\u817571065207324703")
+            # await message.channel.send("`Ignore sign ups above this message those are pretypers and they should feel bad`")
+            await message.add_reaction(tank_emoji)
+            await message.add_reaction(heal_emoji)
+            await message.add_reaction(dps_emoji)
             await message.add_reaction(u"\u2705")
     else:
         x = message.content.split("\n")
