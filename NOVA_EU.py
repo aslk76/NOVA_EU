@@ -2922,7 +2922,7 @@ async def on_message(message):
         get(message.guild.roles, name="Moderator") not in message.author.roles)):
         await message.channel.send("Wrong balance check command", delete_after=3)
         await message.delete()
-    elif (message.channel.id == 902123262715260978):
+    elif (message.channel.id == 902334487894044772):
         x = message.content.split("\n")
         if len(x) > 1:
             if (x[1].startswith('<:keystone_nova:') or x[1].startswith(u"\U0001F53C") 
