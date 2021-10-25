@@ -2937,9 +2937,10 @@ async def on_message(message):
                     run_description = x[1]
             await message.delete()  
             pot = convert_si_to_number(amount_field.partition(">")[2].replace(",", "."))
-            tank_emoji = get(message.guild.emojis, name='tank_nova')
-            heal_emoji = get(message.guild.emojis, name='heal_nova')
-            dps_emoji = get(message.guild.emojis, name='dps_nova')
+            tank_emoji = get(message.guild.emojis, id=817571065207324703)
+            heal_emoji = get(message.guild.emojis, name=':heal_nova:')
+            # dps_emoji = get(message.guild.emojis, name='dps_nova')
+            dps_emoji = '<:tank_nova:817571065207324703>'
             embed_run = discord.Embed(
                 title=run_description, value=run_description, color=0x5d4991)
             embed_run.add_field(
