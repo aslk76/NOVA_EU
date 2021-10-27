@@ -2918,7 +2918,7 @@ async def on_message(message):
     elif ((message.channel.id == 815104636251275312 or message.channel.name == "balance-check") and 
         (not message.content.lower() == "!b" and not message.content.lower() == "!b_crossfaction" and not message.content.lower() == "!db" and
         not message.content.lower() == '!b_xfaction' and not message.content.lower() == '!bal_cross' and not message.content.lower() == '!b_cross' and
-        not message.content.lower() == 'apps!namechange' and not message.content.lower() == 'yes') and 
+        not message.content.lower().startswith('apps!namechange') and not message.content.lower() == 'yes') and 
         not message.author.bot and (get(message.guild.roles, name="NOVA") not in message.author.roles or 
         get(message.guild.roles, name="Moderator") not in message.author.roles)):
         await message.channel.send("Wrong balance check or name change command", delete_after=3)
