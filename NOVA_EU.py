@@ -1321,7 +1321,7 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_nick.split("-")
 
 
-                        adv_cut = int(pot * 0.15)
+                        adv_cut = int(pot * 0.13)
                         booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
@@ -1796,7 +1796,7 @@ async def on_raw_reaction_add(payload):
                             else:
                                 tank_name, tank_realm = tank_nick.split("-")
 
-                        adv_cut = int(pot * 0.15)
+                        adv_cut = int(pot * 0.13)
                         booster_cut = int(pot * 0.75)
 
                         async with conn.cursor() as cursor:
@@ -2374,9 +2374,9 @@ async def on_raw_reaction_add(payload):
                         #########################################################
                         ##############################################
                         if y[1].startswith('<:house_nova:'):
-                            adv_cut = int(pot * 0.13)
+                            adv_cut = int(pot * 0.07)
                         elif y[1].startswith('<:inhouse_nova:'):
-                            adv_cut = int(pot * 0.12)
+                            adv_cut = int(pot * 0.03)
                         
                         booster_cut = int(pot * 0.75)
 
@@ -2831,9 +2831,9 @@ async def on_raw_reaction_add(payload):
                         #########################################################
                         ##############################################
                         if y[1].startswith('<:house_nova:'):
-                            adv_cut = int(pot * 0.13)
+                            adv_cut = int(pot * 0.07)
                         elif y[1].startswith('<:inhouse_nova:'):
-                            adv_cut = int(pot * 0.12)
+                            adv_cut = int(pot * 0.03)
                         
                         booster_cut = int(pot * 0.75)
 
