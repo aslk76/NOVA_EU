@@ -3554,27 +3554,27 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                     f"{cursor.rowcount} Records inserted successfully into raid_balance table")
 
 
-@bot.command()
-@commands.after_invoke(record_usage)
-@commands.has_any_role('Moderator', 'developer', 'Management')
-async def DeleteRaids(ctx, date_of_import=None):
-    """To delete raids from the DB
-    example : !DeleteRaids 2021-09-20
-    It is important to specify a date or it wont work.
-    """
-    await ctx.message.delete()
-    if date_of_import is None:
-        await ctx.send(
-                    f"{ctx.author.mention}, specify a date of import to delete.")
-        return
-    async with ctx.bot.mplus_pool.acquire() as conn:
-        async with conn.cursor() as cursor:
-            query = """
-                DELETE FROM `raid_balance` WHERE `import_date` = %s;
-            """
-            await cursor.execute(query, date_of_import)
-            await ctx.send(
-                f"Records from {date_of_import} deleted successfully from raid_balance table")
+# @bot.command()
+# @commands.after_invoke(record_usage)
+# @commands.has_any_role('Moderator', 'developer', 'Management')
+# async def DeleteRaids(ctx, date_of_import=None):
+#     """To delete raids from the DB
+#     example : !DeleteRaids 2021-09-20
+#     It is important to specify a date or it wont work.
+#     """
+#     await ctx.message.delete()
+#     if date_of_import is None:
+#         await ctx.send(
+#                     f"{ctx.author.mention}, specify a date of import to delete.")
+#         return
+#     async with ctx.bot.mplus_pool.acquire() as conn:
+#         async with conn.cursor() as cursor:
+#             query = """
+#                 DELETE FROM `raid_balance` WHERE `import_date` = %s;
+#             """
+#             await cursor.execute(query, date_of_import)
+#             await ctx.send(
+#                 f"Records from {date_of_import} deleted successfully from raid_balance table")
 
 @bot.command()
 @commands.after_invoke(record_usage)
