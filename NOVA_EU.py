@@ -3530,8 +3530,6 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
                         VALUES (%s, %s, %s, %s)
-                    ON DUPLICATE KEY UPDATE 
-                        `import_date`=VALUES(`import_date`), `amount`=`amount`+VALUES(`amount`);
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
@@ -3546,8 +3544,6 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                 query = """
                     INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
                         VALUES (%s, %s, %s, %s)
-                    ON DUPLICATE KEY UPDATE 
-                        `import_date`=VALUES(`import_date`), `amount`=`amount`+VALUES(`amount`);
                 """
                 await cursor.executemany(query, raid_vals)
                 await ctx.send(
