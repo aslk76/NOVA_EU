@@ -978,7 +978,7 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_nick.split("-")
 
                         if Hotshot_A not in message.author.roles:
-                            adv_cut = int(pot * 0.17)
+                            adv_cut = int(pot * 0.20)
                         elif Hotshot_A in message.author.roles:
                             adv_cut = int(pot * 0.21)
                         booster_cut = int(pot * 0.70)
@@ -1099,7 +1099,7 @@ async def on_raw_reaction_add(payload):
 
                         if faction == "Alliance":        
                             if Hotshot_A not in message.author.roles:
-                                adv_cut = int(pot * 0.17)
+                                adv_cut = int(pot * 0.20)
                             elif Hotshot_A in message.author.roles:
                                 adv_cut = int(pot * 0.21)
                             booster_cut = int(pot * 0.70)
@@ -1212,7 +1212,7 @@ async def on_raw_reaction_add(payload):
                                 tank_name, tank_realm = tank_nick.split("-")
                         
                         if Hotshot_A not in message.author.roles:
-                            adv_cut = int(pot * 0.17)
+                            adv_cut = int(pot * 0.20)
                         elif Hotshot_A in message.author.roles:
                             adv_cut = int(pot * 0.21)
 
