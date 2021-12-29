@@ -3528,7 +3528,7 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
-                    INSERT INTO `raid_balance` (`import_date`,`name`,`realm`,`amount`)
+                    INSERT INTO `raid_balance_copy` (`import_date`,`name`,`realm`,`amount`)
                         VALUES (%s, %s, %s, %s)
                 """
                 await cursor.executemany(query, raid_vals)
@@ -3594,7 +3594,7 @@ async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
-                    INSERT INTO `raid_collecting` (`import_date`,`name`, `paidin`,`amount`)
+                    INSERT INTO `raid_collecting_copy` (`import_date`,`name`, `paidin`,`amount`)
                         VALUES (%s, %s, %s, %s)
                 """
                 await cursor.executemany(query, raid_vals)
@@ -3609,7 +3609,7 @@ async def ImportRaidsCollecting(ctx, pastebin_url, date_of_import=None):
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
-                    INSERT INTO `raid_collecting` (`import_date`,`name`, `paidin`,`amount`)
+                    INSERT INTO `raid_collecting_copy` (`import_date`,`name`, `paidin`,`amount`)
                         VALUES (%s, %s, %s, %s)
                 """
                 await cursor.executemany(query, raid_vals)
