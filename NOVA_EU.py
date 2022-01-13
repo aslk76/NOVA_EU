@@ -3581,7 +3581,7 @@ async def ImportBalanceOperations(ctx, pastebin_url, date_of_import=None):
         now = datetime.strptime(date_of_import, '%Y-%m-%d')
         for i in balance_ops_names:
             operation_id, name, realm, operation, command, reason, amount, author = i.split("\t")
-            balance_ops_vals.append([operation_id, now, name.rstri p(), realm.rstrip(), operation.rstrip(), command.rstrip(), reason.rstrip(), amount.replace(",","").rstrip(), author.rstrip()])
+            balance_ops_vals.append([operation_id, now, name.rstrip(), realm.rstrip(), operation.rstrip(), command.rstrip(), reason.rstrip(), amount.replace(",","").rstrip(), author.rstrip()])
         async with ctx.bot.mplus_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 query = """
