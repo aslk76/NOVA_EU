@@ -3549,6 +3549,48 @@ async def ImportRaids(ctx, pastebin_url, date_of_import=None):
                 await ctx.send(
                     f"{cursor.rowcount} Records inserted successfully into raid_balance table")
 
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Moderator', 'developer', 'Management')
+async def ImportBalanceOperations(ctx, pastebin_url, date_of_import=None):
+    """To manually import balance operations from a sheet to DB
+    example : !ImportBalanceOperations https://pastebin.com/raw/JfHxJrAG
+    example to import with specific date : !ImportBalanceOperations https://pastebin.com/raw/JfHxJrAG 2021-05-05
+    """
+    await ctx.message.delete()
+    balance_ops_vals = []
+    response = requests.get(pastebin_url)
+    response.encoding = "utf-8"
+    body = response.content.decode("utf-8")
+    balance_ops_names = body.replace("\r","").split("\n")
+    if date_of_import is None:
+        now = datetime.date(datetime.now(timezone.utc))
+        for i in balance_ops_names:
+            operation_id, name, realm, operation, command, reason, amount, author = i.split("\t")
+            balance_ops_vals.append([operation_id, now, name.rstrip(), realm.rstrip(), operation.rstrip(), command.rstrip(), reason.rstrip(), amount.replace(",","").rstrip(), author.rstrip()])
+        async with ctx.bot.mplus_pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                query = """
+                    INSERT INTO `balance_ops` (operation_id, date, name, realm, operation, command, reason, amount, author)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                await cursor.executemany(query, balance_ops_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into balance_ops table")
+    else:
+        now = datetime.strptime(date_of_import, '%Y-%m-%d')
+        for i in balance_ops_names:
+            operation_id, name, realm, operation, command, reason, amount, author = i.split("\t")
+            balance_ops_vals.append([operation_id, now, name.rstri p(), realm.rstrip(), operation.rstrip(), command.rstrip(), reason.rstrip(), amount.replace(",","").rstrip(), author.rstrip()])
+        async with ctx.bot.mplus_pool.acquire() as conn:
+            async with conn.cursor() as cursor:
+                query = """
+                    INSERT INTO `balance_ops` (operation_id, date, name, realm, operation, command, reason, amount, author)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                await cursor.executemany(query, balance_ops_vals)
+                await ctx.send(
+                    f"{cursor.rowcount} Records inserted successfully into balance_ops table")
 
 # @bot.command()
 # @commands.after_invoke(record_usage)
