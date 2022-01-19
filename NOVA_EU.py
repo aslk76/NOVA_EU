@@ -806,7 +806,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[4].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -958,10 +962,19 @@ async def on_raw_reaction_add(payload):
                             embed=embed_dm)
                         await message.remove_reaction(u"\u2705", user)
                     else:
+                        # adv = message.author
+                        # adv_name, adv_realm = await checkPers(adv.id)
+                        # if adv_name is None:
+                        #     adv_name, adv_realm = adv.nick.split("-")
+
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[4].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -1075,7 +1088,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[4].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -1195,7 +1212,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[8].partition(":")[2].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -1304,7 +1325,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[4].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -1885,7 +1910,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
                         # adv = message.author.nick
                         ########################
                         tank_id_pre = y[5].partition("@")[2]
@@ -2035,7 +2064,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
                         ###########################################################
                         tank_id_pre = y[5].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -2141,11 +2174,12 @@ async def on_raw_reaction_add(payload):
 
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
-                        
-                        adv = message.author
-                        adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
                         ###########################################################
                         tank_id_pre = y[5].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -2253,7 +2287,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
 
                         tank_id_pre = y[9].partition(":")[2].partition("@")[2]
                         if tank_id_pre.startswith("!"):
@@ -2356,7 +2394,11 @@ async def on_raw_reaction_add(payload):
                         adv = message.author
                         adv_name, adv_realm = await checkPers(adv.id)
                         if adv_name is None:
-                            adv_name, adv_realm = adv.nick.split("-")
+                            adv_result = await search_nested_alliance(boosters, adv.nick)
+                            if adv_result is not None:
+                                adv_name, adv_realm = adv_result.split("-")
+                            else:
+                                adv_name, adv_realm = adv.nick.split("-")
                         ###########################################################
                         tank_id_pre = y[5].partition("@")[2]
                         if tank_id_pre.startswith("!"):
