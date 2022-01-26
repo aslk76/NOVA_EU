@@ -4683,6 +4683,43 @@ async def RemBalOp(ctx, operationid):
                 await ctx.author.send(
                     f"The operation with ID {operationid} wasn't found in the Database or it was already removed.")
 
+@bot.command()
+@commands.after_invoke(record_usage)
+@commands.has_any_role('Bot Whisperer')
+async def RemoveCompensation(ctx, compensationid):
+    """To remove a balance operation.
+       The command structure is `!RemoveCompensation <compensationid>`
+    """
+    await ctx.message.delete()
+    track_channel = get(ctx.guild.text_channels, id=870317722796433449)
+    async with ctx.bot.mplus_pool.acquire() as conn:
+        async with conn.cursor() as cursor:
+            query = """
+                SELECT * FROM compensations where operation_id = %s
+                    AND deleted_at IS NULL
+            """
+            val = (compensationid,)
+            await cursor.execute(query, val)
+            notSoftDeleted =  await cursor.fetchone()
+            if notSoftDeleted is not None:
+                async with conn.cursor() as cursor:
+                    query = """
+                        UPDATE compensations SET 
+                            DELETED_AT = UTC_TIMESTAMP()
+                            WHERE operation_id = %s
+                        """
+                    val = {compensationid,}
+                    await cursor.execute(query, val)
+                    em = discord.Embed(title="Compensation was Removed",
+                                description=
+                                    f"The compensation with ID **{compensationid}** was removed "
+                                    f"by {ctx.message.author.mention}.",
+                                color=discord.Color.orange())
+                    await track_channel.send(embed=em)
+                    await ctx.author.send(embed=em)
+            else:
+                await ctx.author.send(
+                    f"The compensation with ID {compensationid} wasn't found in the Database or it was already removed.")
 
 @bot.command()
 @commands.has_any_role('Horde', 'Alliance')
