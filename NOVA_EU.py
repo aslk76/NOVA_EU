@@ -4695,7 +4695,7 @@ async def RemoveCompensation(ctx, compensationid):
     async with ctx.bot.mplus_pool.acquire() as conn:
         async with conn.cursor() as cursor:
             query = """
-                SELECT * FROM compensations where operation_id = %s
+                SELECT * FROM compensations where compensation_id = %s
                     AND deleted_at IS NULL
             """
             val = (compensationid,)
@@ -4706,7 +4706,7 @@ async def RemoveCompensation(ctx, compensationid):
                     query = """
                         UPDATE compensations SET 
                             DELETED_AT = UTC_TIMESTAMP()
-                            WHERE operation_id = %s
+                            WHERE compensation_id = %s
                         """
                     val = {compensationid,}
                     await cursor.execute(query, val)
